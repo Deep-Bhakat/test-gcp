@@ -1,0 +1,364 @@
+
+<%- include('../includes/finance_header.ejs') %>
+
+<h4 align="center" style="background-color:#FFFF00;">  Client Name : <%= billmaker.client_master.client_name %></h4>
+
+<div class="table-responsive-sm table-bordered">
+  <form method="post" action="/finance/bill-maker-edit">
+    <input type="hidden" name="company" value="<%= billmaker.company %>" />
+    <input type="hidden" name="billid" value="<%= billmaker.id %>" />
+<input type="hidden" name="client" value="<%= billmaker.clientId %>" />
+    <table class="table">
+       <thead>
+      <tr>
+      
+      <th style="background-color:#FFFF00;"></th>
+     
+      <th colspan="2" style="background-color:#FFFF00;">BILL DETAILS</th>
+      <th colspan="3" style="background-color:#FFFF00;">INVOICE AS PER TALLY</th>
+        <th scope="col" style="background-color:#FFFF00;">PAYMENTS FOR THE INVOICE</th>
+        <th style="background-color:#FFFF00;"></th>
+        <th scope="col" style="background-color:#006600; font-size:24px; font-weight:bold; cursor: pointer;" onclick="addPayment()">+ </th>
+        <th scope="col" style="background-color:#006600; font-size:24px; font-weight:bold;"><button type="submit" class="btn btn-primary">Submit</button></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+    
+        <td colspan="3" style="background-color:#000000; color:#FFFFFF !important; text-align:center"></td>
+      
+        <td></td>
+        
+        <td style="background-color:#000000; color:#FFFFFF  !important;"></td>
+       <td></td>
+         <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+   
+      </tr>
+      <tr>
+        
+        <td></td>
+        <td></td>
+        <td></td>
+         <td><div style="width:350px; background-color:#000000; color:#FFFFFF; text-align:center">Particulars</div></td>
+        <td style="background-color:#000000; color:#FFFFFF !important; text-align:center">Amount</td>
+        <td style="background-color:#000000; color:#FFFFFF; text-align:center">Particulars</td>
+         <td style="background-color:#000000; color:#FFFFFF !important; text-align:center">Amount</td>
+        <td style="background-color:#000000; color:#FFFFFF !important; text-align:center">Adjustment</td>
+        <td>
+       <div class="form-check">
+    <!-- <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"> -->
+    
+  </div>
+  
+  </td>
+      </tr>
+      <tr>
+        
+        <td> BILL NUMBER</td>
+        <td><input   type="text" id="bill_no" name="bill_no" value="<%= billmaker.bill_no %>" /></td>
+        <td> </td>
+         <td>GROSS PAYMENT TOWARDS CONTRACT STAFF</td>
+        <td><input  type="text" id="gross" name="gross" onkeyup="calculateTotal1()" value="<%= billmaker.gross_payment %>"   /></td>
+        <td>TOTAL PF</td>
+         <td><input  type="text" id="pf1" name="pf1" onchange="calculateTotal2()" value="<%= billmaker.pf %>" readonly  /></td>
+        <td><input  type="text" id="pf2" name="pf2" value="<%= billmaker.pf3 %>" onchange="calculateTotal3()" <% if(billmaker.pf){ %> style="display:none;" <% } %>  /></td>
+       <td>
+       <div class="form-check">
+    <input class="form-check-input" onchange="adjust('pfCheckbox','pf1','pf2')" <% if(billmaker.pf){ %> checked <% } %>  type="checkbox" value="" id="pfCheckbox">
+    
+  </div>
+  
+  </td>
+      </tr>
+      <tr>
+        
+        <td>BILL DATE</td>
+        <td><input   type="date" id="bill_date" name="bill_date" value="<%= billmaker.bill_date %>"  /></td>
+        <td></td>
+         <td>MANAGEMENT PF</td>
+       <td><input   type="text" id="mgmt_pf" name="mgmt_pf" value="<%= billmaker.mgmt_pf %>" onkeyup="calculateTotal1()" /></td>
+        <td>TOTAL ESIC</td>
+        <td><input   type="text" id="esic1" name="esic1" value="<%= billmaker.esic %>" onchange="calculateTotal2()" readonly  /></td>
+         <td><input   type="text" id="esic2" name="esic2" value="<%= billmaker.esic3 %>" onchange="calculateTotal3()"  <% if(billmaker.esic){ %> style="display:none;" <% } %> /></td>
+       <td>
+       <div class="form-check">
+    <input class="form-check-input" onchange="adjust('esicCheckbox','esic1','esic2')" <% if(billmaker.esic){ %> checked <% } %> type="checkbox" value="" id="esicCheckbox">
+    
+  </div>
+  
+  </td>
+      </tr>
+      
+      <tr>
+        
+        <td>BILL MONTH</td>
+        <td><input   type="month" id="bill_month" name="bill_month" value="<%= billmaker.bill_month %>" /></td>
+         <td></td>
+         <td>MANAGEMENT ESIC</td>
+       <td><input   type="text" id="mgmt_esic" name="mgmt_esic" value="<%= billmaker.mgmt_esic %>" onkeyup="calculateTotal1()"  /></td>
+        <td>TOTAL LWF</td>
+        <td><input   type="text" id="lwf1" name="lwf1" value="<%= billmaker.lwf %>" onchange="calculateTotal2()" readonly  /></td>
+         <td><input   type="text" id="lwf2" name="lwf2" value="<%= billmaker.lwf3 %>" onchange="calculateTotal3()" <% if(billmaker.lwf){ %> style="display:none;" <% } %> /></td>
+       <td>
+       <div class="form-check">
+    <input class="form-check-input" onchange="adjust('lwfCheckbox','lwf1','lwf2')" <% if(billmaker.lwf){ %> checked <% } %> type="checkbox" value="" id="lwfCheckbox">
+    
+  </div>
+  
+  </td>
+      </tr>
+      <tr>
+        
+        <td></td>
+        <td></td>
+        <td></td>
+         <td>MANAGEMENT LWF</td>
+       <td><input   type="text" id="mgmt_lwf" name="mgmt_lwf" value="<%= billmaker.mgmt_lwf %>" onkeyup="calculateTotal1()"  /></td>
+        <td>ADVANCE</td>
+        <td><input   type="text" id="advance1" name="advance1" value="<%= billmaker.advance %>" onchange="calculateTotal2()" readonly  /></td>
+         <td><input   type="text" id="advance2" name="advance2" value="<%= billmaker.advance3 %>" onchange="calculateTotal3()" <% if(billmaker.advance){ %> style="display:none;" <% } %> /></td>
+       <td>
+       <div class="form-check">
+    <input class="form-check-input" onchange="adjust('advanceCheckbox','advance1','advance2')" <% if(billmaker.advance){ %> checked <% } %>  type="checkbox" value="" id="advanceCheckbox">
+    
+  </div>
+  
+  </td>
+      </tr>
+      <tr>
+        
+          <td></td>
+        <td></td>
+        <td></td>
+         <td>ALLIED COST</td>
+       <td><input   type="text" id="allied1" name="allied1"  value="<%= billmaker.allied_cost %>"  onkeyup="calculateTotal1()"  /></td>
+        <td>ALLIED COST</td>
+        <td><input   type="text" id="allied2" name="allied2"  value="<%= billmaker.allied_cost2 %>"  onchange="calculateTotal2()" readonly  /></td>
+         <td><input   type="text" id="allied3" name="allied3"  value="<%= billmaker.allied_cost3 %>" onchange="calculateTotal3()" <% if(billmaker.allied2){ %> style="display:none;" <% } %> /></td>
+       <td>
+       <div class="form-check">
+    <input class="form-check-input" onchange="adjust('alliedCheckbox','allied2','allied3')" <% if(billmaker.allied2){ %> checked <% } %>  type="checkbox" value="" id="alliedCheckbox">
+    
+  </div>
+  
+  </td>
+      </tr>
+      <tr>
+        
+          <td></td>
+        <td></td>
+        <td></td>
+         <td>SERVICE CHARGE</td>
+       <td><input   type="text" id="service_charge1" name="service_charge1" value="<%= billmaker.service_charge %>"   onkeyup="changeTax(this.value)"  /></td>
+        <td>SERVICE CHARGE</td>
+        <td><input   type="text" id="service_charge2" name="service_charge2" value="<%= billmaker.service_charge2 %>"   onchange="calculateTotal2()" readonly  /></td>
+         <td><input   type="text" id="service_charge3" name="service_charge3" value="<%= billmaker.service_charge3 %>" onchange="calculateTotal3()" <% if(billmaker.service_charge2){ %> style="display:none;" <% } %> /></td>
+       <td>
+       <div class="form-check">
+    <input class="form-check-input"  onchange="adjust('serviceCheckbox','service_charge2','service_charge3')" <% if(billmaker.service_charge2){ %> checked <% } %> type="checkbox" value="" id="serviceCheckbox">
+    
+  </div>
+  
+  </td>
+      </tr>
+      <tr>
+        
+          <td></td>
+        <td></td>
+        <td></td>
+         <td>GST</td>
+       <td><input   type="text" id="gst1" name="gst1" value="<%= billmaker.gst %>"  onkeyup="changeGST(this.value)"  /></td>
+        <td>GST</td>
+        <td><input   type="text" id="gst2" name="gst2" value="<%= billmaker.gst2 %>"  onchange="calculateTotal2()" readonly  /></td>
+         <td><input type="text" id="gst3" name="gst3" value="<%= billmaker.gst3 %>" onchange="calculateTotal3()" <% if(billmaker.gst2){ %> style="display:none;" <% } %> /></td>
+       <td>
+       <div class="form-check">
+    <input class="form-check-input"  onchange="adjust('gstCheckbox','gst2','gst3')" <% if(billmaker.gst2){ %> checked <% } %> type="checkbox" value="0" id="gstCheckbox">
+    
+  </div>
+  
+  </td>
+      </tr>      
+      <tr >
+        
+          <td></td>
+        <td></td>
+        <td></td>
+         <td style="background-color:#FF9900;">TDS</td>
+       <td style="background-color:#FF9900;"><input   type="text" onkeyup="changeTDS(this.value)"  value="<%= billmaker.less_tds %>"  id="tds1" name="tds1"  /></td>
+         <td style="background-color:#FF9900;">TDS</td>
+       <td style="background-color:#FF9900;"><input   type="text" readonly id="tds2" name="tds2"  value="<%= billmaker.less_tds2	 %>"  /></td>
+         <td></td>
+       <td>
+       
+  
+  </td>
+      </tr>
+      <tr>
+        
+          <td  style="background-color: #FFFF00;" ></td>
+        <td style="background-color: #FFFF00;"></td>
+        <td style="background-color: #FFFF00;"></td>
+         <td style="background-color: #FFFF00;">TOTAL</td>
+       <td style="background-color: #FFCC00;"><input   type="text" id="total1" name="total1"  value="<%= billmaker.total1 %>"  readonly /></td>
+        <td style="background-color: #FFFF00;">TOTAL</td>
+        <td style="background-color:#FFCC00"><input  type="text" id="total2" name="total2"  value="<%= billmaker.total2 %>"  readonly /></td>
+        <td style="background-color:#FFCC00"><input  type="text" id="total2" name="total2"  value="<%= billmaker.total3 %>"  readonly /></td>
+       <td>
+       
+  
+  </td>
+      </tr>
+    </tbody>
+    </table>
+    <input type="hidden" name="count" id="count" />
+
+  </form>
+  </div>
+
+    <script>
+    function calculateTotal1(){
+          var gross = document.getElementById('gross').value ? document.getElementById('gross').value : 0;
+          var mgmt_pf = document.getElementById('mgmt_pf').value ? document.getElementById('mgmt_pf').value : 0;
+          var mgmt_esic = document.getElementById('mgmt_esic').value ? document.getElementById('mgmt_esic').value : 0;
+          var lwf = document.getElementById('mgmt_lwf').value ? document.getElementById('mgmt_lwf').value : 0;
+          var allied_cost = document.getElementById('allied1').value ? document.getElementById('allied1').value : 0;
+          var gst = document.getElementById('gst1').value ? document.getElementById('gst1').value : 0;
+          var less_tds = document.getElementById('tds1').value ? document.getElementById('tds1').value : 0;
+          var service_charge = document.getElementById('service_charge1').value ? document.getElementById('service_charge1').value : 0;
+
+            document.getElementById('total1').value = +gross + +mgmt_pf + +mgmt_esic + +lwf + +allied_cost + +service_charge + +gst - +less_tds;
+
+        }
+        function calculateTotalNew1(count){
+          var gross = document.getElementById('grossnew'+count).value ? document.getElementById('grossnew'+count).value : 0;
+          var mgmt_pf = document.getElementById('mgmt_pfnew'+count).value ? document.getElementById('mgmt_pfnew'+count).value : 0;
+          var mgmt_esic = document.getElementById('mgmt_esicnew'+count).value ? document.getElementById('mgmt_esicnew'+count).value : 0;
+          var lwf = document.getElementById('mgmt_lwfnew'+count).value ? document.getElementById('mgmt_lwfnew'+count).value : 0;
+          var allied_cost = document.getElementById('allied1new'+count).value ? document.getElementById('allied1new'+count).value : 0;
+          var gst = document.getElementById('gst1new'+count).value ? document.getElementById('gst1new'+count).value : 0;
+          var less_tds = document.getElementById('tds1new'+count).value ? document.getElementById('tds1new'+count).value : 0;
+          var service_charge = document.getElementById('service_charge1new'+count).value ? document.getElementById('service_charge1new'+count).value : 0;
+
+            document.getElementById('total1new'+count).value = +gross + +mgmt_pf + +mgmt_esic + +lwf + +allied_cost + +service_charge + +gst - +less_tds;
+
+        }
+        function calculateTotal2(){
+          var pf = document.getElementById('pf1').value ? document.getElementById('pf1').value : 0;
+          var esic = document.getElementById('esic1').value ? document.getElementById('esic1').value : 0;
+          var lwf = document.getElementById('lwf1').value ? document.getElementById('lwf1').value : 0;
+          var advance = document.getElementById('advance1').value ? document.getElementById('advance1').value : 0;
+          var allied_cost = document.getElementById('allied2').value ? document.getElementById('allied2').value : 0;
+          var gst = document.getElementById('gst2').value ? document.getElementById('gst2').value : 0;
+          var less_tds = document.getElementById('tds2').value ? document.getElementById('tds2').value : 0;
+          var service_charge = document.getElementById('service_charge2').value ? document.getElementById('service_charge2').value : 0;
+
+            document.getElementById('total2').value = +pf + +esic + +lwf + +advance + +allied_cost + +service_charge + +gst - +less_tds;
+
+        }
+        function calculateTotalNew2(count){
+          var pf = document.getElementById('pf1new'+count).value ? document.getElementById('pf1new'+count).value : 0;
+          var esic = document.getElementById('esic1new'+count).value ? document.getElementById('esic1new'+count).value : 0;
+          var lwf = document.getElementById('lwf1new'+count).value ? document.getElementById('lwf1new'+count).value : 0;
+          var advance = document.getElementById('advance1new'+count).value ? document.getElementById('advance1new'+count).value : 0;
+          var allied_cost = document.getElementById('allied2new'+count).value ? document.getElementById('allied2new'+count).value : 0;
+          var gst = document.getElementById('gst2new'+count).value ? document.getElementById('gst2new'+count).value : 0;
+          var less_tds = document.getElementById('tds2new'+count).value ? document.getElementById('tds2new'+count).value : 0;
+          var service_charge = document.getElementById('service_charge2new'+count).value ? document.getElementById('service_charge2new'+count).value : 0;
+
+            document.getElementById('total2new'+count).value = +pf + +esic + +lwf + +advance + +allied_cost + +service_charge + +gst - +less_tds;
+
+        }
+        
+        function calculateTotal3(){
+          var pf = document.getElementById('pf2').value ? document.getElementById('pf2').value : 0;
+          var esic = document.getElementById('esic2').value ? document.getElementById('esic2').value : 0;
+          var lwf = document.getElementById('lwf2').value ? document.getElementById('lwf2').value : 0;
+          var advance = document.getElementById('advance2').value ? document.getElementById('advance2').value : 0;
+          var allied_cost = document.getElementById('allied3').value ? document.getElementById('allied3').value : 0;
+          var gst = document.getElementById('gst3').value ? document.getElementById('gst3').value : 0;
+          var service_charge = document.getElementById('service_charge3').value ? document.getElementById('service_charge3').value : 0;
+
+            document.getElementById('total3').value = +pf + +esic + +lwf + +advance + +allied_cost + +service_charge + +gst;
+
+        }
+        function changeGST(val){
+          calculateTotal1();
+            document.getElementById('gst3').value = val;
+          calculateTotal2();
+          calculateTotal3();
+
+        }
+        function changeTax(val){
+          calculateTotal1();
+            document.getElementById('service_charge3').value = val;
+          calculateTotal2();
+          calculateTotal3();
+
+        }
+        function changeTDS(val){
+          calculateTotal1();
+            document.getElementById('tds2').value = val;
+          calculateTotal2();
+          calculateTotal3();
+
+        }
+        function changeTAXNew(val,count){
+          calculateTotalNew1(count);
+            document.getElementById('service_charge3new'+count).value = val;
+          calculateTotalNew2(count);
+          calculateTotalNew3(count);
+
+        }
+        function changeGSTNew(val,count){
+          calculateTotalNew1(count);
+            document.getElementById('gst3new'+count).value = val;
+          calculateTotalNew2(count);
+          calculateTotalNew3(count);
+
+        }
+        function changeTDSNew(val,count){
+          calculateTotalNew1(count);
+            document.getElementById('tds2new'+count).value = val;
+          calculateTotalNew2(count);
+          calculateTotalNew3(count);
+
+        }
+        function adjust(checkboxId,toId,fromId){
+            if(document.getElementById(checkboxId).checked){
+                document.getElementById(toId).value = document.getElementById(fromId).value;
+                document.getElementById(fromId).value = '';
+                document.getElementById(fromId).style.display = "none";
+                calculateTotal2();
+                calculateTotal3();
+            }else{                
+                document.getElementById(fromId).value = document.getElementById(toId).value;
+                document.getElementById(toId).value = '';
+                document.getElementById(fromId).style.display = "block";
+                calculateTotal2();
+                calculateTotal3();
+
+            }
+        }
+        
+        function adjustNew(checkboxId,toId,fromId,count){
+            if(document.getElementById(checkboxId).checked){
+                document.getElementById(toId).value = document.getElementById(fromId).value;
+                document.getElementById(fromId).value = '';
+                document.getElementById(fromId).style.display = "none";
+                calculateTotalNew2(count);
+                calculateTotalNew3(count);
+            }else{                
+                document.getElementById(fromId).value = document.getElementById(toId).value;
+                document.getElementById(toId).value = '';
+                document.getElementById(fromId).style.display = "block";
+                calculateTotalNew2(count);
+                calculateTotalNew3(count);
+
+            }
+        }
+    </script>
+<%- include('../includes/footer.ejs') %>

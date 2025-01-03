@@ -1,0 +1,51 @@
+<%- include('../includes/header.ejs') %>
+
+    <div class="container my-4  mx-auto rounded border">
+
+        <div class="mb-3 row" style="margin-top: 25px;margin-left: 30px;">
+            <p><strong>DATE OF JOINING: <%
+                var ddd =  employee.date_of_joining.split('-');      
+                var dd= [ddd[2],
+                ddd[1],
+                ddd[0]         
+                       ].join('/');
+                 %> <%= dd %></strong></p>
+        <p><strong>NAME: <%= employee.emp_name %></strong></p>
+        <p><strong>PRINCIPAL EMPLOYER:  <%= employee.client_master.client_name %></strong></p>
+        <p><strong>Trainee Category :</strong> <%= employee.designation %></p>
+        <br>
+        <p align="center"><strong><u>SUB: APPOINTMENT LETTER (AS A TRAINEE)</u></strong></p>
+        <br>
+        <p>DEAR <%= employee.title %> <%= employee.emp_name %>,</p>
+        <p>You have been appointed as a Trainee in our Clients Place who is the Principal Employer.</p>
+        <p>You will be in the Probation Period for maximum up to 3 months. In the Probation Period you will be given a stipend of Rs. <%= employee.gross_salary %></p><br>
+        <br>
+        <p>Based on your knowledge, performance and capability, you will be appointed on a fixed term basis and your final salary will be decided then and there. The minimum salary will be allocated as per the Government minimum wages.</p>
+        <br>
+        <p>When you are appointed, you will be under monthly salary basis following all the Norms and Law of the Land.
+        <ul>
+            <li>You will be under the statutory scheme like PF, ESIC.</li>
+            <li>Your Basic Salary will be 50% of your Gross Salary on which 12% will be deducted as PF and 0.75% of your Gross Salary will be deducted as ESIC.</li>
+            <li>Your Leave Salary, Bonus and Incentives will be taken care of as per the rules of the Government.</li>
+        </ul></p>
+        <br>
+        <p><b>This Appointment Letter is only valid for the Probation Period and your Final Appointment Letter will be given after the appointment procedure.</b></p>
+        <br>
+        <p>Best Regards</p>
+        <br>
+        <p>Yours Truly</p>
+        <p>Associate HR</p>
+        <p><%= employee.client_master.client_name %></p>
+        <br>
+        <div class="mb-3 row" >
+            <div class="col-sm-9">
+                <img src="../../<%= employee.signature %>" width="90" height="90">
+                <br>
+                Signature of Employee 
+            </div>
+        </div>    </div>
+
+        <a href="/admin/form11/<%= employee.id %>"> <button class="btn btn-success" type="button">Proceed</button></a>
+
+</div>
+    <%- include('../includes/footer.ejs') %>

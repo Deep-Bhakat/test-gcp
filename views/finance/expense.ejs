@@ -1,0 +1,554 @@
+<%- include('../includes/finance_header.ejs') %>
+
+<h4 align="center">  Client Name : <%= clientData.client_name %></h4>
+<h4 align="center">  Month : <%= month %> </h4>
+<div class="container-sm">
+    <div class="row" >
+    <div class="col-2">
+    </div>
+    <div class="col-8 ">
+    <div align="center"> <h4> Our Expenses</h4>
+    </div>
+    <div align="center" class="row bg-dark">
+    <div class="col-2  text-light  bg-dark">Date
+    </div>
+    <div class="col-5  text-light">Our Payment Details
+    </div>
+    <div class="col-2  text-light ">Amount
+    </div>
+    <div class="col-3  text-light">Adjustmnt
+    </div>
+    </div>
+    <div align="center" class="row">
+    <div class="col-2">1 - July
+    </div>
+    <div class="col-5">Blance B/D
+    </div>
+    <div class="col-2">-11
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    <div align="center" class="row bg-danger text-light">
+    <div class="col-2">
+    </div>
+    <div class="col-5">BILL - CORONA
+    </div>
+    <div class="col-2">
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    <div align="left" class="row">
+    <div class="col-2"> <input class="form-control" type="date" style="width: 60px;" placeholder="Bill Date"  />
+    </div>
+    <div class="col-5">TOTAL PF ( EMPLOYEE + MANAGEMENT)
+    </div>
+    <div align="left" class="col-2"><p id="pff_p"></p>
+    </div>
+    <div class="col-2"><input class="form-control" value="0"  id="pff" type="number"  />    </div>
+    <div class="col-1"><input class="form-check-input" value="0"  id="pff_c" type="checkbox" onchange="addCharge('pff_p','pff','pff_c')"  />
+    </div>
+    </div>
+    <div align="left" class="row">
+    <div class="col-2"> <input class="form-control" type="date" style="width: 60px;" placeholder="Bill Date"  />
+    </div>
+    <div class="col-5">TOTAL ESIC ( EMPLOYEE + MANAGEMENT)
+    </div>
+    <div align="left" class="col-2"><p id="esic_p"></p>
+    </div>
+    <div class="col-2"><input class="form-control" value="0"  id="esic" type="number"  />    </div>
+    <div class="col-1"><input class="form-check-input" value="0"  id="esic_c" type="checkbox" onchange="addCharge('esic_p','esic','esic_c')"  />
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> <input class="form-control" type="date" style="width: 60px;" placeholder="Bill Date"  />
+    </div>
+    <div class="col-5">PROFESSION TAX
+    </div>
+    <div align="left" class="col-2"><p id="pf_p"></p>
+    </div>
+    <div class="col-2"><input class="form-control" value="0"  id="pf" type="number"  />    </div>
+    <div class="col-1"><input class="form-check-input" value="0"  id="pf_c" type="checkbox" onchange="addCharge('pf_p','pf','pf_c')"  />
+    </div>
+    </div>
+    <div align="left" class="row">
+    <div class="col-2"> <input class="form-control" type="date" style="width: 60px;" placeholder="Bill Date"  />
+    </div>
+    <div class="col-5">LWF
+    </div>
+    <div align="left" class="col-2"><p id="less_tds_p"></p>
+    </div>
+    <div class="col-2"><input class="form-control" value="0"  id="less_tds" type="number"  />    </div>
+    <div class="col-1"><input class="form-check-input" value="0"  id="less_tds_c" type="checkbox" onchange="addCharge('less_tds_p','less_tds','less_tds_c')"  />
+    </div>
+    </div>
+    <div align="left" class="row">
+    <div class="col-2"> <input class="form-control" type="date" style="width: 60px;" placeholder="Bill Date"  />
+    </div>
+    <div class="col-5">SERVICE CHARGE
+    </div>
+    <div align="left" class="col-2"><p id="service_p"></p>
+    </div>
+    <div class="col-2"><input class="form-control" value="0"  id="service" type="number"  />    </div>
+    <div class="col-1"><input class="form-check-input" value="0"  id="service_c" type="checkbox" onchange="addCharge('service_p','service','service_c')"  />
+    </div>
+    </div>
+    <div align="left" class="row">
+    <div class="col-2"> <input class="form-control" type="date" style="width: 60px;" placeholder="Bill Date"  />
+    </div>
+    <div class="col-5">GST
+    </div>
+    <div align="left" class="col-2"><p id="gst_p"></p>
+    </div>
+    <div class="col-2"><input class="form-control" value="0"  id="gst" type="number"  />    </div>
+    <div class="col-1"><input class="form-check-input" value="0"  id="gst_c" type="checkbox" onchange="addCharge('gst_p','gst','gst_c')"  />
+    </div>
+    </div>
+    
+    <div align="center" class="row bg-danger text-light">
+    <div class="col-2">
+    </div>
+    <div class="col-5">TDS RECEIVABLE
+    </div>
+    <div class="col-2">-25610
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 12 - July
+    </div>
+    <div class="col-5">TOTAL PF ( EMPLOYEE + MANAGEMENT)
+    
+    </div>
+    <div align="left" class="col-2">0
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 12 - July
+    </div>
+    <div class="col-5">TOTAL ESIC ( EMPLOYEE + MANAGEMENT)
+    
+    </div>
+    <div align="left" class="col-2">0
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 12 - July
+    </div>
+    <div class="col-5">PROFESSION TAX
+    </div>
+    <div align="left" class="col-2">0
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 12 - July
+    </div>
+    <div class="col-5">LWF
+    </div>
+    <div align="left" class="col-2">0
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 12 - July
+    </div>
+    <div class="col-5">SERVICE CHARGE
+    </div>
+    <div align="left" class="col-2">200
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 12 - July
+    </div>
+    <div class="col-5">GST
+    </div>
+    <div align="left" class="col-2">2290
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="center" class="row bg-primary text-light">
+    <div class="col-2">
+    </div>
+    <div class="col-5">E NET
+    </div>
+    <div class="col-2">
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 07 - July
+    </div>
+    <div class="col-5">E NET
+    </div>
+    <div align="left" class="col-2">5405409
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="center" class="row bg-danger text-light">
+    <div class="col-2">
+    </div>
+    <div class="col-5">ENET RETURN
+    </div>
+    <div class="col-2">-5772
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 08 - July
+    </div>
+    <div class="col-5">CASH
+    </div>
+    <div align="left" class="col-2">13743
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    
+    
+    <div align="left" class="row bg-success">
+    <div class="col-2"> 
+    </div>
+    <div class="col-5">BALANCE BD
+    </div>
+    <div align="left" class="col-2">
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    <div align="left" class="row">
+    <div class="col-2"> 
+    </div>
+    <div class="col-5">-885846
+    
+    </div>
+    <div align="left" class="col-2">
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    
+    
+    <div align="center" class="row bg-danger text-light">
+    <div class="col-2">
+    </div>
+    <div class="col-5">TOTAL
+    </div>
+    <div class="col-2">8363846
+    
+    </div>
+    <div class="col-3">
+    </div>
+    </div>
+    </div>
+    
+    
+    
+    </div>
+    <div class="row" >
+        <div class="col-2">
+        </div>
+        <div class="col-8 ">
+        <div align="center">
+        </div>
+        <div align="center" class="row bg-dark">
+        <div class="col-2  text-light  bg-dark">Date
+        </div>
+        <div class="col-5  text-light">Our Payment Details
+        </div>
+        <div class="col-2  text-light ">Amount
+        </div>
+        <div class="col-3  text-light">Adjustmnt
+        </div>
+        </div>
+        <div align="center" class="row">
+        <div class="col-2">1 - july
+        </div>
+        <div class="col-5">Blance B/D
+        </div>
+        <div class="col-2">-11
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        <div align="center" class="row bg-danger text-light">
+        <div class="col-2">
+        </div>
+        <div class="col-5">BILL - CORONA
+        </div>
+        <div class="col-2">
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        <div align="left" class="row">
+        <div class="col-2"> 1 - July
+        </div>
+        <div class="col-5">TOTAL PF ( EMPLOYEE + MANAGEMENT)
+        </div>
+        <div align="left" class="col-2">627752
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        <div align="left" class="row">
+        <div class="col-2"> 1 - July
+        </div>
+        <div class="col-5">TOTAL ESIC ( EMPLOYEE + MANAGEMENT)
+        </div>
+        <div align="left" class="col-2">627752
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 1 - July
+        </div>
+        <div class="col-5">PROFESSION TAX
+        </div>
+        <div align="left" class="col-2">10000
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        <div align="left" class="row">
+        <div class="col-2"> 1 - July
+        </div>
+        <div class="col-5">LWF
+        </div>
+        <div align="left" class="col-2">12618
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        <div align="left" class="row">
+        <div class="col-2"> 1 - July
+        </div>
+        <div class="col-5">SERVICE CHARGE
+        </div>
+        <div align="left" class="col-2">100828
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        <div align="left" class="row">
+        <div class="col-2"> 1 - July
+        </div>
+        <div class="col-5">GST
+        </div>
+        <div align="left" class="col-2">627752
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="center" class="row bg-danger text-light">
+        <div class="col-2">
+        </div>
+        <div class="col-5">TDS RECEIVABLE
+        </div>
+        <div class="col-2">-25610
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 12 - July
+        </div>
+        <div class="col-5">TOTAL PF ( EMPLOYEE + MANAGEMENT)
+        
+        </div>
+        <div align="left" class="col-2">0
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 12 - July
+        </div>
+        <div class="col-5">TOTAL ESIC ( EMPLOYEE + MANAGEMENT)
+        
+        </div>
+        <div align="left" class="col-2">0
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 12 - July
+        </div>
+        <div class="col-5">PROFESSION TAX
+        </div>
+        <div align="left" class="col-2">0
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 12 - July
+        </div>
+        <div class="col-5">LWF
+        </div>
+        <div align="left" class="col-2">0
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 12 - July
+        </div>
+        <div class="col-5">SERVICE CHARGE
+        </div>
+        <div align="left" class="col-2">200
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 12 - July
+        </div>
+        <div class="col-5">GST
+        </div>
+        <div align="left" class="col-2">2290
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="center" class="row bg-primary text-light">
+        <div class="col-2">
+        </div>
+        <div class="col-5">E NET
+        </div>
+        <div class="col-2">
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 07 - July
+        </div>
+        <div class="col-5">E NET
+        </div>
+        <div align="left" class="col-2">5405409
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="center" class="row bg-danger text-light">
+        <div class="col-2">
+        </div>
+        <div class="col-5">ENET RETURN
+        </div>
+        <div class="col-2">-5772
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 08 - July
+        </div>
+        <div class="col-5">CASH
+        </div>
+        <div align="left" class="col-2">13743
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        
+        
+        <div align="left" class="row bg-success">
+        <div class="col-2"> 
+        </div>
+        <div class="col-5">BALANCE BD
+        </div>
+        <div align="left" class="col-2">
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        <div align="left" class="row">
+        <div class="col-2"> 
+        </div>
+        <div class="col-5">-885846
+        
+        </div>
+        <div align="left" class="col-2">
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        
+        
+        <div align="center" class="row bg-danger text-light">
+        <div class="col-2">
+        </div>
+        <div class="col-5">TOTAL
+        </div>
+        <div class="col-2">8363846
+        
+        </div>
+        <div class="col-3">
+        </div>
+        </div>
+        </div>
+        
+        
+        
+        </div>
+    <div class="col-2">
+    </div>
+    </div>
+
+    <script>
+        function addCharge(pid,iid,cid){
+            var v = document.getElementById(iid).value;
+            if(document.getElementById(cid).checked){
+                document.getElementById(pid).innerHTML = v;
+                document.getElementById(iid).style.display='none'; 
+            }else{                
+                document.getElementById(pid).innerHTML = '';
+                document.getElementById(iid).style.display='block'; 
+            }
+        }
+    </script>
+<%- include('../includes/footer.ejs') %>

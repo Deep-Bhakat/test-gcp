@@ -1,0 +1,29 @@
+
+<div class="container">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <td>Client Name</td>
+            <td>Date</td>
+            <td>Option</td>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>ABC</td>
+                <td>ABC</td>
+                <td>22-02-2022</td>
+                <td>
+                    <a href="view-payments-uploads/<%= e[0].id %>" target="__blank"><button class="btn btn-primary btn-sm" type="button">View</button></a>
+                    <button class="btn btn-primary btn-sm" type="button" onclick="download(<%= e[0].id %>)">Download</button>
+                    <% for(var i=0; i<e[0].files.length; i++) { %>
+
+                        <a name="<%= e[0].id %>" href="<%= e[0].files[i] %>" download></a>
+                        <% } %>
+                </td>
+            </tr>
+         
+        </tbody>
+    </table>
+</div>

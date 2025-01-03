@@ -1,0 +1,161 @@
+<html>
+    <head>
+        <title>Client</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <style>
+         a {
+            text-decoration: none;
+        }
+        h6{
+            text-transform: uppercase;
+        }
+        html * {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+        body{
+            background-color: lightgray;
+            color: black;
+        }
+        table, td, tr{
+            color:black !important;
+        }
+        .blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+   </style>
+   </head>
+   <body>
+       <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow p-3 mb-5 bg-white rounded">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ">
+              <li class="nav-item">
+                <a href="/client/dashboard"><img src="../../img/2.png" style="border-radius: 10px; margin-left: 50px; " height="50px" width="50px" />   </a>
+               </li>
+               <li class="nav-item">
+                <h4 style="text-align: center; margin-left: 100px; "><span style=" border-bottom: 3px solid #FB3930; font-size: 2.5rem;" >Welcome to Genesis Family</span></h4>
+               </li>
+               <li class="nav-item" style="margin-left:150px">
+                <h4 style="text-align: right;  "><span style=" font-size: 1rem;" >Client Name : <b><%= clientData.client_name %></b></span></h4>
+                <h4 style="text-align: right; "><span style=" font-size: 1rem;" >Client Email : <b><%= client2.email %></b></span></h4>
+                <h6 style="text-align: right; "><a href="/client/change-email">Change Email</a> </h6>
+                <h4 style="text-align: right; "><span style=" font-size: 1rem;" >Client ID : <b><%= clientData.id %></b></span></h4>
+                <h4 style="text-align: right; "><span style=" font-size: 1rem;" >Managed By : <b><%= clientData.company_master.company_name %></b></span></h4>
+                <h6 style="text-align: right; "><a href="/client/change-password">Change Password</a> &nbsp; &nbsp;<a href="/client/logout">Logout</a></h6>
+              
+              </li>
+              <li class="nav-item">
+                <img src="../../<%= clientData.company_master.logo %>" style="border-radius: 10px; margin-left: 50px; " height="80px" width="100px" />
+                 </li>
+             
+              </ul>
+           
+
+          </div>
+        </div>
+      </nav>
+</header>    
+<div class="container my-5 text-center">
+        <div class="row text-center">
+          
+            <div class="col-lg-4 col-sm-12 text-left">
+
+                <a href="/client/employee-database">
+                    <img src="../../img/new_registration.jpeg" style="border-radius: 50%; max-width: 18rem;" height="100px" />
+                     <h5 class="card-title">Employee Files</h5>
+                </a>
+               
+                <a href="/client/statute">
+                    <img src="../../img/fingertip_statute.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h5 class="card-title">Statutes</h5>                      
+                </a>
+            </div>
+            <div class="col-lg-4 col-sm-12 text-left">
+                <a href="/client/payments-enet">
+                    <img src="../../img/payments_and_banking.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+
+                    <h5 class="card-title">Payment Proof</h5>
+                   
+                </a>
+                <a href="/client/gst">
+                    <img src="../../img/gst.webp" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h5 class="card-title">GST</h5>                      
+                </a>
+            </div>
+            <div class="col-lg-4 border border-4  border-primary">
+                <h3><span style=" border-bottom: 3px solid #FB3930" ;> News & HR Reports</span></h3>
+                <ul style="list-style-type:disc">
+                <% if(news.length>0){ %>
+                        <% for(let n of news){ %>
+                        <li align="left"><a href="news-details/<%= n.id %>" ><%= n.heading  %> <span style="color:red" class="blink_me"><b> new</b></span></a></li>
+                <% } } %>
+                <% if(hrs.length>0){ 
+                    var monthNames = [ "January", "February", "March", "April", "May", "June", 
+                    "July", "August", "September", "October", "November", "December" ];
+                %>
+
+                    <% for(let h of hrs){ %>
+                    <li align="left"><a href="report-details/<%= h.id %>" >HR Report for the month of <%= monthNames[h.month-1] %> <%= h.year %> <span style="color:red" class="blink_me"><b> new</b></span></a></li>
+            <% } } %>
+            </ul>
+            <% if(news.length>0 || hrs.length>0){ %>
+            <div><a href="view-more">View More</a></div>
+            <% } %>
+
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-lg-4 col-sm-12 text-center">
+                <a href="/client/invoice">
+                    <img src="../../img/invoice.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h5 class="card-title">Invoice</h5>                    
+                </a>
+                <!-- <a href="#">
+                    <img src="../../img/invoice.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h5 class="card-title">Invoices </h5>
+                    </a> -->
+                    <!-- <a href="/client/client-accounts-ledger">
+                        <img src="../../img/accounts_and_ledgers.png" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h5 class="card-title">Accounts + Ledgers</h5>
+                        </a> -->
+
+
+
+            </div>
+            <div class="col-lg-4 col-sm-12 text-left">
+                <a href="/client/payslips-module">
+                    <img src="../../img/wage_registers_and_payslips.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h5 class="card-title">Register & Payslip</h5>                    
+                </a>
+</div>
+            <div class="col-lg-4 border border-4  border-danger" style="margin-top: 25px;">
+                <h3><span style=" border-bottom: 3px solid #FB3930" ;>ALERT</span></h3>
+                <ul style="list-style-type:disc">
+                    <% if(isNewReg){ %>    <li align="left">New Employee Registered <span style="color:red" class="blink_me"><b>new</b></span></li><% } %>
+                    <% if(isPayment){ %>   <li align="left"> Payment Proof Uploaded  <span  style="color:red" class="blink_me"><b>new</b></span></li><% } %>
+                    <% if(isInvoice){ %>   <li align="left"> Invoice Uploaded <span style="color:red" class="blink_me"><b>new</b> </span></li><% } %>
+                    <% if(isRegister){ %>  <li align="left"> Register Updated <span style="color:red" class="blink_me"><b>new</b> </span></li><% } %>
+                    <% if(isPF){ %>  <li align="left"> PF Challan Uploaded <span style="color:red" class="blink_me"><b>new</b></span></li><% } %>
+                    <% if(isESIC){ %>       <li align="left">ESIC Challan Uploaded <span style="color:red" class="blink_me"><b>new</b></span></li><% } %>
+                    <% if(isPTAX){ %>    <li align="left">PTAX Challan Uploaded <span style="color:red" class="blink_me"><b>new</b></span></li><% } %>
+                    <% if(isLWF){ %>    <li align="left"> LWF Challan Uploaded <span style="color:red" class="blink_me"><b>new</b> </span></li><% } %>
+                    <% if(isAgreement){ %> <li align="left"> Agreement Uploaded <span style="color:red" class="blink_me"><b>new</b> </span></li><% } %>
+                    <% if(isLabourLicense){ %>   <li align="left"> Agreement Uploaded  <span style="color:red" class="blink_me"><b>new</b></span></li><% } %>
+                  
+            </ul>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>

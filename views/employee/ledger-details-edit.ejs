@@ -1,0 +1,106 @@
+<%- include('../includes/newHeader.ejs') %>
+  <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930" ;>Ledger Details Edit</span></h2>
+
+    <div class="container mx-20 my-2 border rounded clearfix">
+        <form class="needs-validation my-2" novalidate method="post" action="/employee/ledger-details-edit" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-12">
+                    <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">Company</label>
+                    <select class="form-select" id="validationCustom01" name="company" onchange="getClient(this.value)" required>
+                        <option value="<%= ledger.company_master.id %>"><%= ledger.company_master.company_name %></option>
+                   
+                        <option value="">Select</option>
+                        <% if(companies.length>0){ %>
+                            <% for(let company of companies){ %>
+                        <option value="<%= company.id %>"><%= company.company_name %></option>
+                            <% } } %>  
+            </select>
+                    <div class="invalid-feedback">
+                        Please select company!
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">Client</label>
+                    <select class="form-select" id="clientSelect" name="client">
+                        <option value="<%= ledger.client_master.id %>"><%= ledger.client_master.client_name %></option>
+                   
+          </select>
+                    <div class="invalid-feedback">
+                        Please Provide Client!
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="validationCustom02">From Date</label>
+                    <input type="date" id="datepicker" class="form-control" value="<%= ledger.from_date %>" name="from_date" id="validationCustom01" >
+                    <div class="invalid-feedback">
+                        Please select from date!
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="validationCustom02">To Date</label>
+                    <input type="date" id="datepicker" class="form-control"  value="<%= ledger.to_date %>" name="to_date" id="validationCustom01" >
+                    <div class="invalid-feedback">
+                        Please enter to date!
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+               
+
+                <div class="col-md-3 mb-3">
+                    <input type="hidden" name="id"  value="<%= ledger.id %>" class="form-control" id="validationCustom04" placeholder="Enter Amount" >
+
+                    Balance Rs. <input type="text" name="balance"  value="<%= ledger.balance %>" class="form-control" id="validationCustom04" placeholder="Enter Amount" >
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">Amount Type</label>
+                    <select class="form-select" name="type" id="validationCustom01" >
+              <option value="">Select Account Type</option>
+              <option <% if(ledger.type=='Debit'){ %> selected <% } %> value="Debit">Debit</option>
+              <option <% if(ledger.type=='Credit'){ %> selected <% } %> value="Credit">Credit</option>
+          </select>
+                    <div class="invalid-feedback">
+                        Please Provide Type!
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">Document</label>
+                    <input type="file" class="form-control" name="document" id="validationCustom04" required>
+                    <div class="invalid-feedback">
+                        Please provide atleast one file.
+                    </div>
+                </div>
+            </div>
+
+            <center><button class="btn btn-success " type="submit">Update</button></center>
+        </form>
+
+
+    </div>
+
+<script>
+      function getClient(val){
+    $.ajax({
+    type: 'POST',
+    url: '/employee/getClientForCompany',
+    data: {val:val},
+    success: function(clients) {
+        var html = '';
+        html+='<option value="">--SELECT--</option>';
+        for (var i = 0; i< clients.length; i++) {
+        html+=`
+        <option value="${clients[i].id}">${clients[i].client_name}</option>
+        `
+     }
+    $('#clientSelect').html(html);
+    }
+  });    
+}
+</script>

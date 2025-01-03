@@ -1,0 +1,274 @@
+<%- include('../includes/header.ejs') %>
+    <div class="container my-4  mx-auto rounded border">
+        <div class="container mx-20 my-2 ">
+            <div class="row">
+                <div class="col-1">
+
+                </div>
+                <div class="col-9">
+                    <h2><%= employee.company_master.company_name %></h2>
+                    <p><%= employee.company_master.address %> <br>                  
+                    <%= employee.company_master.email %> <br>
+                   
+                    <%= employee.company_master.phone %>
+                    </p>
+                </div>
+                <div align="right" class="col-2" style="padding: 10px;">
+                    <img src="../../<%= employee.company_master.logo %>" width="90px" height="90px">
+                </div>
+            </div>
+
+
+            <div class="mb-3 row" style="margin-top: 25px;;">
+                <div class="mb-3 row">
+
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">Date of joining :  
+                    <%
+                    var ddd =  employee.date_of_joining.split('-');      
+                    var dd= [ddd[2],
+                    ddd[1],
+                    ddd[0]         
+                           ].join('/');
+                     %> <%= dd %>
+                </div>
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-3">
+                </div>
+                </div>
+            </div>
+ <div class="mb-3 row" style="margin-top: 25px;;">
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+
+                </div>
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4">
+                    <span><b> Principal Employer’s Name and Address
+                    </b></span><br>
+				<span style="font-weight: bold;"> <%= employee.client_master.client_name %></span> <br>
+				<span>Client Code: <%= employee.client_code %></span>  <br> <%= clientData.client_addresses[0].address %>        <br>
+				    <b>
+                    Basic : <%= employee.basic_salary %> <br>
+                    HRA : <%= employee.hra %> <br>
+                    Gross : <%= employee.gross_salary %>
+                    </b>
+				</div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+                    <span style="font-weight: bold;">Dear <%= employee.emp_title %> <%= employee.emp_name %></span>
+
+                </div>
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-3">
+            </div>
+
+            <p class="text-center"><u style="font-weight: bolder;">Subject: Letter Of Appointment</u></p>
+            <div class="mb-3 row" style="margin-top: 50px;">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p>Following an interview, you had with our client <b>(Your Principal Employer)</b>, we have pleasure in offering you a job for the post of <b><%= employee.designation %></b> in <b><%= employee.client_master.client_name %></b> our client’s place on the following terms and conditions:</p>
+
+                </div>
+
+
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>1) COMPENSATION </u></b> - </p>
+                    <p style="margin-left: 60px;"> <b>a)</b>  Your monthly salary/ wages will be Rs. <%= employee.gross_salary %>  per month. The allocation of Gross Salary will be decided by the Principal Employer, the reflection of which you can easily view in your Pay Slips. <br>
+                     <b>b)</b>  Your monthly salary/ wages of every current month will be disbursed by 7th of the next month.
+                     <br>
+                    <b>c)</b> You will also be entitled for Bonus, minimum 7 days before the main festival, as decided by the Principal Employer and that will be as per Bonus Act 1965. Bonus will be paid on your working days calculated as per Financial Year.
+                  </p>
+                                </div>
+            </div>
+
+
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>2) WORKING HOURS</u></b> - </p>
+                      <p style="margin-left: 60px;"> <b>a)</b> Your work timings will be as per Principal Employer’s policy but it will not exceed 8 hours a day or 48 hours weekly. <br>
+                       <b>b)</b> If you work more than 8 hours a day, then you will be entitled for overtime which will be paid twice the normal pay as per Factories Act 1948 or Minimum Wages Act / or as per factory policy, whichever is higher. <br>
+                      <b>c)</b>Every week, any 6 days will be working days and one day
+                      will be holiday/weekly off day. If due to any urgency the
+                      weekly off day becomes a working day, then
+                      holiday/weekly off day will be given within next 5 (five)
+                      working days.    </p>
+
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>2) LEAVES AND HOLIDAYS </u></b> - </p>
+                    <p style="margin-left: 60px;"> <b>a)</b> As per Section 79, Factories Act 1948, you will be eligible for 1 Day Earned Leave for every 20 days worked. (Subjected to a maximum of 12-14 days per year). Whether The Leave Will Be adjusted Or Encashed will be as per mutual consent of your good self and Principal Employer.
+                        <br>
+                     <b>b)</b> As per the rule of the organization, you will be eligible for and enjoy all holidays as per the holiday list. (Holiday list will be announced by the Principal Employer by second week of January every year).
+
+                  </p>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>4) <u>PLACE OF WORK</u> -</b>Irrespective of your initial appointment of place of work, depending on the requirement of the Principal Employer, you can be shifted to different branch, designation, place/ branch with prior notice. We will expect, you will accept the same.  </p>
+
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>5) STATUTORY CONTRIBUTIONS </u></b> - </p>
+                    <p style="margin-left: 60px;"> <b>a)</b> You will also get PF and ESIC facilities if your earnings and its allocation fall under the ambit as set down by the EPF and MP Act 1952 and ESIC Act 1948.
+                        <br>
+                     <b>b)</b> As per State Act, Ptax will also be deducted (if under ambit) every month and LWF will be deducted half-yearly.
+
+                  </p>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>6) <u>GRATUITY</u> -</b> On successful completion of continuous 5 years in our organization, under this Appointment only, you will be also entitled for Gratuity as per Payment of Gratuity Act 1972.</p>
+
+                </div>
+            </div>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>7) <u>TERMINATION OF CONTRACT :</u></b>  Either of the party will be entitled to terminate the employment, by giving 30 days’ notice or 30 day’s Salary in lieu thereof. However, if it is on disciplinary grounds which hampers the Principal Employer’s activities, no notice will be served. 
+                    </p>
+
+                </div>
+            </div>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>8) <u> DISPUTES :</u></b> Any disputes between yourself and the Principal Employer concerned with or relating to, or rising out of this Appointment Letter, shall be subjected to the jurisdiction of and be determined, by the court of competent jurisdiction in Kolkata only.
+                    </p>
+
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>9) <u> DISCIPLINARY CLAUSES :</u></b> You cannot work against the benefit of the Principal Employer’s organization. While working in the organization you cannot engage yourself elsewhere. Breaking of the rule of the organization will be considered as a punishable offence. You shall be responsible for protecting the property.
+                    </p>
+
+                </div>
+            </div>
+            
+            <!-- <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>10) OTHER TERMS :</u></b>  </p>
+                    <p style="margin-left: 60px;"> <b>a)</b> You will complete all the jobs on time dedicated to you by the Principal Employer.
+
+                        <br>
+                     <b>b)</b> You need to submit written information to our organization if ever your address / Telephone Number/ Nominee gets changed or else it will be considered as your insincerity and you yourself will be responsible for not getting any letters or important documents by post. 	
+                     <br>
+                     <b>c)</b> You have to maintain a friendly work environment and have to behave properly/ politely with all other fellow workers and respectful towards Seniors.
+
+                  </p>
+                </div>
+            </div>                   
+             -->
+         
+
+          
+            
+          
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><u><b> Only</b> If you agree to all the above rules and regulations, then may sign this appointment letter.</u>
+
+
+                    </p>
+
+                </div>
+            </div>
+            <!-- <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>We are consciously endeavoring to build an atmosphere of mutual trust, reliability. Response and Autonomy are open to discussions and suggestions from all members of our Corporate Family.</b>  </p>
+                    <p>
+                        <b>As a new entrant, we hope you will contribute positively and whole heartedly to this process.
+
+                        </b>
+                    </p>
+                </div>
+            </div> -->
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p>Welcome to <%= employee.company_master.company_name %> FAMILY.
+                    </p>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+                    <span style="font-weight: bold;">Allotted Employee Code <%= employee.emp_code %> </span>
+                </div>
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-3">
+            </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">                
+                    <p>Yours Truly</p>
+                    <p>For <%= employee.company_master.company_name %></p>
+                </div>
+            </div>
+            <div class="mb-3 row" >
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                    <img src="../../<%= companyData.logo %>" width="90" height="90">
+                    <img src="../../<%= companyData.stamp %>" width="90" height="90">
+                </div>
+            </div>
+            <hr>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>Employee Declaration </u></b>
+                        <br>
+                        I have read/been explained all the clauses and with full understanding of the same, I am accepting these terms of employment and joining the concern out of my free will and consent.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mb-3 row" >
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                    <img src="../../<%= employee.signature %>" width="90" height="90">
+                    <br>
+                    Signature of Employee 
+                </div>
+            </div>
+        </div>
+
+        </div>
+            <a href="/admin/form11/<%= employee.id %>"> <button class="btn btn-success" type="button">Proceed</button></a>
+
+        </div>
+
+        <%- include('../includes/footer.ejs') %>

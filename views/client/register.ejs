@@ -1,0 +1,72 @@
+<div class="container mx-20 my-2 border rounded clearfix">
+    <form class="needs-validation my-2" novalidate>
+        <div class="row">
+            <div class="col-md-2 mb-3">
+                <label for="validationCustom02">Bill No</label>
+                <input type="text" class="form-control" placeholder="Enter Bill No" />
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" required>
+                <option class="">Select Company</option>
+                <option class="ABC">Genesis</option>
+                <option class="XYZ">Giraffe</option>
+            </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>
+        
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom02">Month & Year</label>
+                <input type="month" id="datepicker" class="form-control" id="validationCustom01" required>
+                <div class="invalid-feedback">
+                    Please select Month & Year!
+                </div>
+            </div>
+
+        </div>
+        <h3>Uploads</h3>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <input type="file" class="form-control" id="validationCustom04" required>
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+       
+           
+        </div>
+        <button class="btn btn-success float-end" type="submit">Upload</button>
+    </form>
+
+
+</div>
+<div class="container">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <td>Month</td>
+            <td>Year</td>
+            <td>Option</td>
+        </thead>
+        <tbody>
+          
+            <tr>
+                <td>2</td>
+                <td>ABCD</td>
+                <td>Jan</td>
+                <td>2022</td>
+                <td>
+                  
+                    <button class="btn btn-primary btn-sm" type="button" >View</button>
+                    <button class="btn btn-success btn-sm" type="button">Download</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

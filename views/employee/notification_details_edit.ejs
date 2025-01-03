@@ -1,0 +1,86 @@
+<%- include('../includes/newHeader.ejs') %>
+     <div class="container mx-20 my-2 border rounded clearfix">
+
+        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930" ;>Notification Edit</span></h2>
+        <form class="needs-validation my-2" novalidate method="post" enctype="multipart/form-data" action="/employee/notification-details-edit">
+            <div class="row">
+                <div class="col-12">
+                    <br>
+                </div>
+            </div>
+            <div class="row">
+           
+            <div class="col-md-3 mb-3 ">
+                <label for="validationCustom01 ">Client Name </label>
+                  <input type="text" class="form-control " value="<% if(noti.client_master){ %><%= noti.client_master.client_name %><% } %>" id="clientSelect" name="clientName" onkeyup="searchClient(this.value)" placeholder="Search Client Name " >
+                  <input type="hidden" class="form-control " id="client" value="<% if(noti.client_master){ %><%= noti.client_id %><% } %>" name="client" >
+                  
+                  <div class="invalid-feedback ">
+                      Please select a client!
+                  </div>
+                  <div id="clientData">
+                  </div>
+            </div>
+        </div>
+            <div class="row">
+                <input type="hidden" class="form-control" name="id"  value="<%= noti.id %>" >
+           
+
+                <div class="col-md-3 mb-3">
+                    Heading <input type="text" class="form-control" name="heading" id="validationCustom04" value="<%= noti.heading %>" placeholder="Enter Notification Heading" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    Date <input type="date" class="form-control" name="month_year" value="<%= noti.date %>" id="validationCustom04">
+                </div>
+                <div class="col-md-3 mb-3">
+                    From Date <input type="date" class="form-control" name="from_date" value="<%= noti.from_date %>" id="validationCustom04">
+                </div>
+                <div class="col-md-3 mb-3">
+                    To Date <input type="date" class="form-control" name="to_date" value="<%= noti.to_date %>" id="validationCustom04">
+                </div>
+                <h3>Uploads Notification</h3>
+                <div class="col-md-3 mb-3">
+                    <input type="file" class="form-control" name="file" id="validationCustom04">
+                    <div class="invalid-feedback">
+                        Please provide atleast one file.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    Our Comments <textarea class="form-control" name="comment" id="validationCustom04"><%= noti.comment %></textarea>
+                  
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+            <center><button class="btn btn-success " type="submit">Update</button></center>
+        </form>
+
+
+    </div>
+<script>
+    function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/employee/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });        
+    }
+</script>
+    
+    <%- include('../includes/footer.ejs') %>

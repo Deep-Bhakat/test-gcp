@@ -1,0 +1,503 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style>
+    a {
+        text-decoration: none;
+    }
+    
+    html * {
+        font-family: 'Times New Roman', Times, serif !important;
+    }
+</style>
+<div id="content">
+<div class="container" >
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-2"></div>
+        <div align="right" class="col-6">
+
+            <span style="font-size: 28px;">Form No. 11 (New)</span><br><span style="font-size: 28px;">Declaration Form</span><br> (To be retained by the Employer for future reference)
+        </div>
+    </div>
+    <div class="row">
+        <div align="center" class="col-2" style="margin-top: -30px;"> <img src="/img/pf.png" width="150" height="150"> </div>
+        <div align="center" class="col-10">
+            <h2>Employee' Provident Fund Organisation</h2>
+            <p>THE EMPLOYEES PROVIDENT FUNDS SCHEME, 1952 (PARAGRAPH-34 & 57) & THE EMPLOYEES PENSION SCHEME, 1995 (PARAGRAPH-24</p>
+        </div>
+    </div>
+    <div class="row">
+        <div align="center" class="col-12">
+            <u style="text-align: center;">
+          DECLARATION BY A PERSON TAKING UP EMPLOYMENT IN AN ESTABLISHMENT ON WHICH EMPLOYEES PROVIDENT FUND SCHEME,
+<span style="font-weight: bold;">1952</span> AND/OR EMPLOYEES PENSION SCHEME, <span style="font-weight: bold;">1995</span> IS APPLICABLE
+        </u>
+            <p style="text-transform: uppercase; font-weight: bold;">(PLEASE GO THROUGH THE INSTRUCTIONS)</p>
+        </div>
+    </div>
+</div>
+<div class="container my-4  mx-auto rounded border">
+
+    <div class="container mx-20 my-2 ">
+
+
+        
+       
+        <form class="needs-validation" novalidate method="post" action="/admin/form11-edit">
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">1) Name</label>
+                <div class="col-sm-1">
+                    <input type="hidden" class="form-control" name="id" value="<%= employee.id %>" >
+
+                    <input type="text" class="form-control" id="validationCustom03" name="company" readonly placeholder="Enter Name" value="<%= employee.emp_title %>" >
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="validationCustom03" name="company"readonly placeholder="Enter Name" value="<%= employee.emp_name %>" >
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">2) Date Of Birth</label>
+                <div class="col-sm-3">
+                    <%
+                    var ddd =  employee.dob.split('-');      
+                    var dd= [ddd[2],
+                    ddd[1],
+                    ddd[0]         
+                           ].join('/');
+                     %>
+                    <input type="text" class="form-control" id="validationCustom03" name="company" placeholder="Enter Name"  value="<%= dd %>" readonly>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">3) Father's / Husband's Name</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="validationCustom03" name="company" placeholder="Enter Father's Name" readonly  value="<%= employee.father_name %>">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-4 col-form-label">4) RELATIONSHIP IN RESPECT OF (3) ABOVE</label>
+                <div class="col-sm-5">
+                    <input type="radio" name="relation" class="form-check-input" <% if(form11.relationship=='father'){ %> checked="true" <% } %> value="father" id="validationCustom04">
+                    <label class="form-check-label" for="validationCustom04">Father</label>
+                    <input type="radio" name="relation" class="form-check-input" <% if(form11.relationship=='husband'){ %> checked="true" <% } %> value="husband" id="validationCustom04">
+                    <label class="form-check-label" for="validationCustom04">Husband</label>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">5) Gender</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="validationCustom03" name="company" placeholder="Enter Name" readonly  value="<%= employee.gender %>">
+                 
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">6) Mobile Number</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control" id="validationCustom03" name="company" placeholder="Enter Mobile" readonly  value="<%= employee.mobile %>">
+                    <div class="invalid-feedback">
+                        Please enter mobile!
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">7) Email Id</label>
+                <div class="col-sm-4">
+                    <input class="form-control" type="email" name="employer" placeholder="Enter Email" readonly  value="<%= employee.email %>">
+                    <div class="invalid-feedback">
+                        Please enter email!
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-6 col-form-label">8) WHETHER EARLIER A MEMBER OF THE EMPLOYEES PROVIDENT FUND SCHEME, 1952 ?</label>
+                <div class="col-sm-4">
+                    <input type="radio" name="whether_pf" class="form-check-input" <% if(form11.is_member_of_pf	=='Yes'){ %> checked <% } %> value="Yes" id="validationCustom04">
+                    <label class="form-check-label" for="validationCustom04">Yes</label>
+                    <input type="radio" name="whether_pf" class="form-check-input" <% if(form11.is_member_of_pf	=='No'){ %> checked <% } %> value="No" id="validationCustom04">
+                    <label class="form-check-label" for="validationCustom04">No</label>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-6 col-form-label">9) WHETHER EARLIER A MEMBER OF THE EMPLOYEES PENSION SCHEME, 1995?</label>
+                <div class="col-sm-4">
+                    <input type="radio" name="whether_pension" class="form-check-input" <% if(form11.is_member_of_pension=='Yes'){ %> checked <% } %> value="Yes" id="validationCustom04">
+                    <label class="form-check-label" for="validationCustom04">Yes</label>
+                    <input type="radio" name="whether_pension" class="form-check-input" <% if(form11.is_member_of_pension=='No'){ %> checked <% } %> value="No" id="validationCustom04">
+                    <label class="form-check-label" for="validationCustom04">No</label>
+                </div>
+            </div>
+            <p>IF RESPONSE TO ANY OR BOTH OF ( 8) & (9) ABOVE IS YES, THEN MANDATORILY FILL UP THE PREVIOUS EMPLOYMENT DETAILS AT (10,11& 12):
+            </p>
+            <h3>A. PREVIOUS EMPLOYMENT DETAILS</h3>
+
+            <div class="mb-3 row">
+
+                <label for="staticEmail" class="col-sm-2 col-form-label">10) UAN</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" value="<%= form11.uan %>" name="uan" id="validationCustom01">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">OR</label>
+                </div>
+                <label for="staticEmail" class="col-sm-2 col-form-label">PREVIOUS PF MEMBER ID</label>
+
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="validationCustom01"  value="<%= form11.pf_member_id %>" name="member_id">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-4 col-form-label">11)  DATE OF EXIT FOR PREVIOUS <BR> MEMBER ID (DD/MM/YYYY)
+                </label>
+                <div class="col-sm-4">
+                    <input type="date" class="form-control" id="validationCustom01"  value="<%= form11.date_of_exit %>" name="date_of_exit" >
+                </div>
+            </div>
+            <div class="mb-4 row">
+                <label for="staticEmail" class="col-sm-12 col-form-label">12)  (A) IF SCHEME CERTIFICATE ISSUED FOR PREVIOUS EMPLOYMENT, THEN SCHEME CERTIFICATE NUMBER:
+                    <input type="text" class="form-control"  value="<%= form11.scheme_certificate_number %>" name="scheme_number" /> 
+              </label>
+                <label for="staticEmail" class="col-sm-12 col-form-label">(B) IF PENSION PAYMENT ORDER (PPO) ISSUED FOR PREVIOUS EMPLOYMENT, THEN PPO NUMBER:
+                    <input type="text" class="form-control" value="<%= form11.ppo_number %>" name="ppo_number" /> 
+
+
+              </label>
+            </div>
+
+            <h5>B. OTHER DETAILS
+            </h5>
+            <div class="mb-4 row">
+                <label for="staticEmail" class="col-sm-4 col-form-label">13)   INTERNATIONAL WORKER </br> (PLEASE SELECT)
+            </label>
+                <label for="staticEmail" class="col-sm-4 col-form-label">  <input class="form-check-input" <% if(form11.is_international_worker=='Yes'){ %> checked <% } %> type="radio" name="is_international" value="Yes" id="flexRadioDefault1">
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Yes
+                  </label>
+                <input class="form-check-input" type="radio" name="is_international" <% if(form11.is_international_worker=='No'){ %> checked <% } %> value="No" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    No
+                  </label>
+
+                </label>
+            </div>
+
+            <div class="mb-4 row">
+                <label for="staticEmail" class="col-sm-12 col-form-label">IF THE REPLY TO (13) ABOVE IS YES, THEN ENTER THE DETAILS IN 13(A), 13(B) & 13(C): </br> 
+                13(A) COUNTRY OF ORIGIN (Please Select) </br>
+                <span><input type="radio" name="country_origin" <% if(form11.country_of_origin	=='India'){ %> checked <% } %> value="India"> INDIA</span><span> <input type="radio" <% if(form11.country_of_origin	!='India'){ %> checked <% } %> name="country_origin" value="Others"> &nbsp; OTHER THAN INDIA (IF YES, PLEASE
+                  MENTION NAME OF THE COUNTRY)
+                  <input type="text" class="form-control" value="<%= form11.country_of_origin %>"  name="other_country" />
+                  </span>  
+              </label>
+
+            </div>
+
+            <div class="mb-4 row">
+                <label for="staticEmail" class="col-sm-12 col-form-label">13(B) PASSPORT NUMBER 
+                <input type="text" class="form-control" value="<%= form11.passport_number %>" name="passport_number" > 
+            </label>
+
+            </div>
+            <div class="mb-4 row">
+                <label for="staticEmail" class="col-sm-3 col-form-label">13(C) PASSPORT VALID FROM  </label>
+                <label for="staticEmail" class="col-sm-3 col-form-label">
+                    <input type="date" class="form-control col-sm-4" value="<%= form11.passport_valid_from %>" name="passport_date_from" >
+                </label>
+                <label for="staticEmail" class="col-sm-1 col-form-label">TO  </label>
+                <label for="staticEmail" class="col-sm-3 col-form-label">
+                    <input type="date" class="form-control col-sm-4" value="<%= form11.passport_valid_till %>" name="passport_date_to" >    
+                </label>
+
+                
+        
+            </div>
+
+            <div class="mb-4 row">
+                <label for="staticEmail" class="col-sm-12 col-form-label">14) EDUCATIONAL
+                QUALIFICATION
+                (PLEASE TICK)
+            
+        </label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="education" <% if(form11.educational_qualification	=='ILLITERATE'){ %> checked <% } %> value="ILLITERATE" > ILLITERATE</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="education" <% if(form11.educational_qualification	=='NON MATRIC'){ %> checked <% } %> value="NON MATRIC" > NON MATRIC</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="education" <% if(form11.educational_qualification	=='MATRIC'){ %> checked <% } %> value="MATRIC" > MATRIC</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="education" <% if(form11.educational_qualification	=='SENIOR SECONDARY'){ %> checked <% } %> value="SENIOR SECONDARY" > SENIOR SECONDARY</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="education" <% if(form11.educational_qualification	=='GRADUATE'){ %> checked <% } %> value="GRADUATE" > GRADUATE</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="education" <% if(form11.educational_qualification	=='POST GRADUATE'){ %> checked <% } %> value="POST GRADUATE" > POST GRADUATE</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="education" <% if(form11.educational_qualification	=='DOCTOR'){ %> checked <% } %> value="DOCTOR" > DOCTOR</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="education" <% if(form11.educational_qualification	=='TECHNICAL/PROFESSIONAL'){ %> checked <% } %> value="TECHNICAL/PROFESSIONAL" > TECHNICAL/PROFESSIONAL</label>
+
+
+            </div>
+
+            <div class="mb-4 row">
+                <label for="staticEmail" class="col-sm-3 col-form-label">15) MARITAL STATUS              <!-- (PLEASE SELECT) -->
+                </label>
+
+              <label for="staticEmail" class="col-sm-3 col-form-label"> <input type="text" readonly class="form-control" value="<%= employee.maritial_status %>" />
+               </label>
+                <!-- <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="maritial_status" value="married"> MARRIED</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="maritial_status" value="unmarried">  UNMARRIED</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="maritial_status" value="widow"> WIDOW/ WIDOWER</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="maritial_status" value="divorcee"> DIVORCEE </label>
+            </div> -->
+
+            <div class="mb-12 row">
+                <label for="staticEmail" class="col-sm-6 col-form-label">16)  SPECIALLY ABLED
+                (PLEASE SELECT)
+                
+          
+      </label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="is_specially_abled" <% if(form11.is_specially_abled	=='Yes'){ %> checked <% } %> value="Yes"> YES</label>
+                <label for="staticEmail" class="col-sm-3 col-form-label"><input type="radio" class="form-check-input" name="is_specially_abled" <% if(form11.is_specially_abled	=='No'){ %> checked <% } %> value="No"> NO</label>
+            </div>
+            <div class="mb-12 row">
+
+                <label for="staticEmail" class="col-sm-6 col-form-label"> IF YES, PLEASE SELECT THE CATEGORY</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label"><input type="radio" class="form-check-input" name="category"  <% if(form11.specially_abled_category	=='locomotive'){ %> checked <% } %> value="locomotive"> LOCOMOTIVE</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label"><input type="radio" class="form-check-input" name="category"  <% if(form11.specially_abled_category	=='visual'){ %> checked <% } %> value="visual"> VISUAL</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label"><input type="radio" class="form-check-input" name="category"  <% if(form11.specially_abled_category	=='hearing'){ %> checked <% } %> value="hearing"> HEARING </label>
+            </div>
+            <div class="mb-12 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">17)  KYC DETAILS
+            
+      </label>
+      <% if(kycs.length>0){ %>
+      <label for="staticEmail" class="col-sm-3 col-form-label">
+                    <select class="form-select" aria-label="Default select example" name="kyc_type[]">
+                    <option value="">Select KYC Document Type</option>
+                
+                    <option value="Bank Account" <%  if(kycs[0].kyc_type=='Bank Account'){ %> selected <% } %>>BANK ACCOUNT-1* </option>
+                    <option value="Aadhar" <% if(kycs[0].kyc_type=='Aadhar'){ %> selected <% } %>>NPR/AADHAAR</option>
+                    <option value="Pan" <% if(kycs[0].kyc_type=='Pan'){ %> selected <% } %>>PERMANENT ACCOUNT NUMBER (PAN)</option>
+                        <option value="Passport" <% if(kycs[0].kyc_type=='Passport'){ %> selected <% } %>>PASSPORT</option>
+                        <option value="Driving License" <% if(kycs[0].kyc_type=='Driving License'){ %> selected <% } %>>DRIVING LICENCE</option>
+                        <option value="Election Card" <% if(kycs[0].kyc_type=='Election Card'){ %> selected <% } %>>ELECTION CARD</option>
+                        <option value="Ration Card" <% if(kycs[0].kyc_type=='Ration Card'){ %> selected <% } %>>RATION CARD</option>
+                        <option value="Esic Card" <% if(kycs[0].kyc_type=='Esic Card'){ %> selected <% } %>>ESIC CARD</option>
+             
+                        
+                  </select></label>
+                <label for="staticEmail" class="col-sm-2 col-form-label">
+                    <input type="text" class="form-control" placeholder="Name as on KYC Document" value="<%= kycs[0].name %>" name="kyc_name[]"> &nbsp;</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label">
+                    <input type="text" class="form-control" placeholder="KYC Document Number"value="<%= kycs[0].number %>" name="kyc_number[]"> &nbsp;</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label">
+                    <input type="text" class="form-control" name="remarks[]" value="<%= kycs[0].remarks %>" placeholder="Type Remarks if any(IFSC Code For Bank and Expiry Date for Passport and driving license)"> </label>
+                
+                    <% }else{ %>
+                        <label for="staticEmail" class="col-sm-3 col-form-label">
+                            <select class="form-select" aria-label="Default select example" name="kyc_type[]">
+                            <option value="">Select KYC Document Type</option>
+                        
+                        <option value="Bank Account">BANK ACCOUNT-1* </option>
+                        <option value="Aadhar">NPR/AADHAAR</option>
+                        <option value="Pan">PERMANENT ACCOUNT NUMBER (PAN)</option>
+                            <option value="Passport" >PASSPORT</option>
+                            <option value="Driving License">DRIVING LICENCE</option>
+                            <option value="Election Card">ELECTION CARD</option>
+                            <option value="Ration Card">RATION CARD</option>
+                            <option value="Esic Card" >ESIC CARD</option>
+                        </select></label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">
+                            <input type="text" class="form-control" placeholder="Name as on KYC Document" name="kyc_name[]"> &nbsp;</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">
+                            <input type="text" class="form-control" placeholder="KYC Document Number" name="kyc_number[]"> &nbsp;</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">
+                            <input type="text" class="form-control" name="remarks[]" placeholder="Type Remarks if any(IFSC Code For Bank and Expiry Date for Passport and driving license)"> </label>
+                        
+                    <% } %>
+               
+                    <input type="hidden" style="width: 30px; border-radius: 10px; text-align: center;" id="kycNo" readonly value="<%= kycs.length %>" >
+                    <span style="top:10%; cursor: pointer;" id="addA" class="plus-button"></span>
+          
+          
+          
+                </div>
+            <div id="addressRow">
+
+                <% if(kycs.length > 0) {%>
+                    <%     var i = 1
+                    for(let c=1; c<kycs.length; c++){  %>
+            <div class="mb-12 row" id="dir<%=i %>">
+                <label for="staticEmail" class="col-sm-2 col-form-label">
+            
+      </label>
+                <label for="staticEmail" class="col-sm-3 col-form-label">
+                    <select class="form-select" aria-label="Default select example" name="kyc_type[]">
+                    <option value="">Select KYC Document Type</option>
+                    <option value="Bank Account" <% if(kycs[c].kyc_type=='Bank Account'){ %> selected <% } %>>BANK ACCOUNT-1* </option>
+                    <option value="Aadhar" <% if(kycs[c].kyc_type=='Aadhar'){ %> selected <% } %>>NPR/AADHAAR</option>
+                    <option value="Pan" <% if(kycs[c].kyc_type=='Pan'){ %> selected <% } %>>PERMANENT ACCOUNT NUMBER (PAN)</option>
+                        <option value="Passport" <% if(kycs[c].kyc_type=='Passport'){ %> selected <% } %>>PASSPORT</option>
+                        <option value="Driving License" <% if(kycs[c].kyc_type=='Driving License'){ %> selected <% } %>>DRIVING LICENCE</option>
+                        <option value="Election Card" <% if(kycs[c].kyc_type=='Election Card'){ %> selected <% } %>>ELECTION CARD</option>
+                        <option value="Ration Card" <% if(kycs[c].kyc_type=='Ration Card'){ %> selected <% } %>>RATION CARD</option>
+                        <option value="Esic Card" <% if(kycs[c].kyc_type=='Esic Card'){ %> selected <% } %>>ESIC CARD</option>
+                        
+                  </select></label>
+                <label for="staticEmail" class="col-sm-2 col-form-label">
+                    <input type="text" class="form-control" placeholder="Name as on KYC Document" value="<%= kycs[c].name %>" name="kyc_name[]"> &nbsp;</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label">
+                    <input type="text" class="form-control" placeholder="KYC Document Number"value="<%= kycs[c].number %>" name="kyc_number[]"> &nbsp;</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label">
+                    <input type="text" class="form-control" name="remarks[]" value="<%= kycs[c].remarks %>" placeholder="Type Remarks if any(IFSC Code For Bank and Expiry Date for Passport and driving license)"> </label>
+                    <div class="col-md-1 mb-3 ">
+                        <span onclick="deleteAddress(<%= i %>,<%= kycs[c].id %>)" style="cursor:pointer" class="close"></span>
+                      </div>
+                </div>
+            <% i=i+1  } } %>
+
+            </div>
+            <div class="mb-12 row">
+                <label for="staticEmail" class="col-sm-6 col-form-label"> <p style="text-align: justify;">&nbsp;</p></label>
+                <label for="staticEmail" class="col-sm-6 col-form-label"> <p>* Mandatory Field (NOTE: BANK ACCOUNT NUMBER (ALONG WITH IFSC CODE) IS MANDATORY. YOU
+                    ARE HOWEVER ADVISED TO PROVIDE ALL KYC DOCUMENTS AVAILABLE WITH YOU IN ADDITION TO MANDATORY KYCS TO
+                    AVAIL BETTER SERVICES. SELF-ATTESTED PHOTOCOPIES OF THE DOCUMENTS MUST BE ATTACHED WITH THIS FORM</p></label>
+
+            </div>
+            <div class="mb-12 row" style=" color:white; padding: 5px;; vertical-align: bottom;  background-color: rgb(165, 160, 160);">
+                <div class="col-12">
+                    <p> C UNDERTAKING</p>
+                </div>
+
+            </div>
+            <div class="mb-12 row">
+                <div class="col-12">
+                    <p><span style="padding: 5px;">A.</span> I CERTIFY THAT ALL THE INFORMATION GIVEN ABOVE IS TRUE TO THE BEST OF MY KNOWLEDGE AND BELIEF</p>
+                </div>
+                <div class="col-12">
+                    <p><span style="padding: 5px;">B.</span> IN CASE, EARLIER A MEMBER OF EPF SCHEME, 1952 AND/OR EPS, 1995,</p>
+                </div>
+                <div class="col-12">
+                    <p><span style=" margin-left: 10px;">(I)</span> I HAVE ENSURED THE CORRECTNESS OF MY UAN/ PREVIOUS PF MEMBER ID</p>
+                </div>
+                <div class="col-12">
+                    <p><span style="padding: 5px;">(II)</span> THIS MAY ALSO BE TREATED AS MY REQUEST FOR TRANSFER OF FUNDS AND SERVICE DETAILS IF APPLICABLE FROM THE PREVIOUS ACCOUNT AS DECLARED ABOVE TO THE PRESENT P.F. ACCOUNT. (THE TRANSFER WOULD
+                        BE POSSIBLE ONLY IF THE IDENTIFIED KYC DETAILS APPROVED BY PREVIOUS EMPLOYER HAS BEEN VERIFIED BY PRESENT EMPLOYER USING HIS DIGITAL SIGNATURE CERTIFICATE).</p>
+                </div>
+                <div class="col-12">
+                    <p><span style="padding: 5px;">(III)</span> I AM AWARE THAT I CAN SUBMIT MY NOMINATION FORM THROUGH UAN BASED MEMBER PORTAL.</p>
+                </div>
+
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div align="left" class="col-md-2">Place : </div>
+                <div align="left" class="col-md-7"><input type="text" class="form-control" value="<%= form11.place %>" name="place" /></div>
+                <div align="right" class="col-md-3"><img src="../../<%= employee.signature %>" width="90px" height="90px" />"</div>
+            </div>
+            <div class="row">
+                <div align="left" class="col-md-2">Date : </div>
+                <div align="left" class="col-md-3"><input type="date" class="form-control"value="<%= form11.date %>" name="datee" /></div>
+                <div align="right" class="col-md-7">Signature of Member : </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12" style="background-color:rgb(165, 160, 160);">
+                    <h4 align="center"> DECLARATION BY PRESENT EMPLOYER</i>
+                    </h4>
+                </div>
+
+                <div class="col-12">
+                    <p><span style="padding: 5px;">A.</span> THE MEMBER MR / MS/ MRS <%= employee.emp_name %> HAS JOINED ON <%= new Date(employee.date_of_joining).toLocaleDateString({ year: 'numeric', month: '2-digit', day: '2-digit' }); %> AND HAS BEEN ALLOTTED PF MEMBER ID <input type="text" name="pf_no" value="<%= form11.pf_no %>" class="form-control" /></p>
+                </div>
+                <div class="col-12">
+                    <p><span style="padding: 5px;">B.</span> IN CASE THE PERSON WAS EARLIER NOT A MEMBER OF EPF SCHEME, 1952 AND EPS, 1995:</p>
+                </div>
+
+
+                <div class="col-12">
+                    <p><span style="margin-left: 15px;"> <ul><li>(POST ALLOTMENT OF UAN) THE UAN ALLOTTED FOR THE MEMBER IS</p>
+                        <p><span style="margin-left: 15px;"> <li>PLEASE TICK THE APPROPRIATE OPTION:</p>
+                    </li></ul></span>
+                        <p style="margin-left: 50px;"> THE KYC DETAILS OF THE ABOVE MEMBER IN THE UAN DATABASE</p>
+                        <p style="margin-left: 50px;"><span style="margin-right: 15px;"><input type="radio" class="form-check-input" name="has_been"  <% if(form11.	is_kyc_details_uploaded	=='1'){ %> checked <% } %>  value="1"></span> HAVE NOT BEEN UPLOADED</p>
+                        <p style="margin-left: 50px;"><span style="margin-right: 15px;"><input type="radio" class="form-check-input" name="has_been"  <% if(form11.	is_kyc_details_uploaded	=='2'){ %> checked <% } %>  value="2"></span> HAVE BEEN UPLOADED BUT NOT APPROVED</p>
+                        <p style="margin-left: 50px;"><span style="margin-right: 15px;"><input type="radio" class="form-check-input" name="has_been"  <% if(form11.	is_kyc_details_uploaded	=='3'){ %> checked <% } %>  value="3"></span> HAVE BEEN UPLOADED AND APPROVED WITH DSC</p>
+                </div>
+
+                <div class="col-12">
+                    <p><span style="margin-left: 15px;">C.</span> IN CASE THE PERSON WAS EARLIER A MEMBER OF EPF SCHEME, 1952 AND EPS, 1995:</p>
+
+                    <p><span style="margin-left: 15px;"> <ul><li>THE ABOVE MEMBER ID OF THE MEMBER AS MENTIONED IN (A) ABOVE HAS BEEN TAGGED WITH HIS/HER UAN/PREVIOUS
+                        MEMBER ID AS DECLARED BY MEMBER.</p>
+                        <p><span style="margin-left: 15px;"> <li>PLEASE TICK THE APPROPRIATE OPTION:-</p>
+                    </li></ul></span>
+                        <p style="margin-left: 50px;"><span style="margin-right: 15px;"><input type="radio"  class="form-check-input" name="kyc_update"  <% if(form11.is_kyc_details_approved	=='1'){ %> checked <% } %>  value="1"></span> THE KYC DETAILS OF THE ABOVE MEMBER IN THE UAN DATABASE HAVE BEEN APPROVED WITH DIGITAL SIGNATURE CERTIFICATE AND TRANSFER REQUEST HAS BEEN GENERATED ON PORTAL.</p>
+                        <p style="margin-left: 50px;"><span style="margin-right: 15px;"><input type="radio"  class="form-check-input" name="kyc_update"  <% if(form11.is_kyc_details_approved	=='2'){ %> checked <% } %>  value="2"></span> AS THE DSC OF ESTABLISHMENT ARE NOT REGISTERED WITH EPFO, THE MEMBER HAS BEEN INFORMED TO FILE PHYSICAL CLAIM (FORM-13) FOR TRANSFER OF FUNDS FROM HIS PREVIOUS
+                            ESTABLISHMENT.
+                        </p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 50px;">
+                <!-- <div align="left" class="col-md-2">Date : </div> -->
+                <div align="left" class="col-md-2"> </div>
+                <div align="left" class="col-md-3">&nbsp;</div>
+                <div align="right" class="col-md-7"><img src="../../<%= employee.company_master.stamp %>" width="90px" height="90px" /> 
+                <img src="../../<%= employee.company_master.signature %>" width="90px" height="90px" /> </div>
+            
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <!-- <div align="left" class="col-md-2">Date : </div> -->
+                <div align="left" class="col-md-2"> </div>
+                <div align="left" class="col-md-3">&nbsp;</div>
+                <div align="right" class="col-md-7">SIGNATURE OF EMPLOYER WITH SEAL OF ESTABLISHMENT </div>
+            </div>
+          
+    </div>
+    <button class="btn btn-success" id="printt" type="button" onclick="printpage()">Print</button>
+    </form>
+
+    <br>
+
+    <div align="center">
+       
+       
+
+    </div>
+
+</div>
+</div>
+</div>
+
+<script>
+    printpage();
+    function printpage(){
+         document.getElementById('printt').style.display='none';
+        window.print();
+    }
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+<script>
+    function showPreview(event) {
+        //document.getElementById("isImage").value = "1";
+        if (event.target.files.length > 0) {
+            let src = URL.createObjectURL(event.target.files[0]);
+            //$("#photo").val(event.target.files[0].size/1024);
+            let preview = document.getElementById("preview");
+            preview.src = src;
+            preview.style.width = "120px";
+            preview.style.height = "150px";
+            preview.style.display = "block";
+        }
+    }
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>

@@ -1,0 +1,590 @@
+
+  <style>
+    .active2{
+        background-color: black !important;
+        color: white;
+    }
+    .active3{
+        display: none;
+    }
+  </style>
+  <div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2">Company Report</h2>
+    <div class="container mx-20 my-2 ">
+        <form class="needs-validation" novalidate method="post" enctype="multipart/form-data" action="/admin/hr-report-new">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Company</label>
+                <select class="form-select" id="validationCustom01" name="company" onchange="getClient(this.value)" required>
+                  <option class="">Select</option>
+                  <% if(companies.length>0){ %>
+                      <% for(let company of companies){ %>
+                  <option value="<%= company.id %>"><%= company.company_name %></option>
+                      <% } } %>
+              </select>
+                <div class="invalid-feedback">
+                  Please provide company!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+                <select class="form-select" id="clientSelect" name="client">     
+              </select>
+                <div class="invalid-feedback">
+                  Please Provide client!
+                </div>
+              </div>         
+                
+              <div class="col-md-3 mb-3">
+                <label for="validationCustom02">Month & Year</label>
+                <input type="month" id="datepicker" class="form-control" onchange="showStep2()" required name="month_year" id="validationCustom01"  required>         
+                <div class="invalid-feedback">
+                  Please select Month & Year!
+                </div>
+              </div> 
+            </div>  
+            <div class="row" id="step2" style="display: none;">
+                <div class="container my-10"> 
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" name="tab2" id="hr-tab" onclick="changeTab2('hr')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">HR</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link"  name="tab2" id="biller-tab" onclick="changeTab2('biller')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">BILLER</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link"  name="tab2" id="back-tab" onclick="changeTab2('back')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">BACK OFFICE</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link"  name="tab2" id="executive-tab" onclick="changeTab2('executive')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">EXECUTIVE</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link"  name="tab2" id="supervisor-tab" onclick="changeTab2('supervisor')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">SUPERVISOR</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link"  name="tab2" id="accounts-tab" onclick="changeTab2('accounts')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">ACCOUNTS</button>
+                      </li>
+                       <li class="nav-item" role="presentation">
+                        <button class="nav-link"  name="tab2" id="management-tab" onclick="changeTab2('management')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">MANAGEMENT</button>
+                      </li>
+                      
+                     </ul>
+                     <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane2 fade show active" id="hr" role="tabpanel" aria-labelledby="pills-home-tab">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="validationCustom02">Agreement<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                        <select class="form-select" name="agreement" id="validationCustom01"  >
+                                            <option value="">--SELECT--</option>
+                                            <option value="IN FORCE">IN FORCE</option>
+                                            <option value="TO BE DONE (MODEL AGREEMENT MAILED TO YOU)">TO BE DONE (MODEL AGREEMENT MAILED TO YOU)</option>
+                                        </select>         
+                                        <div class="invalid-feedback">
+                                          Please select Month & Year!
+                                        </div>
+                                      </div> 
+                                      
+                                    <div class="col-md-6 mb-3">
+                                        <label for="validationCustom02">Labour License<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                        <select class="form-select" name="license" id="validationCustom01"  >
+                                            <option value="">--SELECT--</option>
+                                            <option value="VALID">VALID</option>
+                                            <option value="FORM -V PENDING FROM YOUR END">FORM -V PENDING FROM YOUR END</option>
+                                            <option value="IN PROCESS">IN PROCESS</option>
+                                     
+                                        </select>         
+                                        <div class="invalid-feedback">
+                                          Please select Month & Year!
+                                        </div>
+                                      </div> 
+
+                                        
+                                    <div class="col-md-6 mb-3">
+                                        <label for="validationCustom02">Special HR Comments</label>
+                                        <input type="text"  class="form-control"  name="special_hr_comments" id="validationCustom01"  >         
+                                        <div class="invalid-feedback">
+                                        Please select Month & Year!
+                                        </div>
+                                    </div> 
+                                    <!-- <div class="col-md-6 mb-3">
+                                        <label for="validationCustom02">SuperVisor Visit(If any)</label>
+                                        <input type="text"  class="form-control"  name="supervisor_visit" id="validationCustom01"  >         
+                                        <div class="invalid-feedback">
+                                        Please select Month & Year!
+                                        </div>
+                                    </div>  -->
+                                </div>
+                    </div>
+                    <div class="tab-pane2 fade active3" id="biller" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row" >
+                          <div class="col-md-4 mb-3">
+                            <label for="validationCustom02">BILLER NAME<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                            <input type="text"  class="form-control"  name="biller_name" id="validationCustom01"  >         
+                            <div class="invalid-feedback">
+                            Please select Month & Year!
+                            </div>
+                        </div> 
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">TOTAL NUMBER OF EMPLOYEES IN OUR PAYROLL<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="total_number_employee" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div> 
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">INCREASE OR DECREASE FROM PREVIOUS MONTH</label>
+                                <input type="text"  class="form-control"  name="increase_prev_month" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">EMPLOYEES WITH PF ESIC COVERAGE<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="pf_esic_coverage" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">EMPLOYEES WITH ONLY ESIC COVERAGE<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="only_esic_coverage" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">NON-COVERED EMPLOYEES<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="non_covered_employees" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">BASIC SALARY AS FIXED<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="basic_salary" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02"> SUB CONTRACTOR SYSTEM <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="sub_contractor_system" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">ONE CONTRACTOR / TAKING MONEY ON BEHALF OF MANY<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="one_contractor" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">MINIMUM WAGES ADJUSTMENT<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="minimum_wages" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">ESIC VERY LESS DAYS ( MAY BE NON JUSTIFIABLE IN TIME OF AUDIT )<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="esic_very_less" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">ACTUAL PAYMENT MUCH MORE THAN SALARY FIXED AND SO TALLYING WITH VARIABLE INCENTIVES WITHOUR DOX SUPPORT<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="actual_payment" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">BILLING<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <select class="form-select" name="billing" id="validationCustom01"  >
+                                    <option value="">--SELECT--</option>
+                                    <option value="DONE ON TIME, SUBMITTED AND UPLOADED">DONE ON TIME, SUBMITTED AND UPLOADED</option>
+                                    <option value="PENDING">PENDING</option>
+                             
+                                </select>         
+                                <div class="invalid-feedback">
+                                  Please select Month & Year!
+                                </div>
+                              </div> 
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">EMPLOYEE CODES / ADHAR / PF / ESI NUMBER MISSING </label>
+                                <input type="text"  class="form-control"  name="employee_codes" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">WAGE REGISTER<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <select class="form-select" name="wage_register" id="validationCustom01"  >
+                                    <option value="">--SELECT--</option>
+                                    <option value="DONE ON TIME, SUBMITTED AND UPLOADED">DONE ON TIME, SUBMITTED AND UPLOADED</option>
+                                    <option value="PENDING">PENDING</option>
+                             
+                                </select>         
+                                <div class="invalid-feedback">
+                                  Please select Month & Year!
+                                </div>
+                              </div> 
+                              <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">PAYSLIP<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <select class="form-select" name="payslip" id="validationCustom01"  >
+                                    <option value="">--SELECT--</option>
+                                    <option value="DONE ON TIME, SUBMITTED AND UPLOADED">DONE ON TIME, SUBMITTED AND UPLOADED</option>
+                                    <option value="PENDING">PENDING</option>
+                             
+                                </select>         
+                                <div class="invalid-feedback">
+                                  Please select Month & Year!
+                                </div>
+                              </div> 
+                        </div>
+                    </div>
+                    <div class="tab-pane2 fade active3" id="back" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row"  >
+                          <div class="col-md-4 mb-3">
+                            <label for="validationCustom02">BACK OFFICE NAME<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                            <input type="text"  class="form-control"  name="back_office_name" id="validationCustom01"  >         
+                            <div class="invalid-feedback">
+                            Please select Month & Year!
+                            </div>
+                        </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">FORM XVI<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <select class="form-select" name="form_xvi" id="validationCustom01"  >
+                                    <option value="">--SELECT--</option>
+                                    <option value="SUBMITTED AND UPLOADED">SUBMITTED AND UPLOADED</option>
+                                    <option value="NA (AS YOU ARE HAVING OWN SYSTEM OF MAINTAINANCE)">NA (AS YOU ARE HAVING OWN SYSTEM OF MAINTAINANCE)</option>
+                             
+                                </select>         
+                                <div class="invalid-feedback">
+                                  Please select Month & Year!
+                                </div>
+                              </div> 
+                              <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">SOFTWARE UPDATED </label>
+                                <input type="text"  class="form-control"  name="software_updated" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">SOFTWARE PENDING </label>
+                                <input type="text"  class="form-control"  name="software_pending" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">PF CLAIM RELEASED FROM OUR END<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                                <input type="text"  class="form-control"  name="pf_claim" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">PF JOBS DONE THIS MONTH<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="pf_jobs" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">DATE OF EXIT MARK THIS MONTH<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="date_of_exit" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">LEFT </label>
+                                <input type="text"  class="form-control"  name="left" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div> -->
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">TIC RENEWAL<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                                <input type="text"  class="form-control"  name="tic_renewal" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">NEW JOINEE ADMITTED </label>
+                                <input type="text"  class="form-control"  name="new_joinee" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                              <label for="validationCustom02">PF ESIC LINKED </label>
+                              <input type="text"  class="form-control"  name="pf_esic_linked" id="validationCustom01"  >         
+                              <div class="invalid-feedback">
+                              Please select Month & Year!
+                              </div>
+                          </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">MASTER STROKE AND FILE </label>
+                                <input type="text"  class="form-control"  name="master_stroke" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                              <label for="validationCustom02">BACK OFFICE COMMENTS </label>
+                              <input type="text"  class="form-control"  name="back_office_comments" id="validationCustom01"  >         
+                              <div class="invalid-feedback">
+                              Please select Month & Year!
+                              </div>
+                          </div>
+                           
+
+                        </div>
+                    </div>
+                    <div class="tab-pane2 fade active3" id="executive" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row" >
+                          <div class="col-md-4 mb-3">
+                            <label for="validationCustom02">EXECUTIVE NAME <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                            <input type="text"  class="form-control"  name="executive_name" id="validationCustom01"  >         
+                            <div class="invalid-feedback">
+                            Please select Month & Year!
+                            </div>
+                        </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">DOCUMENTATION STATUS <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="documentation_status" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">VISITS DONE BY OUR EXECUTIVE DATES IN DETAILS <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text"  class="form-control"  name="visit_done" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">E-NOMINATION DONE  </label>
+                                <input type="text"  class="form-control"  name="e_nomination_done" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">E-NOMINATION PENDING  </label>
+                                <input type="text"  class="form-control"  name="e_nomination_pending" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">AADHAR NOT SEEDED<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                                <input type="text"  class="form-control"  name="aadhar_not_seeded" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">EMPLOYEE FIELD / ON SITE  PROBLEMS AS ON DATE<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                                <input type="text"  class="form-control"  name="employee_field" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">SERIOUS PROBLEMS AS ON DATE<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                                <input type="text"  class="form-control"  name="serious_problems" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane2 fade active3" id="supervisor" role="tabpanel" aria-labelledby="pills-home-tab">
+                      <div class="row" >
+                          <div class="col-md-4 mb-3">
+                              <label for="validationCustom02">SUPERVISOR NAME <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                              <input type="text"  class="form-control"  name="supervisor_name" id="validationCustom01"  >         
+                              <div class="invalid-feedback">
+                              Please select Month & Year!
+                              </div>
+                          </div>
+                          <div class="col-md-4 mb-3">
+                            <label for="validationCustom02">SUPERVISOR VISIT (IF ANY) </label>
+                            <input type="text"  class="form-control"  name="supervisor_visit" id="validationCustom01"  >         
+                            <div class="invalid-feedback">
+                            Please select Month & Year!
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                          <label for="validationCustom02">SUPERVISOR COMMENTS </label>
+                          <input type="text"  class="form-control"  name="supervisor_comments" id="validationCustom01"  >         
+                          <div class="invalid-feedback">
+                          Please select Month & Year!
+                          </div>
+                      </div>
+                          
+                          
+                       
+                      </div>
+                  </div>
+                  <div class="tab-pane2 fade active3" id="accounts" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="row" >
+                        <!-- <div class="col-md-4 mb-3">
+                            <label for="validationCustom02">NAME </label>
+                            <input type="text"  class="form-control"  name="name" id="validationCustom01"  >         
+                            <div class="invalid-feedback">
+                            Please select Month & Year!
+                            </div>
+                        </div> -->
+                        <div class="col-md-4 mb-3">
+                          <label for="validationCustom02">LESS / MORE THIS MONTH</label>
+                          <input type="text"  class="form-control"  name="less_more" id="validationCustom01"  >         
+                          <div class="invalid-feedback">
+                          Please select Month & Year!
+                          </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="validationCustom02">REASON BEHIND CHANGE </label>
+                        <input type="text"  class="form-control"  name="reason_behind_change" id="validationCustom01"  >         
+                        <div class="invalid-feedback">
+                        Please select Month & Year!
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label for="validationCustom02">STATUTORY MONEY CAME </label>
+                      <input type="text"  class="form-control"  name="statutory_money_came" id="validationCustom01"  >         
+                      <div class="invalid-feedback">
+                      Please select Month & Year!
+                      </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">SERVICE CHARGE CAME </label>
+                    <input type="text"  class="form-control"  name="service_charge_came" id="validationCustom01"  >         
+                    <div class="invalid-feedback">
+                    Please select Month & Year!
+                    </div>
+                </div>
+                      
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom02">GST CAME </label>
+                  <input type="text"  class="form-control"  name="gst_came" id="validationCustom01"  >         
+                  <div class="invalid-feedback">
+                  Please select Month & Year!
+                  </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom02">BILLING </label>
+                <input type="text"  class="form-control"  name="billing2" id="validationCustom01"  >         
+                <div class="invalid-feedback">
+                Please select Month & Year!
+                </div>
+            </div>
+                  
+                    </div>
+                </div>
+                    <div class="tab-pane2 fade active3" id="management" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row" >
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">SPECIAL TASK </label>
+                                <input type="text"  class="form-control"  name="special_task" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">OUR OBSERVATION  </label>
+                                <input type="text"  class="form-control"  name="our_observation" id="validationCustom01"  >         
+                                <div class="invalid-feedback">
+                                Please select Month & Year!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+            </div>           
+      
+          
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </form>
+          
+          <script>
+            function showStep2(){
+                document.getElementById('step2').style.display='';
+            }
+              function changeTab2(val){
+    //removing active and show from tab-pane 
+    var list = document.getElementsByClassName('tab-pane2');
+    for(var i=0;i<list.length;i++){
+      list[i].classList.remove('show','active','active2');
+      list[i].classList.add('active3');
+
+    }
+    //adding show and active to clisked tab pane
+    document.getElementById(val).classList.remove('active3');
+
+    document.getElementById(val).classList.add('show','active');
+
+    //removing active and show from tab 
+    var list2 = document.getElementsByName('tab2');
+    for(var i=0;i<list2.length;i++){
+      list2[i].classList.remove('active');
+      list2[i].classList.remove('active2');
+    }
+    document.getElementById(val+'-tab').classList.add('active');
+    document.getElementById(val+'-tab').classList.add('active2');
+
+  }
+          // Example starter JavaScript for disabling form submissions if there are invalid fields
+          (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+              // Fetch all the forms we want to apply custom Bootstrap validation styles to
+              var forms = document.getElementsByClassName('needs-validation');
+              // Loop over them and prevent submission
+              var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                  if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                  form.classList.add('was-validated');
+                }, false);
+              });
+            }, false);
+          })();
+          </script>
+    </div>
+</div>
+<script>
+    function getClient(val){
+          console.log(val);
+      $.ajax({
+      type: 'POST',
+      url: '/admin/getClientForCompany',
+      data: {val:val},
+      success: function(clients) {
+          var html = '';
+          html+='<option value="">--SELECT--</option>';
+          for (var i = 0; i< clients.length; i++) {
+          html+=`
+          <option value="${clients[i].id}">${clients[i].client_name}</option>
+          `
+       }
+      $('#clientSelect').html(html);
+      }
+    });    
+  }
+</script>

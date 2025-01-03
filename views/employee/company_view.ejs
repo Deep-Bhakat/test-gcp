@@ -1,0 +1,87 @@
+<div class="container">
+    <input type="text" class="form-control" style="width: 800px;" onkeyup="searchCompany(this.value)" placeholder="Search Company" />
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Date</td>
+            <td>Logo</td>
+            <td>Company Name</td>
+            <td>Company Id</td>
+            <td colspan="2">Option</td>
+        </thead>
+        <tbody id="company_table">
+            <% if(companies.length>0){ %>
+                <%  c=1
+                 for(let company of companies) { %>
+            <tr>
+                <td><%= c %></td>
+                <td> <% var dd=new Date(company.createdAt) %> <%= dd.getDate() %>/<%= dd.getMonth()+1 %>/<%= dd.getFullYear() %></td>
+                <td><img src="../<%= company.logo %>" height="50px" width="50px" /></td>
+                <td><%= company.company_name %></td>                
+                <td><%= company.id %></td>
+                <td><a href="/employee/company-master-edit/<%= company.id %>"><button class="btn btn-dark">Edit</button></a></td>
+                <td>
+                    <a href="/employee/downloadCompanyDetails/<%= company.id %>"><button class="btn btn-success btn-sm" type="button">Download Details</button></a>
+
+                <% if(company.company_documents.length>0){ %>
+                    <!-- <a href="/employee/company-master-view-documents/<%= company.id %>"><button class="btn btn-light btn-sm" style="color:blue" type="button">Download Documents</button></a> -->
+                    <!-- <button class="btn btn-light btn-sm" onclick="download(<%= company.id %>)" style="color:blue" type="button">Download Documents</button> -->
+                    <a href="/employee/downloadCompanyDocuments/<%= company.id %>"> <button class="btn btn-success btn-sm"  type="button">Download Documents</button></a>
+                    <!-- <% for(var i=0;i<company.company_documents.length;i++) { %>
+                    <a name="<%= company.id %>" href="../../<%= company.company_documents[i].document %>" download></a>
+
+                    <%  }  %> -->
+                    <%  } %> 
+                </td> 
+            </tr>
+            <% c=c+1 } %>
+            <% } else {  %>
+                <tr>
+                    <td colspan="6"><h2 class="text-center alert alert-secondary">No Companies Added Yet.</h2></td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+</div>
+<script>
+    function download(a){
+    let collection = document.getElementsByName(a);
+    for(var i=0;i<collection.length;i++){
+        collection[i].click();
+    }
+}
+    function searchCompany(val){
+        console.log(val);
+        $.ajax({
+        type: 'POST',
+        url: '/employee/searchCompany',
+        data: {val:val},
+        success: function(company) {
+            var html = '';
+        for (var i = 0; i< company.length; i++) {
+            var dd=new Date(company[i].createdAt);
+            var mm =  dd.getMonth()+1;
+            html+=`<tr>
+                        <td>${company[i].id}</td>
+                        <td>${dd.getDate()+'/'+mm+'/'+dd.getFullYear()}</td>
+                        <td><img src="../../${company[i].logo}" height="50px" width="50px" /></td>
+                        <td>${company[i].company_name}</td>
+                        <td>${company[i].id}</td>
+                        <td><a href="/employee/company-master-edit/${company[i].id}"><button class="btn btn-dark">Edit</button></a></td>
+                        <td>
+                            <a href="/employee/downloadCompanyDetails/${company[i].id}"><button class="btn btn-success btn-sm" type="button">Download Details</button></a>
+   
+                    ${company[i].company_documents.length>0 ? `                  
+                        <a href="/employee/downloadCompanyDocuments/${company.id}"> <button class="btn btn-success btn-sm" type="button">Download Documents</button></a>
+                    `:''}                  
+                  
+                            
+                    </td> 
+                        </tr>`;
+        }
+             $('#company_table').html(html);
+        }
+      });
+    
+    }
+</script>

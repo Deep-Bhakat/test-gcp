@@ -1,0 +1,242 @@
+<div class="container">
+    <div class="container mx-20 my-2 ">
+        <form class="needs-validation"  novalidate method="post" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Company</label>
+                <select class="form-select" id="company_get" name="company">
+                  <option value="">Select</option>
+                  <% if(companies.length>0){ %>
+                      <% for(let company of companies){ %>
+                  <option value="<%= company.id %>"><%= company.company_name %></option>
+                      <% } } %>
+              </select> 
+
+              </div>
+              
+              <!-- <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+                <select class="form-select " id="clientSelect" name="client" placeholder="Select Client Name ">
+               
+                </select>
+                <div class="invalid-feedback">
+                  Please select client!
+                </div>
+              </div> -->
+              
+              <div class="col-md-3 mb-3 ">
+                <label for="validationCustom01 ">From Date</label>
+                <input type="date" class="form-control " id="from_date" name="from_date">
+              
+            </div>
+            
+            <div class="col-md-3 mb-3 ">
+                <label for="validationCustom01 ">To Date</label>
+                <input type="date" class="form-control " id="to_date" name="to_date">
+              
+            </div>
+              <div class="col-md-3 mb-3 ">
+                  <label for="validationCustom01 ">Month</label>
+                  <select class="form-select" name="month_year" id="month_year" placeholder="month">
+                      <option value="">Select</option>
+                      <option value="0">January</option>
+                      <option value="1">Febuary</option>
+                      <option value="2">March</option>
+                      <option value="3">April</option>
+                      <option value="4">May</option>
+                      <option value="5">June</option>
+                      <option value="6">July</option>
+                      <option value="7">August</option>
+                      <option value="8">September</option>
+                      <option value="9">October</option>
+                      <option value="10">November</option>
+                      <option value="11">December</option>
+                  </select>
+              </div>
+              <div class="col-md-4 mb-3">            
+              <button style="margin-top: 20px;" class="btn btn-primary" type="button" onclick="searchInvoice()">Get</button>
+              </div>
+            </div>
+          
+          
+          </form>
+          
+    
+    </div>
+    <input type="text" class="form-control" style="width: 800px;" onkeyup="searchInvoice2(this.value)" placeholder="Search Payment Excel" />
+    <!-- <button style="margin-top: 20px;" class="btn btn-danger" type="button" onclick="deleteSelected()">Delete Selected</button> -->
+    <div class="col-md-3">
+
+        <button class="btn btn-danger" type="button" onclick="deleteSelected()">Delete Selected</button>
+    </div>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td><input type="checkbox" class="form-check-input" id="selectall" onchange="selectAll()" />Select</td>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <!-- <td>Client Name</td> -->
+            <td>Date</td>
+            <td>Month</td>
+            <td colspan="3">Options</td>
+        </thead>
+        <tbody id="company_table">
+            <!-- <% if(paymentExcel.length>0){ %>
+                <%  c=1
+                 for(let d of paymentExcel) { %>
+            <tr>
+                <td><%= c %></td>
+                <td><%= d.company_master.company_name %></td>                
+                <td><% var dd=d.date.split("-"); %> <%= dd[2] %>/<%= dd[1] %>/<%= dd[0] %></td>
+                <td><%= d.month_year %></td>
+                <td><a href="/admin/digital-invoice-edit/<%= d.id %>"><button class="btn btn-primary">Edit</button></a></td>           
+                <td><a href="/admin/downloadDigitalInvoice/<%= d.id %>"><button class="btn btn-success">Download</button></a></td> 
+               <td> <button class="btn btn-danger" onclick="deleteDigitalInvoice(<%= d.id %>)">Delete</button></td>
+
+            </tr>
+            <% c=c+1 } %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6"><h2 class="text-center alert alert-secondary">No Digital Invoice Added Yet.</h2></td>
+                </tr>
+                <% } %> -->
+      
+            
+        </tbody>
+    </table>
+</div>
+<script>
+     function deleteSelected(){
+       var licenses =  document.getElementsByName('deleteExcels[]');
+       if(confirm("Do you really want to delete selected items?")){
+        var arr = []
+        licenses.forEach(element => {
+            if(element.checked)
+                arr.push(element.value);
+        });
+        $.ajax({
+            type:'DELETE',
+            url:'/admin/deletePaymentExcels',
+            data:{val:arr},
+            success: function (data) {
+                // console.log(data);      
+                // getData('license');
+                window.location.href="/admin/payments-excel-master?isPreview=true";
+                        }
+        });
+       }
+    }
+    function searchInvoice(){
+        var company = $('#company_get').val();
+        // var client = $('#clientSelect').val();
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var month_year = $('#month_yearr').val();
+        $.ajax({
+        type: 'POST',
+        url: '/admin/searchPaymentExcel',
+        data: {company:company,from_date:from_date,to_date:to_date,month_year:month_year},
+        success: function(client) {
+            var html = '';
+
+        for (var i = 0; i< client.length; i++) {
+            console.log(client[i]);
+         var monthss = ["January","Feburary","March","April","May","June","July","August","September","October","November","December"];
+            html+=`<tr>
+            <td><input type="checkbox" class="form-check-input" value="${client[i].id}" name="deleteExcels[]" /></td>
+                        <td>${i+1}</td>
+                        <td>${client[i].company_master.company_name}</td>
+                    
+                        <td>${client[i].date}</td>
+                        <td>${monthss[client[i].month_year]}</td>
+
+                        <td> 
+                    <a href="/admin/payment-excel-edit/${client[i].id}"><button class="btn btn-primary">Edit</button></a>
+                    <a href="../../${client[i].document}" download><button class="btn btn-success">Download</button></a>
+
+                    <button class="btn btn-danger" onclick="deleteDigitalInvoice(${client[i].id})">Delete</button>
+                                    
+                </td>             
+                        </tr>`;
+        }
+             $('#company_table').html(html);
+        }
+      });
+    }
+    function searchInvoice2(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/searchPaymentExcel2',
+        data: {val:val},
+        success: function(client) {
+            var html = '';
+        for (var i = 0; i< client.length; i++) {
+            var monthss = ["January","Feburary","March","April","May","June","July","August","September","October","November","December"];
+
+            html+=`<tr>
+            <td><input type="checkbox" class="form-check-input" value="${client[i].id}" name="deleteExcels[]" /></td>
+                <td>${i+1}</td>
+                        <td>${client[i].company_master.company_name}</td>
+                        <td>${client[i].date}</td>
+                        <td>${monthss[client[i].month]}</td>
+
+                        <td> 
+                    <a href="/admin/payment-excel-edit/${client[i].id}"><button class="btn btn-primary">Edit</button></a>
+                    <a href="../../${client[i].document}" download><button class="btn btn-success">Download</button></a>
+
+                    <button class="btn btn-danger" onclick="deleteDigitalInvoice(${client[i].id})">Delete</button>
+                       
+                        
+                </td>             
+                        </tr>`;
+        }
+             $('#company_table').html(html);
+        }
+      });
+    }
+    // function getClient(val){
+    //     $.ajax({
+    //     type: 'POST',
+    //     url: '/admin/getClientForCompany',
+    //     data: {val:val},
+    //     success: function(clients) {
+    //         var html = '';
+    //         html+='<option value="">--SELECT--</option>';
+    //         for (var i = 0; i< clients.length; i++) {
+    //         html+=`
+    //         <option value="${clients[i].id}">${clients[i].client_name}</option>
+    //         `
+    //      }
+    //     $('#clientSelect').html(html);
+    //     }
+    //   });         
+      
+    // }
+    
+    function selectAll(){
+        var element = document.getElementsByName('deleteExcels[]');
+        if(document.getElementById('selectall').checked){ 
+            for(var i=0;i<element.length;i++){
+                element[i].checked=true;
+            }
+        }else{
+            for(var i=0;i<element.length;i++){
+                element[i].checked=false;
+            }
+        }
+    }
+    function deleteDigitalInvoice(idd){
+        var con = confirm("Do you want to delete?");
+            if(con){
+        $.ajax({
+            type: 'POST',
+            url: '/admin/deletePaymentExcel',
+            data: {id:idd},
+            success: function(data) {
+                window.location.href="/admin/payments-excel-master?isPreview=true";
+            }
+        });
+    }
+    }
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

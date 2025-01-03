@@ -1,0 +1,41 @@
+<%- include('../includes/header.ejs') %>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 align="center">Master Blaster</h2>
+                <p align="center">Upload Excel files here</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" required>
+                <option class="">Select Company</option>
+                <option class="ABC">Genesis</option>
+                <option class="XYZ">Giraffe</option>
+            </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+                <select class="form-select" id="validationCustom01" required>
+                <option class="">Select Client</option>
+                <option class="ABCD">D2 PVT Ltd</option>
+                <option class="XYZ">XYZ</option>
+            </select>
+                <div class="invalid-feedback">
+                    Please Provide Client!
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">Upload Excel File</label>
+                <input type="file" class="form-control" id="validationCustom04" onchange="showPreview(event)" placeholder="Upload Excel Files" required>
+                <div class="invalid-feedback">
+                    Please provide a logo.
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,171 @@
+<%- include('../includes/header.ejs') %>
+<h2 class="text-center my-2"><span style=" border-bottom: 3px solid #FB3930" >Bulk Id Card</span></h2>
+<div class="container">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-3 mb-3 ">
+                <label for="validationCustom03 ">Company Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                <select class="form-select " id="company2" name="company2" onchange="getClient(this.value)" placeholder="Select Company Name "required>
+                    <option value="">--SELECT--</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>
+                </select>
+                <div class="invalid-feedback ">
+                    Please select a company.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3 ">
+                <label for="validationCustom01 ">Client Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                <select class="form-select " id="clientSelect" name="client2" placeholder="Select Client Name " required>
+             
+                 </select>
+                <div class="invalid-feedback ">
+                    Please select a client!
+                </div>
+            </div>   
+            <div class="col-md-3">
+
+        <button class="btn btn-success" type="button" onclick="getEmployeeOfCompany()">Get</button>
+    </div>
+
+    <div class="row">
+            <div class="col-md-9">
+                <input type="text" class="form-control" onkeyup="searchEmployee(this.value)"  placeholder="Search Employee"/>
+
+            </div>
+            <div class="col-md-3">
+
+        <button class="btn btn-success" type="submit">Submit</button>
+    </div>
+
+    </div>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td><input type="checkbox" class="form-check-input" id="selectall" onchange="selectAll()" />Select</td>
+            <td>Sl No</td>
+            <td>Employee Code</td>
+            <td>Name</td>
+            <td>Company Name</td>
+            <td>Client Name</td>
+        </thead>
+        <tbody id="emp_table">
+            <% if(employees.length>0){ %>
+                <%
+                var i = 1
+                for(let emp of employees) { %>
+         <tr>
+             <td><input type="checkbox" class="form-check-input" value="<%= emp.id %>" name="selectedEmployees[]" /></td>
+             <td><%= i %></td>
+             <td><%= emp.emp_code %></td>
+             <td><%= emp.emp_name %></td>
+             <td><%= emp.company_master.company_name %></td>
+             <td><%= emp.client_master.client_name %></td>
+        </tr>
+         <% i=i+1 } %>
+         <% } else {  %>
+             <tr>
+                 <td colspan="9"><h2 class="text-center alert alert-secondary">No Employees Added Yet.</h2></td>
+             </tr>
+             <% } %>
+        </tbody>
+    </table>
+</form>
+</div>
+
+<script>
+        function getEmployeeOfCompany(){
+            
+    var company = $('#company2').val();
+    var client = $('#clientSelect').val();   
+            $.ajax({
+       type: 'POST',
+       url: '/admin/searchEmployeeByCompany',
+       data: {company:company,client:client},
+       success: function(employee) {
+           var html = '';
+           if(employee.length>0){
+       for (var i = 0; i< employee.length; i++) {
+           console.log(employee);
+           html+=`<tr>
+            <td><input type="checkbox" class="form-check-input" value="${employee[i].id}" name="selectedEmployees[]" /></td>
+
+                       <td>${i+1}</td>
+                       <td>${employee[i].emp_code}</td>
+                       <td>${employee[i].emp_name}</td>
+                       <td>${employee[i].company_master.company_name}</td>
+                       <td>${employee[i].client_master.client_name}</td>
+                       </tr>`;
+       }
+   }else{
+       html+='<tr><td colspan="9"><h2 class="text-center alert alert-secondary">No Employees Found.</h2></td></tr>'
+   }
+            $('#emp_table').html(html);
+       }
+     });
+   
+
+        }
+        function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });   
+    }
+    function selectAll(){
+        var element = document.getElementsByName('selectedEmployees[]');
+        if(document.getElementById('selectall').checked){ 
+            for(var i=0;i<element.length;i++){
+                element[i].checked=true;
+            }
+        }else{
+            for(var i=0;i<element.length;i++){
+                element[i].checked=false;
+            }
+        }
+    }
+    function searchEmployee(val){
+       console.log(val);
+       $.ajax({
+       type: 'POST',
+       url: '/admin/searchEmployee',
+       data: {val:val},
+       success: function(employee) {
+           var html = '';
+           if(employee.clients.length>0){
+       for (var i = 0; i< employee.clients.length; i++) {
+           console.log(employee);
+           html+=`<tr>
+            <td><input type="checkbox" class="form-check-input" value="${employee.clients[i].id}" name="selectedEmployees[]" /></td>
+
+                       <td>${i+1}</td>
+                       <td>${employee.clients[i].emp_code}</td>
+                       <td>${employee.clients[i].emp_name}</td>
+                       <td>${employee.clients[i].company_master.company_name}</td>
+                       <td>${employee.clients[i].client_master.client_name}</td>
+                       </tr>`;
+       }
+   }else{
+       html+='<tr><td colspan="9"><h2 class="text-center alert alert-secondary">No Employees Found.</h2></td></tr>'
+   }
+            $('#emp_table').html(html);
+       }
+     });
+   
+   }
+   </script>
+
+
+<%- include('../includes/footer.ejs') %>

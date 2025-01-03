@@ -1,0 +1,77 @@
+<%- include('../includes/newHeader.ejs') %><div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2"><span style=" border-bottom: 3px solid #FB3930" >Individual Payslip</span></h2>
+    <div class="container mx-20 my-2 clearfix">
+        <form class="needs-validation" method="post">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+
+                <label for="validationCustom01">Employee Code</label>
+                <input type="text" class="form-control" id="employee" name="employee" onkeyup="searchEmployee(this.value)" />                                 
+                <input type="hidden" class="form-control" id="employeeId" name="employeeId" />                       
+                <div id="employeeData" style="width: 350px;"></div>
+
+            </div>
+        
+           <div class="col-md-4 mb-3">
+
+            <label for="validationCustom01">Month & Year</label>
+            <input type="month" class="form-control" id="month_year" name="month_year" />                                  
+            </div>
+        </div>
+           
+              <button class="btn btn-success float-end" type="submit">Get Payslip</button>
+            </form>
+          
+         
+    </div>
+    </div>
+    <div class="container" id="dataDiv">
+</div>
+
+<%- include('../includes/footer.ejs') %>
+<script> 
+  function searchEmployee(val){
+    $.ajax({
+        type: 'POST',
+        url: '/employee/searchEmployeeByCode',
+        data: {val:val},
+        success: function(data) {
+            var html = '';
+            for (var i = 0; i< data.length; i++) {
+            html+=`
+            <option onclick="selectEmployee(${data[i].id},'${data[i].emp_name}')" class="form-control" style="cursor:pointer;" value="${data[i].id}">${data[i].emp_name} - ${data[i].emp_code}</option>
+            `
+         }
+        $('#employeeData').html(html);
+        }
+      }); 
+  }
+  function selectEmployee(id,val){
+    $('#employee').val(val);
+    $('#employeeId').val(id);
+    $('#employeeData').html('');
+
+  }
+    
+
+</script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>

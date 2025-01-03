@@ -1,0 +1,167 @@
+<%- include('../includes/newHeader.ejs') %>
+<h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">Finger Tip Statute</span></h2>
+    
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-3">
+                <a href="/employee/pf">
+                    <img src="../../img/pf_module.png" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6 style="margin-left: 40px;">PF</h6>
+                </a>
+            </div>
+            <div class="col-3">
+                <a href="/employee/esic">
+                    <img src="../../img/esic.png" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6 style="margin-left: 30px;">ESIC</h6>
+                </a>
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <a href="/employee/ptax">
+                    <img src="../../img/ptax.png" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6 style="margin-left: 30px;">PTAX</h6>
+                </a>
+            </div>
+            <div class="col-1"></div>
+
+            <div class="col-lg-3 col-sm-12">
+                <a href="/employee/lwf">
+                    <img src="../../img/lwf.png" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6 style="margin-left: 30px;">LWF</h6>
+                </a>
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <a href="/employee/labour-return">
+                    <img src="../../img/labour_return.png" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6 style="margin-left: -10px;">Labour Return</h6>
+                </a>
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <a href="/employee/agreement">
+                    <img src="../../img/agreement.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6 style="margin-left:0px;">Agreement</h6>
+                </a>
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <a href="/employee/labour-license">
+                    <img src="../../img/labour_license.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6 style="margin-left: -10px;">Labour License</h6>
+                </a>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>
+
+
+        <script>
+            var licenseData={};
+            getData('pf');       
+            var isPreview = document.getElementById('preview').value;
+            if(isPreview){
+                changeTab(isPreview);
+            }
+            function changeTab(val) {
+                //removing active and show from tab-pane 
+                var list = document.getElementsByClassName('tab-pane');
+                for (var i = 0; i < list.length; i++) {
+                    list[i].classList.remove('show', 'active');
+                }
+                //adding show and active to clisked tab pane
+                document.getElementById(val).classList.add('show', 'active');
+
+                //removing active and show from tab 
+                var list2 = document.getElementsByName('tab');
+                for (var i = 0; i < list2.length; i++) {
+                    list2[i].classList.remove('active');
+                }
+                document.getElementById(val + '-tab').classList.add('active');
+                getData(val);
+            }
+            function getData(val){
+                var tableName = '#'+val+'Table';
+                var monthNames = [ "January", "February", "March", "April", "May", "June", 
+                       "July", "August", "September", "October", "November", "December" ];
+                $.ajax({
+                type: 'POST',
+                url: '/employee/getStatuteData',
+                data: {val:val},
+                success: function(data) {
+                    licenseData={};
+                    var html='';
+                    for(var i =0;i<data.length;i++){
+                        var dd=new Date(data[i].month_year);
+                        var mm =  monthNames[dd.getMonth()];
+                        var from_date = new Date(data[i].from_date);
+                        var from_date_mm = from_date.getMonth()+1;
+                        var to_date = new Date(data[i].to_date);
+                        var to_date_mm = to_date.getMonth()+1;
+                        const date2 = new Date();
+                        const diffTime = Math.abs(to_date - date2);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                        const isNegDate = (to_date-date2) <0 ? true : false;
+                        if(isNegDate){
+                            licenseData[diffDays]=data[i];
+                        }else{
+                            licenseData[diffDays]=data[i];
+                        }
+                        console.log(licenseData);
+                        html+=`<tr>
+                            ${val=='license' ? `<td><input type="checkbox" class="form-check-input" value="${data[i].id}" name="deleteLicense[]" /></td>` : ``}
+
+                        <td>${i+1}</td>
+                        ${data[i].company_master ? `<td>${data[i].company_master.company_name}</td>` : ''}
+                        ${val=='ptax' || val =='lwf' ? ``
+: `<td>${data[i].client_master ? `${data[i].client_master.client_name}` : 'MULTIPLE'}</td>
+`}
+
+${val=='agreement' || val =='license' ? 
+`<td>${data[i].remarks}</td>` : ``
+}
+                        ${data[i].from_date ? `<td>${from_date.getDate()+'-'+from_date_mm+'-'+from_date.getFullYear()}</td>` :''}
+                        ${data[i].to_date ? `<td>${to_date.getDate()+'-'+to_date_mm+'-'+to_date.getFullYear() }</td>` :''}
+                        ${data[i].to_date ? `<td ${isNegDate ? 'style=color:red;' : ''}>${isNegDate ? '<b>-'+diffDays+' days</b>' : diffDays+' days'} </td>` :''}
+
+                        ${data[i].period ? `<td>${data[i].period+' '+ data[i].year}</td>` :''}
+                        ${data[i].month_year ? `<td>${mm+' '+dd.getFullYear()}</td>` : ''}
+                        <td>
+   
+                            ${data[i].ecr_challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].ecr_challan}" download="ECRChallan_${mm}_${dd.getFullYear()}">ECR Challan</a>`: ''}  
+                      ${data[i].contribution ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].contribution}" download="Contribution_${mm}_${dd.getFullYear()}">Contribution</a>`: ''}  
+                      ${data[i].payment_proff ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].payment_proff}" ${ data[i].period ? `download="ECRChallan_${data[i].period}_${data[i].year}"` : `download="PaymentProof_${mm}_${dd.getFullYear()}"` }>Payment Proof</a>`: ''}  
+                      ${data[i].challan_details ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan_details}" download="ChallanDetails${mm}_${dd.getFullYear()}">Challan Details</a>`: ''}  
+                      ${data[i].challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan}" ${ data[i].period ? `download="Challan_${data[i].period}_${data[i].year}"` : `download="Challan_${mm}_${dd.getFullYear()}"` }>Challan</a>`: ''}  
+                      ${data[i].document ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].document}" download="Document_${monthNames[from_date_mm]}_${from_date.getFullYear()}">Document</a>`: ''}  
+
+                    </td> 
+                    <td><button type="button" class="btn btn-danger" onclick="deleteStatute('${val}',${data[i].id})">Delete</button></td>
+                        </tr>`
+        }
+             $(tableName).html(html);
+        
+                    
+                }
+             });
+            }
+            function download(a){
+      console.log(a);
+
+    let collection = document.getElementsByName(a);
+    console.log(collection);
+    for(var i=0;i<collection.length;i++){
+        collection[i].click();
+    }
+}
+function deleteStatute(val,id){
+    $.ajax({
+        type: 'DELETE',
+        url: '/employee/deleteStatute',
+        data: {id:id,val:val},
+        success: function(data) {
+      getData(val);
+
+        }
+      });
+
+}
+        </script>
+     

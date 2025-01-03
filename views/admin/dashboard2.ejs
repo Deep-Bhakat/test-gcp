@@ -1,0 +1,108 @@
+<%- include('../includes/newHeader.ejs') %>
+    <h4 style="text-align: center;"><span style=" border-bottom: 3px solid #FB3930; font-size: 3rem;" >Welcome to Genesis Family</span></h4>
+    <h6 style="text-align: center;"><span style=" border-bottom: 3px solid #FB3930; font-size: 3rem;" ><%= login.name %></span></h6>
+
+    <div class="container my-5 text-center">
+        <div class="row text-center">       
+            <% if(permissions.includes('1')){ %>    
+                <div class="col-lg-4 col-sm-12 text-center">
+                    <a href="/admin/master">
+                        <div class="card text-white text-center bg-dark mb-3" style="max-width: 18rem; height: 100px;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 2rem;">Master</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% } %>
+            <% if(permissions.includes('2')){ %>    
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/admin/user-management">
+                        <div class="card text-white text-center bg-dark mb-3" style="max-width: 18rem; height: 100px;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 2rem;">User Management</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>          
+            <% } if(permissions.includes('3')){ %>    
+         
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/admin/new">
+                        <div class="card text-white text-center bg-dark mb-3" style="max-width: 18rem; height: 100px;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 2rem;">New Registration</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            <% } if(permissions.includes('4')){ %>    
+            <div class="col-lg-4 col-sm-12">
+
+                <a href="#">
+                    <div class="card text-white text-center bg-dark  mb-3" style="max-width: 18rem; height: 100px;">
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-size: 2rem;">Print Bulk ID Card</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <% } if(permissions.includes('5')){ %>    
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/admin/statute">
+                        <div class="card text-white text-center bg-dark mb-3" style="max-width: 18rem; height: 100px;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 2rem;">Statute</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <% } if(permissions.includes('6')){ %>    
+
+                    <div class="col-lg-4 col-sm-12">
+                        <a href="/admin/payments">
+                            <div class="card text-white text-center bg-dark mb-3" style="max-width: 18rem; height: 100px;">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="font-size: 2rem;">Payments & Banking</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+            <% } if(permissions.includes('7')){ %>   
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/admin/invoice-master">
+                        <div class="card text-white text-center bg-dark  mb-3" style="max-width: 18rem; height: 100px;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 2rem;">Invoice</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% } if(permissions.includes('8')){ %>    
+
+          
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/admin/accounts-ledger">
+                        <div class="card text-white text-center bg-dark  mb-3" style="max-width: 18rem; height: 100px;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 2rem;">Accounts</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <% } if(permissions.includes('9')){ %>    
+                    <div class="col-lg-4 col-sm-12">
+                        <a href="/admin/notification-details">
+                            <div class="card text-white text-center bg-dark  mb-3" style="max-width: 18rem; height: 100px;">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="font-size: 2rem;">Notification </h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+            <% } %>    
+
+        </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>

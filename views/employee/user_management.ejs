@@ -1,0 +1,376 @@
+<%- include('../includes/newHeader.ejs') %>
+     <div class="container my-10">
+        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">User Management</span></h2>
+        <ul class="nav nav-pills  shadow-lg p-3    bg-body rounded mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" name="tab" id="employee-tab" onclick="changeTab('employee')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">EMPLOYEE</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" name="tab" id="client-tab" onclick="changeTab('client')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">CLIENT</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="employee" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="container mx-20 my-2 border rounded clearfix">
+                    <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">Employee</span></h2>
+                    <% if(message){ %>
+                        <h2 class="text-center alert <% if(error){ %> alert-danger <% }else{ %>alert-success <% }%>"><%= message %></h2>
+                        <% } %>
+                    <form class="needs-validation my-2" novalidate method="post">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Name</label>
+                                <input type="text" class="form-control" id="validationCustom01" name="name" required>
+                                <div class="invalid-feedback">
+                                    Please select name!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Mobile</label>
+                                <input type="text" class="form-control" maxlength="10" id="validationCustom01" name="mobile" required>
+                                <div class="invalid-feedback">
+                                    Please Provide mobile!
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationCustom02">Email</label>
+                                <input type="email" class="form-control" id="validationCustom01"  name="email" required>
+                                <div class="invalid-feedback">
+                                    Please Provide email!
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Employee Code</label>
+                                <input type="text" class="form-control" value="<%= code %>" name="code" id="validationCustom01" readonly required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Username</label>
+                                <input type="text" class="form-control" id="validationCustom01" name="username" required>
+                                <div class="invalid-feedback">
+                                    Please Provide username!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Password</label>
+                                <input type="password" class="form-control" id="validationCustom01" name="password" required>
+                                <div class="invalid-feedback">
+                                    Please Provide password!
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Rights</h3>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="0" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="1" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Creation</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="2" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">User Management</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="3" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">New Registration</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="4" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Id Card</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="5" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Statutes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="6" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Payments + Enet</label>
+                                </div>                                
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="7" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04"> Invoice</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="8" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Accounts</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="9" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">News + HR Reports</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="10" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Master Blaster</label>
+                                </div>                                
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="11" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Registers + Payslip</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="12" id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Bill Maker</label>
+                                </div>
+                            </div>
+                        </div>
+                        <center> <button class="btn btn-success " type="submit">Submit</button></center>
+                    </form>
+
+
+                </div>
+                <div class="container">
+                    <input type="text" class="form-control" style="width: 200px;" onkeyup="searchUser(this.value)" placeholder="Search" />
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <td>Sl No</td>
+                            <td>Employee Name</td>
+                            <td>Employee Code</td>
+                            <td>Mobile</td>
+                            <td>Email</td>
+                            <td>UserName</td>
+                            <td>Password</td>
+                            <td>Option</td>
+                        </thead>
+                        <tbody id="userTable">
+                            <% if(empUsers.length> 0){ %>
+                            <% for(let empUser of empUsers) { %>
+                            <tr>
+                                <td><%= empUser.id %></td>
+                                <td><%= empUser.name %></td>
+                                <td><%= empUser.code %></td>
+                                <td><%= empUser.mobile %></td>
+                                <td><%= empUser.email %></td>
+                                <td><%= empUser.username %></td>
+                                <td><%= empUser.password %></td>
+                                <td>
+                                   <a href="/employee/user-management-edit/<%= empUser.id %>"><button class="btn btn-primary btn-sm" type="button">Edit</button></a>
+                                   <% if(permissions.includes('0')){ %>
+                                    <button onclick="deleteUser(<%= empUser.id %>)" class="btn btn-danger btn-sm" type="button">Delete</button>
+                                    <% } %>                                
+                                </td>
+                            </tr>
+                            <% } }else{ %>
+                                <tr>
+                                    <td colspan="6"><h2 class="text-center alert alert-secondary">No Employees Added Yet.</h2></td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="client" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <div class="container mx-20 my-2 border rounded clearfix">
+                    <form class="needs-validation my-2" novalidate action="/employee/client-management" method="post">
+                        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">Client</span></h2>
+                        <% if(message){ %>
+                            <h2 class="text-center alert <% if(error){ %> alert-danger <% }else{ %>alert-success <% }%>"><%= message %></h2>
+                            <% } %>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Company</label>
+                                <select class="form-select" id="validationCustom01" onchange="getClient(this.value)" name="company" required>
+                                <option class="">Select Company</option>
+                                    <% if(companies.length>0){ %>
+                                    <% for(let company of companies){ %>
+                                <option value="<%= company.id %>"><%= company.company_name %></option>
+                                    <% } } %>
+                            </select>
+                                <div class="invalid-feedback">
+                                    Please select company!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Client</label>
+                                <select class="form-select" id="clientSelect" name="client" required>                  
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please Provide client!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Email</label>
+                                <input type="email" class="form-control"  name="email" id="validationCustom01" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Client Code</label>
+                                <input type="text" class="form-control" value="<%= code2 %>" name="code" id="validationCustom01" readonly required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Username</label>
+                                <input type="text" class="form-control" id="validationCustom01" name="username" required>
+                                <div class="invalid-feedback">
+                                    Please Provide username!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Password</label>
+                                <input type="password" class="form-control" id="validationCustom01" name="password" required>
+                                <div class="invalid-feedback">
+                                    Please Provide password!
+                                </div>
+                            </div>
+                        </div><br>
+                        <center> <button class="btn btn-success " type="submit">Submit</button></center>
+
+                    </form>
+
+                </div>
+                <div class="container">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <td>Sl No</td>
+                            <td>Company Name</td>
+                            <td>Client Name</td>
+                            <td>client Code</td>
+                            <td>UserName</td>
+                            <td>Password</td>
+                            <td>Option</td>
+                        </thead>
+                        <tbody>
+                            <% if(empClients.length> 0){ %>
+                                <% for(let empClient of empClients) { %>
+                            <tr>
+                                <tr>
+                                    <td><%= empClient.id %></td>
+                                    <td><%= empClient.company_master.company_name %></td>
+                                    <td><%= empClient.client_master.client_name %></td>
+                                    <td><%= empClient.code %></td>
+                                    <td><%= empClient.username %></td>
+                                    <td><%= empClient.password %></td>
+                                    <td>
+                                       <a href="/employee/client-management-edit/<%= empClient.id %>"><button class="btn btn-primary btn-sm" type="button">Edit</button></a>
+                                       <% if(permissions.includes('0')){ %>                              
+                                        <button onclick="deleteClientUser(<%= empClient.id %>)" class="btn btn-danger btn-sm" type="button">Delete</button>
+                                        <% } %>                                 
+                                    </td>
+                                </tr>
+                            <% } }else{ %>
+                                <tr>
+                                    <td colspan="6"><h2 class="text-center alert alert-secondary">No Clients Added Yet.</h2></td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <input type="hidden" id="preview" value="<%= preview %>" />
+
+    </div>
+    <%- include('../includes/footer.ejs') %>
+        <script>
+            var isPreview = document.getElementById('preview').value;
+            if(isPreview){
+                changeTab(isPreview);
+            }        
+            function changeTab(val) {
+                //removing active and show from tab-pane 
+                var list = document.getElementsByClassName('tab-pane');
+                for (var i = 0; i < list.length; i++) {
+                    list[i].classList.remove('show', 'active');
+                }
+                //adding show and active to clisked tab pane
+                document.getElementById(val).classList.add('show', 'active');
+
+                //removing active and show from tab 
+                var list2 = document.getElementsByName('tab');
+                for (var i = 0; i < list2.length; i++) {
+                    list2[i].classList.remove('active');
+                }
+                document.getElementById(val + '-tab').classList.add('active');
+
+            }
+        </script>
+        <script>
+            function searchUser(val){
+        console.log(val);
+        $.ajax({
+        type: 'POST',
+        url: '/employee/searchUser',
+        data: {val:val},
+        success: function(employee) {
+        //   console.log(employee);
+            var html = '';
+            if(employee.clients.length>0){
+        for (var i = 0; i< employee.clients.length; i++) {
+            html+=`<tr>
+                        <td>${i+1}</td>
+                        <td>${employee.clients[i].name}</td>
+                        <td>${employee.clients[i].code}</td>
+                        <td>${employee.clients[i].mobile}</td>
+                        <td>${employee.clients[i].email}</td>
+                        <td>${employee.clients[i].username}</td>
+                        <td>${employee.clients[i].password}</td>
+                        <td>
+                        <a href="/employee/user-management-edit/${employee.clients[i].id}"><button class="btn btn-primary btn-sm" type="button">Edit</button></a>
+                        ${employee.isAdmin ? `<a href="/employee/deleteEmployeeUser/${employee.clients[i].id}"><button class="btn btn-danger btn-sm" type="button">Delete</button></a> ` : ''}
+                        </td>
+                        </tr>`;
+        }
+    }else{
+        html+='<tr><td colspan="9"><h2 class="text-center alert alert-secondary">No Employees Found.</h2></td></tr>'
+    }
+             $('#userTable').html(html);
+        }
+      });
+    
+    }
+              function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/employee/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });    
+    }
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+            function deleteClientUser(idd){
+                var con = confirm("Do you really want to delete?");
+                if(con){
+                    window.location.href="/admin/deleteClientUser/"+idd;
+                }
+            }
+            
+            function deleteUser(idd){
+                var con = confirm("Do you really want to delete?");
+                if(con){
+                    window.location.href="/admin/deleteEmployeeUser/"+idd;
+                }
+            }
+        </script>

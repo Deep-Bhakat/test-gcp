@@ -1,0 +1,96 @@
+<%- include('../includes/header.ejs') %>
+<style>
+    body{
+        font-size:24px;
+    }
+</style>
+    <div class="container my-4  mx-auto rounded border">
+        <div class="container mx-20 my-2 ">
+            <div class="row">
+                
+                <div class="col-12" style="text-align:center;">
+                               
+                   <h2><u>LETTER OF INCREMENT</u></h2>
+                    
+                </div>
+          
+                </div>
+            </div>
+
+
+            <div class="mb-3 row" style="margin-top: 25px;">
+             
+                <div class="mb-3 row">
+ <div class="col-sm-2"></div>
+                    <div class="col-sm-9">   <p>Employee Name : <%= employee.emp_name %>
+                    </p>
+                    </div>
+                    </div>
+                <div class="mb-3 row">
+ <div class="col-sm-2"></div>
+
+                    <div class="col-sm-9">   <p>Date Of Increment : <%= increment.date_of_increment %>
+                    </p>
+                    </div>
+                    </div>
+              
+            </div>
+ 
+            <div class="mb-3 row" style="margin-top: 25px;">
+ <div class="col-sm-2"></div>
+                    <div class="col-sm-8">I am pleased to inform you that your salary has been increased to <br>
+Rs.<%= increment.gross_salary %>. Congratulations on this well-deserved increment!<br>
+Thank you for your valuable contributions to our organization, and we look<br>
+forward to your continued success.
+                </div>
+                 <div class="col-sm-1"></div>
+
+            </div>
+            
+            <div class="mb-3 row" style="margin-top: 75px;">
+ <div class="col-sm-2"></div>
+                    <div class="col-sm-8">আমি আপনাকে জানাতে পেরে  আনন্দিত যে আপনার বেতন <%= increment.gross_salary %> টাকায়
+<br> বৃদ্ধি করা হয়েছে |   এই ভালো প্রাপ্ত বৃদ্ধির জন্য অভিনন্দন | 
+ <br> আমাদের  প্রতিষ্ঠানে আপনার মূল্যবান অবদানের জন্য আপনাকে ধন্যবাদ, আমরা <br> আপনার অব্যাহত সাফল্যের জন্যে উন্মুখ |
+
+
+                </div>
+                 <div class="col-sm-1"></div>
+
+            </div>
+            
+             <div class="mb-3 row" style="margin-top: 75px;">
+ <div class="col-sm-2"></div>
+                    <div class="col-sm-8">Regards.
+
+                </div>
+                 <div class="col-sm-1"></div>
+
+            </div>
+            
+             <div class="mb-3 row" style="margin-top: 75px;">
+ <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <img src="../../<%= employee.company_master.logo %>" width="90" height="90">
+                        <br>
+                        <%= employee.company_master.company_name %>
+
+                </div>
+                 <div class="col-sm-2">
+                    <img src="../../<%= employee.signature %>" width="90" height="90">
+                    <br>
+                    Signature of Employee 
+                 </div>
+               
+            </div>
+      
+        
+
+            <a href="/admin/new?isPreview=true" <button class="btn btn-success" type="button">Go Back</button></a>
+
+
+
+
+            </div>
+        </div> 
+        <%- include('../includes/footer.ejs') %>

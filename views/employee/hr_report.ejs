@@ -1,0 +1,407 @@
+<%- include('../includes/newHeader.ejs') %>
+  <style>
+    .plus-button {
+        border: 2px solid lightgrey;
+        background-color: #fff;
+        font-size: 16px;
+        height: 2.5em;
+        width: 2.5em;
+        border-radius: 999px;
+        position: relative;
+    }
+    
+    .plus-button:after,
+    .plus-button:before {
+        content: "";
+        display: block;
+        background-color: green;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .plus-button:before {
+        height: 1em;
+        width: 0.2em;
+    }
+    
+    .plus-button:after {
+        height: 0.2em;
+        width: 1em;
+    }
+    
+    .close {
+        position: relative;
+        display: block;
+        width: 50px;
+        height: 50px;
+        font-size: 0;
+    }
+    
+    .close:before,
+    .close:after {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        width: 5px;
+        height: 20px;
+        background-color: red;
+        transform: rotate(45deg) translate(-50%, -50%);
+        transform-origin: top left;
+        content: '';
+    }
+    
+    .close:after {
+        transform: rotate(-45deg) translate(-50%, -50%);
+    }
+</style>
+    <div class="container mx-20 my-2 border rounded clearfix">
+
+        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930" ;>HR Report</span></h2>
+        <form class="needs-validation my-2" novalidate method="post" enctype="multipart/form-data" action="/employee/hr-report">
+            <div class="row">
+                <div class="col-12">
+                    <br>
+                </div>
+            </div>
+            <% if(message){ %>
+                <h2 class="text-center alert alert-success"><%= message %></h2>
+                <% } %>
+            <div class="row " style="margin-top: 10px; ">                
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Client Name </label>
+                    <input type="text" class="form-control " id="clientSelect" name="clientName" onkeyup="searchClient(this.value)" placeholder="Search Client Name " >
+                    <input type="hidden" class="form-control " id="client" name="client" >
+                    
+                    <div class="invalid-feedback ">
+                        Please select a client!
+                    </div>
+                    <div id="clientData">
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Month Year </label>
+                    <input type="month" class="form-control " id="month_year" name="month_year">
+                  
+                </div>
+               
+            </div>
+            <h2>Executive Visit Report</h2>
+            <div class="row">
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Executive Name </label>
+                    <input type="text" class="form-control "  name="executive[]" placeholder="Enter Executive Name" >
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Unit Location </label>
+                    <input type="text" class="form-control" name="unit[]" placeholder="Enter Unit Location">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01"><br></label>
+                    <input type="text" class="form-control" name="executiveComment[]">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <input type="number" style="width: 30px; border-radius: 10px; text-align: center; display: none; " id="executiveNo" readonly value="0" >
+                   <br>
+                    <span style="margin-left: 10px; margin-top: 20px; cursor: pointer; " id="addExe" onclick="addExecutive() " class="plus-button "></span>
+    
+                </div>     
+            </div>
+            <div id="executiveRow"></div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <input type="text" class="form-control" placeholder="Comment" name="comment">
+
+                </div>
+            </div>
+            <h2>Manager's Visit Report</h2>
+            <div class="row">
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Manager Name </label>
+                    <input type="text" class="form-control "  name="manager[]" placeholder="Enter Manager Name" >
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Unit</label>
+                    <input type="text" class="form-control" name="unit2[]" placeholder="Enter Unit">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01"><br></label>
+                    <input type="text" class="form-control" name="managerComment[]">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <input type="number" style="width: 30px; border-radius: 10px; text-align: center; display: none; " id="managerNo" readonly value="0" >
+                   <br>
+                    <span style="margin-left: 10px; margin-top: 20px; cursor: pointer; " id="addManager" onclick="addManager() " class="plus-button "></span>
+    
+                </div>     
+            </div>
+            <div id="managerRow"></div>
+            <h2>Success Stories</h2>
+            <div class="row">
+                <div class="col-md-1 mb-3 ">
+                    <label for="validationCustom01 "><br></label>                 
+
+                    <label for="validationCustom01 ">1)</label>                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Report Details</label>
+                    <input type="text" class="form-control" name="report[]" placeholder="Enter Report Details">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01">Name/Count</label>
+                    <input type="text" class="form-control" name="nameCount[]">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <input type="number" style="width: 30px; border-radius: 10px; text-align: center; display: none; " id="successNo" readonly value="0" >
+                   <br>
+                    <span style="margin-left: 10px; margin-top: 20px; cursor: pointer; " id="addSuccess" onclick="addSuccess() " class="plus-button "></span>
+    
+                </div>     
+            </div>
+            <div id="successRow"></div>
+
+            <h2>Pending Issues</h2>
+            <div class="row">
+                <div class="col-md-1 mb-3 ">
+                    <label for="validationCustom01 "><br></label>                 
+
+                    <label for="validationCustom01 ">1)</label>                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Report Details</label>
+                    <input type="text" class="form-control" name="report2[]" placeholder="Enter Report Details">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01">Name/Count</label>
+                    <input type="text" class="form-control" name="nameCount2[]">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <input type="number" style="width: 30px; border-radius: 10px; text-align: center; display: none; " id="pendingNo" readonly value="0" >
+                   <br>
+                    <span style="margin-left: 10px; margin-top: 20px; cursor: pointer; " id="addPending" onclick="addPending() " class="plus-button "></span>
+    
+                </div>     
+            </div>
+            <div id="pendingRow"></div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <input type="text" class="form-control" placeholder="Comment" name="comment2">
+
+                </div>
+            </div>
+            <div class="row">          
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Marathon Towards Success</label>
+                    <input type="file" class="form-control" name="marathon[]">
+                  
+                </div>
+                </div>
+            
+                <center><a href="/employee/hr-report-view"><button class="btn btn-success " type="button">Go To View</button></a>
+                    <button class="btn btn-success " type="submit">Submit</button></center>
+                </form>
+
+
+    </div>
+
+  
+    <script>
+        function searchClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/employee/searchClient',
+        data: {val:val},
+        success: function(data) {
+            var html = '';
+            for (var i = 0; i< data.length; i++) {
+            html+=`
+            <option onclick="selectClient(${data[i].id},'${data[i].client_name}')" class="form-control" style="cursor:pointer;" value="${data[i].id}">${data[i].client_name}</option>
+            `
+         }
+        $('#clientData').html(html);
+        }
+      });  
+     
+    }
+    function selectClient(id,val){
+    $('#clientSelect').val(val);
+    $('#client').val(id);
+    $('#clientData').html('');
+
+  }
+    var executiveNo = 0;
+    var managerNo = 0;
+    var successNo = 0;
+    var pendingNo = 0;
+
+
+function addExecutive() {
+    document.getElementById('executiveNo').value = parseInt(document.getElementById('executiveNo').value) + 1;
+    executiveNo++;
+    var addRow = `
+<div class="row" id="Edir${executiveNo}">                
+    <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Executive Name </label>
+                    <input type="text" class="form-control "  name="executive[]" placeholder="Enter Executive Name" >
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Unit Location </label>
+                    <input type="text" class="form-control" name="unit[]" placeholder="Enter Unit Location">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01"><br></label>
+                    <input type="text" class="form-control" name="executiveComment[]">
+                  
+                </div>
+                 <div class="col-md-3 mb-3">
+                <span onclick="deleteExecutive(${executiveNo})" style="cursor:pointer" class="close"></span>
+              </div>
+          </div>
+`;
+
+    //  document.getElementById('directorRow').append(addRow);
+    document.getElementById('executiveRow').insertAdjacentHTML('beforeend', addRow);
+
+}
+
+function deleteExecutive(id) {
+    var rowToDelete = "Edir" + id;
+    document.getElementById('executiveNo').value = parseInt(document.getElementById('executiveNo').value) - 1;
+    executiveNo--;
+    //document.getElementById(rowToDelete).style.display="none ";
+    document.getElementById('executiveRow').removeChild(document.getElementById(rowToDelete));
+}
+
+
+function addManager() {
+    document.getElementById('managerNo').value = parseInt(document.getElementById('managerNo').value) + 1;
+    managerNo++;
+    var addRow = `
+<div class="row" id="Mdir${managerNo}">                
+    <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Manager Name </label>
+                    <input type="text" class="form-control "  name="manager[]" placeholder="Enter Manager Name" >
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Unit </label>
+                    <input type="text" class="form-control" name="unit2[]" placeholder="Enter Unit ">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01"><br></label>
+                    <input type="text" class="form-control" name="managerComment[]">
+                  
+                </div>
+                 <div class="col-md-3 mb-3">
+                <span onclick="deleteManager(${managerNo})" style="cursor:pointer" class="close"></span>
+              </div>
+          </div>
+`;
+
+    //  document.getElementById('directorRow').append(addRow);
+    document.getElementById('managerRow').insertAdjacentHTML('beforeend', addRow);
+
+}
+
+function deleteManager(id) {
+    var rowToDelete = "Mdir" + id;
+    document.getElementById('managerNo').value = parseInt(document.getElementById('managerNo').value) - 1;
+    managerNo--;
+    //document.getElementById(rowToDelete).style.display="none ";
+    document.getElementById('managerRow').removeChild(document.getElementById(rowToDelete));
+}
+
+function addSuccess() {
+    document.getElementById('successNo').value = parseInt(document.getElementById('successNo').value) + 1;
+    successNo++;
+    var addRow = `
+<div class="row" id="Sdir${successNo}">                
+    <div class="col-md-1 mb-3 ">
+                    <label for="validationCustom01 "><br></label>                  
+                    <label for="validationCustom01 ">${successNo+1})</label>                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Report Details</label>
+                    <input type="text" class="form-control" name="report[]" placeholder="Enter Report Details">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01">Name/Count</label>
+                    <input type="text" class="form-control" name="nameCount[]">
+                  
+                </div>
+               
+                 <div class="col-md-3 mb-3">
+                <span onclick="deleteSuccess(${successNo})" style="cursor:pointer" class="close"></span>
+              </div>
+          </div>
+`;
+
+    //  document.getElementById('directorRow').append(addRow);
+    document.getElementById('successRow').insertAdjacentHTML('beforeend', addRow);
+
+}
+
+function deleteSuccess(id) {
+    var rowToDelete = "Sdir" + id;
+    document.getElementById('successNo').value = parseInt(document.getElementById('successNo').value) - 1;
+    successNo--;
+    //document.getElementById(rowToDelete).style.display="none ";
+    document.getElementById('successRow').removeChild(document.getElementById(rowToDelete));
+}
+
+function addPending() {
+    document.getElementById('pendingNo').value = parseInt(document.getElementById('pendingNo').value) + 1;
+    pendingNo++;
+    var addRow = `
+<div class="row" id="Pdir${pendingNo}">                
+    <div class="col-md-1 mb-3 ">
+                    <label for="validationCustom01 "><br></label>                  
+                    <label for="validationCustom01 ">${pendingNo+1})</label>                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Report Details</label>
+                    <input type="text" class="form-control" name="report2[]" placeholder="Enter Report Details">
+                  
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01">Name/Count</label>
+                    <input type="text" class="form-control" name="nameCount2[]">
+                  
+                </div>
+               
+                 <div class="col-md-3 mb-3">
+                <span onclick="deletePending(${pendingNo})" style="cursor:pointer" class="close"></span>
+              </div>
+          </div>
+`;
+
+    //  document.getElementById('directorRow').append(addRow);
+    document.getElementById('pendingRow').insertAdjacentHTML('beforeend', addRow);
+
+}
+
+function deletePending(id) {
+    var rowToDelete = "Pdir" + id;
+    document.getElementById('pendingNo').value = parseInt(document.getElementById('pendingNo').value) - 1;
+    pendingNo--;
+    //document.getElementById(rowToDelete).style.display="none ";
+    document.getElementById('pendingRow').removeChild(document.getElementById(rowToDelete));
+}
+
+    </script>
+    <%- include('../includes/footer.ejs') %>

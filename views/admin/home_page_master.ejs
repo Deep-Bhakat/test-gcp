@@ -1,0 +1,150 @@
+<style>
+    .plus-button {
+        border: 2px solid lightgrey;
+        background-color: #fff;
+        font-size: 16px;
+        height: 2.5em;
+        width: 2.5em;
+        border-radius: 999px;
+        position: relative;
+    }
+    
+    .plus-button:after,
+    .plus-button:before {
+        content: "";
+        display: block;
+        background-color: green;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .plus-button:before {
+        height: 1em;
+        width: 0.2em;
+    }
+    
+    .plus-button:after {
+        height: 0.2em;
+        width: 1em;
+    }
+    
+    .close {
+        position: relative;
+        display: block;
+        width: 50px;
+        height: 50px;
+        font-size: 0;
+    }
+    
+    .close:before,
+    .close:after {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        width: 5px;
+        height: 20px;
+        background-color: red;
+        transform: rotate(45deg) translate(-50%, -50%);
+        transform-origin: top left;
+        content: '';
+    }
+    
+    .close:after {
+        transform: rotate(-45deg) translate(-50%, -50%);
+    }
+</style>
+<div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2"><span style=" border-bottom: 3px solid #FB3930" ;>Home Page Notification Form</span></h2>
+    <div class="container mx-20 my-2 ">
+        <% if(message){ %>
+            <h2 class="text-center alert alert-success"><%= message %></h2>
+            <% } %>
+        <form class="needs-validation" method="post" enctype="multipart/form-data" novalidate>        
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom04">Date</label>
+                    <input type="date" class="form-control" id="validationCustom04" name="date">
+                    <div class="invalid-feedback">
+                        Please provide date.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom05">Heading</label>
+                    <input type="text" class="form-control" id="validationCustom05" name="heading" placeholder="Enter Heading" >
+                    <div class="invalid-feedback">
+                        Please provide phone no.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom05">Context</label>
+                    <input type="text" class="form-control" id="validationCustom05" name="context" placeholder="Enter Context" >
+                    <div class="invalid-feedback">
+                        Please provide phone no.
+                    </div>
+                </div>
+            </div>           
+           
+            <div class="row">
+                <h3>Uploads</h3>
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom04">Background</label>
+                    <input type="file" class="form-control" id="validationCustom04" name="document" onchange="showPreview(event,'previewLogo')" placeholder="Choose Logo" >
+                    <div class="invalid-feedback">
+                        Please provide a logo.
+                    </div>
+                </div>
+            
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <img id="previewLogo" class="border border-2 img-fluid" />
+                </div>  
+             </div>         
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    </div>
+</div>
+<script>
+   
+  
+</script>
+<script>
+    function showPreview(event,divId) {
+        //document.getElementById("isImage").value = "1";
+        if (event.target.files.length > 0) {
+            let src = URL.createObjectURL(event.target.files[0]);
+            //$("#photo").val(event.target.files[0].size/1024);
+            let preview = document.getElementById(divId);
+            preview.src = src;
+            preview.style.width = "120px";
+            preview.style.height = "150px";
+            preview.style.border = "1px solid black";
+            preview.style.display = "block";
+        }
+    }
+
+ 
+</script>

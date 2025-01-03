@@ -1,0 +1,150 @@
+<div class="container mx-20 my-2 border rounded clearfix">
+    <form class="needs-validation my-2" novalidate method="post" enctype="multipart/form-data" action="/admin/pf">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" name="company" onchange="getClient1(this.value)" required>
+                    <option value="">--SELECT--</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>              
+            </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+                <select class="form-select" id="client1" name="client1" >         
+            </select>
+                <div class="invalid-feedback">
+                    Please Provide Client!
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom02">Month & Year</label>
+                <input type="month" id="datepicker" class="form-control" name="month" id="validationCustom01" >
+                <div class="invalid-feedback">
+                    Please select Month & Year!
+                </div>
+            </div>
+
+        </div>
+        <h3>Uploads</h3>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">ECR CHALLAN</label>
+                <input type="file" class="form-control" id="validationCustom04" name="ecr" >
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">CONTRIBUTION</label>
+                <input type="file" class="form-control" id="validationCustom04" name="contribution" >
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">PAYMENT PROOF</label>
+                <input type="file" class="form-control" id="validationCustom04" name="payment" >
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">CHALLAN DETAILS</label>
+                <input type="file" class="form-control" id="validationCustom04" name="challan" >
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success float-end" type="submit">Upload</button>
+    </form>
+
+
+</div>
+<div class="container">
+    <input type="text" class="form-control" style="width: 800px;" onkeyup="searchPf(this.value)" placeholder="Search..." />
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <td>Client Name</td>
+            <td>Month & Year</td>
+            <td>Download Options</td>
+        </thead>
+        <tbody id="pfTable">
+           
+        </tbody>
+    </table>
+</div>
+<script>
+    
+  function getClient1(val){
+      $.ajax({
+      type: 'POST',
+      url: '/admin/getClientForCompany',
+      data: {val:val},
+      success: function(clients) {
+          var html = '';
+          html+='<option value="">--SELECT--</option>';
+          for (var i = 0; i< clients.length; i++) {
+          html+=`
+          <option value="${clients[i].id}">${clients[i].client_name}</option>
+          `
+       }
+      $('#client1').html(html);
+      }
+    });    
+  }
+  function searchPf(val){
+                var monthNames = [ "January", "February", "March", "April", "May", "June", 
+                       "July", "August", "September", "October", "November", "December" ];
+                $.ajax({
+                type: 'POST',
+                url: '/admin/searchPf',
+                data: {val:val},
+                success: function(data) {
+                    var html='';
+                    for(var i =0;i<data.length;i++){
+                        var dd=new Date(data[i].month_year);
+                        var mm =  monthNames[dd.getMonth()];
+                        var from_date = new Date(data[i].from_date);
+                        var from_date_mm = from_date.getMonth()+1;
+                        var to_date = new Date(data[i].to_date);
+                        var to_date_mm = to_date.getMonth()+1;
+                        html+=`<tr>
+                        <td>${i+1}</td>
+                        ${data[i].company_master ? `<td>${data[i].company_master.company_name}</td>` : ''}
+                        <td>${data[i].client_master ? `${data[i].client_master.client_name}` : ''}</td>
+
+                        ${data[i].from_date ? `<td>${from_date.getDate()+'-'+from_date_mm+'-'+from_date.getFullYear()+' to '+to_date.getDate()+'-'+to_date_mm+'-'+to_date.getFullYear() }</td>` :''}
+
+                        ${data[i].period ? `<td>${data[i].period+' '+ data[i].year}</td>` :''}
+                        ${data[i].month_year ? `<td>${mm+' '+dd.getFullYear()}</td>` : ''}
+                        <td>
+   
+                            ${data[i].ecr_challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].ecr_challan}" download="ECRChallan_${mm}_${dd.getFullYear()}">ECR Challan</a>`: ''}  
+                      ${data[i].contribution ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].contribution}" download="Contribution_${mm}_${dd.getFullYear()}">Contribution</a>`: ''}  
+                      ${data[i].payment_proff ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].payment_proff}" ${ data[i].period ? `download="ECRChallan_${data[i].period}_${data[i].year}"` : `download="PaymentProof_${mm}_${dd.getFullYear()}"` }>Payment Proof</a>`: ''}  
+                      ${data[i].challan_details ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan_details}" download="ChallanDetails${mm}_${dd.getFullYear()}">Challan Details</a>`: ''}  
+                      ${data[i].challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan}" ${ data[i].period ? `download="Challan_${data[i].period}_${data[i].year}"` : `download="Challan_${mm}_${dd.getFullYear()}"` }>Challan</a>`: ''}  
+                      ${data[i].document ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].document}" download="Document_${monthNames[from_date_mm]}_${from_date.getFullYear()}">Document</a>`: ''}  
+
+                    </td> 
+                    <td><button type="button" class="btn btn-danger" onclick="deleteStatute('pf',${data[i].id})">Delete</button></td>
+                        </tr>`
+        }
+             $('#pfTable').html(html);
+        
+                    
+                }
+             });
+            }
+ 
+</script>

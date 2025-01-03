@@ -1,0 +1,55 @@
+<%- include('../includes/header.ejs') %>
+<div class="container my-10"> 
+    <h2 class="text-center">Attendance Register</h2>
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" name="tab" id="new-tab" onclick="changeTab('new')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">NEW</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" name="tab" id="view-tab" onclick="changeTab('view')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">VIEW</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" name="tab" id="due-tab" onclick="changeTab('due')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">DUE</button>
+      </li>
+     </ul>
+     <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="new" role="tabpanel" aria-labelledby="pills-home-tab">
+            <%- include('./attendance_register_new.ejs') %>
+ 
+    </div>
+    <div class="tab-pane fade" id="view" role="tabpanel" aria-labelledby="pills-home-tab">
+        <%- include('./attendance_register_view.ejs') %>
+
+    </div>
+    <div class="tab-pane fade" id="due" role="tabpanel" aria-labelledby="pills-home-tab">
+        <%- include('./attendance_register_due.ejs') %>
+
+    </div>
+    </div>
+    </div>
+    <input type="hidden" id="isPreview" value="<%= isPreview %>" />
+
+    <%- include('../includes/footer.ejs') %>
+<script>
+       var isPreview = document.getElementById('isPreview').value;
+            if(isPreview){
+                changeTab('view');
+            }
+      function changeTab(val){
+    //removing active and show from tab-pane 
+    var list = document.getElementsByClassName('tab-pane');
+    for(var i=0;i<list.length;i++){
+      list[i].classList.remove('show','active');
+    }
+    //adding show and active to clisked tab pane
+    document.getElementById(val).classList.add('show','active');
+
+    //removing active and show from tab 
+    var list2 = document.getElementsByName('tab');
+    for(var i=0;i<list2.length;i++){
+      list2[i].classList.remove('active');
+    }
+    document.getElementById(val+'-tab').classList.add('active');
+
+  }
+</script>

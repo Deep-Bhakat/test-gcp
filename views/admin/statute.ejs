@@ -1,0 +1,194 @@
+<%- include('../includes/header.ejs') %>
+
+    <div class="container my-10">
+        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">Finger Tip Statute</span></h2>
+        <ul class="nav nav-pills shadow-lg p-3  bg-body rounded mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" name="tab" id="pf-tab" onclick="changeTab('pf')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">PF</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" name="tab" id="esic-tab" onclick="changeTab('esic')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">ESIC</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" name="tab" id="ptax-tab" onclick="changeTab('ptax')" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">P TAX</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" name="tab" id="lwf-tab" onclick="changeTab('lwf')" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">LWF</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" name="tab" id="return-tab" onclick="changeTab('return')" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">LABOUR RETURN</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" name="tab" id="agreement-tab" onclick="changeTab('agreement')" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">AGREEMENT</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" name="tab" id="license-tab" onclick="changeTab('license')" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">LABOUR LICENSE</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pf" role="tabpanel" aria-labelledby="pills-home-tab">
+                <%- include('./pf.ejs') %>
+
+            </div>
+            <div class="tab-pane fade" id="esic" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <%- include('./esic.ejs') %>
+
+            </div>
+            <div class="tab-pane fade" id="ptax" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <%- include('./ptax.ejs') %>
+
+            </div>
+            <div class="tab-pane fade" id="lwf" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <%- include('./lwf.ejs') %>
+
+            </div>
+            <div class="tab-pane fade" id="return" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <%- include('./labour_return.ejs') %>
+
+            </div>
+            <div class="tab-pane fade" id="agreement" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <%- include('./agreement.ejs') %>
+            </div>
+            <div class="tab-pane fade" id="license" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <%- include('./labour_license.ejs') %>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="preview" value="<%= preview %>" />
+
+    <%- include('../includes/footer.ejs') %>
+        <script>
+            var licenseData={};
+            getData('pf');       
+            var isPreview = document.getElementById('preview').value;
+            if(isPreview){
+                changeTab(isPreview);
+            }
+            function changeTab(val) {
+                //removing active and show from tab-pane 
+                var list = document.getElementsByClassName('tab-pane');
+                for (var i = 0; i < list.length; i++) {
+                    list[i].classList.remove('show', 'active');
+                }
+                //adding show and active to clisked tab pane
+                document.getElementById(val).classList.add('show', 'active');
+
+                //removing active and show from tab 
+                var list2 = document.getElementsByName('tab');
+                for (var i = 0; i < list2.length; i++) {
+                    list2[i].classList.remove('active');
+                }
+                document.getElementById(val + '-tab').classList.add('active');
+                getData(val);
+            }
+            function getData(val){
+                var tableName = '#'+val+'Table';
+                var monthNames = [ "January", "February", "March", "April", "May", "June", 
+                       "July", "August", "September", "October", "November", "December" ];
+                $.ajax({
+                type: 'POST',
+                url: '/admin/getStatuteData',
+                data: {val:val},
+                success: function(data) {
+                    // licenseData={};
+                    var html='';
+                    for(var i =0;i<data.length;i++){
+                        var dd=new Date(data[i].month_year);
+                        var mm =  monthNames[dd.getMonth()];
+                        var from_date = new Date(data[i].from_date);
+                        var from_date_mm = from_date.getMonth()+1;
+                        var to_date = new Date(data[i].to_date);
+                        var to_date_mm = to_date.getMonth()+1;
+                        const date2 = new Date();
+                        const diffTime = Math.abs(to_date - date2);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                        const isNegDate = (to_date-date2) <0 ? true : false;
+                        // if(isNegDate){
+                        //     licenseData[diffDays]=data[i];
+                        // }else{
+                        //     licenseData[diffDays]=data[i];
+                        // }
+                        // console.log(licenseData);
+                        html+=`<tr>
+                  ${val=='license' ? `<td><input type="checkbox" class="form-check-input" value="${data[i].id}" name="deleteLicense[]" /></td>` : ``}
+
+                        <td>${i+1}</td>
+                        ${data[i].company_master ? `<td>${data[i].company_master.company_name}</td>` : ''}
+                        ${val=='ptax' || val =='lwf' ? ``
+: `<td>${data[i].client_master ? `${data[i].client_master.client_name}` : 'MULTIPLE'}</td>
+`}
+${val=='agreement' || val =='license' ? 
+`<td>${data[i].remarks}</td>` : ``
+}
+
+                        ${data[i].from_date ? `<td>${from_date.getDate()+'-'+from_date_mm+'-'+from_date.getFullYear()}</td>` :''}
+                        ${data[i].to_date ? `<td>${to_date.getDate()+'-'+to_date_mm+'-'+to_date.getFullYear() }</td>` :''}
+                        ${data[i].to_date ? `<td>${isNegDate ? '<b style="color:red;">-'+diffDays+' days</b>' : diffDays+' days'} </td>` :''}
+
+                        ${data[i].period ? `<td>${data[i].period+' '+ data[i].year}</td>` :''}
+                        ${data[i].month_year ? `<td>${mm+' '+dd.getFullYear()}</td>` : ''}
+                        <td>
+   
+                            ${data[i].ecr_challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].ecr_challan}" download="ECRChallan_${mm}_${dd.getFullYear()}">ECR Challan</a>`: ''}  
+                      ${data[i].contribution ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].contribution}" download="Contribution_${mm}_${dd.getFullYear()}">Contribution</a>`: ''}  
+                      ${data[i].payment_proff ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].payment_proff}" ${ data[i].period ? `download="ECRChallan_${data[i].period}_${data[i].year}"` : `download="PaymentProof_${mm}_${dd.getFullYear()}"` }>Payment Proof</a>`: ''}  
+                      ${data[i].challan_details ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan_details}" download="ChallanDetails${mm}_${dd.getFullYear()}">Challan Details</a>`: ''}  
+                      ${data[i].challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan}" ${ data[i].period ? `download="Challan_${data[i].period}_${data[i].year}"` : `download="Challan_${mm}_${dd.getFullYear()}"` }>Challan</a>`: ''}  
+                      ${data[i].document ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].document}" download="Document_${monthNames[from_date_mm]}_${from_date.getFullYear()}">Document</a>`: ''}  
+
+                    </td> 
+                    <td><button type="button" class="btn btn-danger" onclick="deleteStatute('${val}',${data[i].id})">Delete</button></td>
+                        </tr>`
+        }
+             $(tableName).html(html);
+        
+                    
+                }
+             });
+            }
+            function download(a){
+    //   console.log(a);
+
+    let collection = document.getElementsByName(a);
+    // console.log(collection);
+    for(var i=0;i<collection.length;i++){
+        collection[i].click();
+    }
+}
+function deleteStatute(val,id){
+    
+    var del = confirm('Do you want to delete?');
+    if(del){
+    $.ajax({
+        type: 'DELETE',
+        url: '/admin/deleteStatute',
+        data: {id:id,val:val},
+        success: function(data) {
+      getData(val);
+
+        }
+      });
+    }
+
+}
+        </script>
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>

@@ -1,0 +1,149 @@
+<%- include('../includes/newHeader.ejs') %>
+    <div class="container my-10">
+        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">User Management</span></h2>
+        <ul class="nav nav-pills  shadow-lg p-3    bg-body rounded mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" name="tab" id="employee-tab" onclick="changeTab('employee')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">EMPLOYEE</button>
+            </li>
+           
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="employee" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="container mx-20 my-2 border rounded clearfix">
+                    <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">Employee</span></h2>
+        
+                    <form class="needs-validation my-2" novalidate method="post" action="/employee/user-management-edit">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Name</label>
+                                <input type="hidden" class="form-control" name="id" value="<%= empUser.id %>">
+
+                                <input type="text" class="form-control" id="validationCustom01" name="name" value="<%= empUser.name %>" required>
+                                <div class="invalid-feedback">
+                                    Please select name!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Mobile</label>
+                                <input type="text" class="form-control" maxlength="10" id="validationCustom01" name="mobile" value="<%= empUser.mobile %>" required>
+                                <div class="invalid-feedback">
+                                    Please Provide mobile!
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationCustom02">Email</label>
+                                <input type="email" class="form-control" id="validationCustom01"  name="email" value="<%= empUser.email %>" required>
+                                <div class="invalid-feedback">
+                                    Please Provide email!
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Employee Code</label>
+                                <input type="text" class="form-control" value="<%= empUser.code %>" name="code" id="validationCustom01" readonly required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Username</label>
+                                <input type="text" class="form-control" id="validationCustom01" name="username" value="<%= empUser.username %>" required>
+                                <div class="invalid-feedback">
+                                    Please Provide username!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Password</label>
+                                <input type="password" class="form-control" id="validationCustom01" name="password" value="<%= empUser.password %>" required>
+                                <div class="invalid-feedback">
+                                    Please Provide password!
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Rights</h3>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="0" <% if(permissions.includes('0')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="1" <% if(permissions.includes('1')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Master</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="2" <% if(permissions.includes('2')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">User Management</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="3" <% if(permissions.includes('3')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">New Registration</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="4" <% if(permissions.includes('4')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Id Card</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="5" <% if(permissions.includes('5')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Statutes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="6" <% if(permissions.includes('6')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Payments + Enet</label>
+                                </div>                                
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="7" <% if(permissions.includes('7')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04"> Invoice</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="8" <% if(permissions.includes('8')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Accounts</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="9" <% if(permissions.includes('9')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">News + HR Reports</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="10" <% if(permissions.includes('10')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Master Blaster</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="11" <% if(permissions.includes('11')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Registers + Payslip</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="rights[]" class="form-check-input" value="12" <% if(permissions.includes('12')) { %> checked="true" <% } %> id="validationCustom04">
+                                    <label class="form-check-label" for="validationCustom04">Bill Maker</label>
+                                </div>
+                            </div>
+                        </div>
+                        <center> <button class="btn btn-success " type="submit">Update</button></center>
+                    </form>
+
+
+                </div>
+            </div>      
+
+        </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>   
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>

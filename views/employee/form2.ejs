@@ -1,0 +1,361 @@
+<%- include('../includes/newHeader.ejs') %>
+
+    
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-2"></div>
+        <div align="right" class="col-6">
+
+            <span style="font-size: 28px;">Form No. 2 (New)</span><br><span style="font-size: 28px;">Declaration Form</span><br> (To be retained by the Employer for future reference)
+        </div>
+    </div>
+    <div class="row">
+        <div align="center" class="col-2" style="margin-top: -30px;"> <img src="/img/pf.png" width="150" height="150"> </div>
+        <div align="center" class="col-10">
+            <h2>Employee' Provident Fund Organisation</h2>
+            <p>THE EMPLOYEES PROVIDENT FUNDS SCHEME, 1952 (PARAGRAPH-34 & 57) & THE EMPLOYEES PENSION SCHEME, 1995 (PARAGRAPH-24</p>
+        </div>
+    </div>
+    <div class="row">
+        <div align="center" class="col-12">
+            <u style="text-align: center;">
+          DECLARATION BY A PERSON TAKING UP EMPLOYMENT IN AN ESTABLISHMENT ON WHICH EMPLOYEES PROVIDENT FUND SCHEME,
+<span style="font-weight: bold;">1952</span> AND/OR EMPLOYEES PENSION SCHEME, <span style="font-weight: bold;">1995</span> IS APPLICABLE
+        </u>
+            <p style="text-transform: uppercase; font-weight: bold;">(PLEASE GO THROUGH THE INSTRUCTIONS)</p>
+        </div>
+    </div>
+</div>
+    <div class="container my-4  mx-auto rounded border">
+
+        <div class="container mx-20 my-2 ">
+
+            <h4 class="text-center">NOMINATION AND DECLARATION FORM FOR UNEXEMPTED/EXEMPTED ESTABLISHMENTS</h4>
+            <p class="text-center">Declaration and Nomination Form under the Employees Provident Funds and Employees Pension Schemes
+            </p>
+            <p class="text-center">(Paragraph 33 and 61 (1) of the Employees Provident Fund Scheme 1952 and Paragraph 18 of the Employees Pension Scheme 1995)</p>
+            <form class="needs-validation" novalidate method="post">
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">NAME</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.emp_name %>" required>
+                    </div>
+                    <label for="staticEmail" class="col-sm-2 col-form-label">FATHER's/ HUSBAND's NAME</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.father_name %>" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">DATE OF BIRTH</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<% var dd=new Date(employee.dob) %> <%= dd.getDate() %>/<%= dd.getMonth()+1 %>/<%= dd.getFullYear() %>" required>
+                    </div>
+                    <label for="staticEmail" class="col-sm-2 col-form-label">ACCOUNT NO</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.bank_ac %>" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">SEX</label>                    
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.gender %>" required>
+                    </div>
+                    <label for="staticEmail" class="col-sm-2 col-form-label">MARITAL STATUS</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.maritial_status %>"  required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">ADDRESS</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="validationCustom01" readonly ><%= employee.address %></textarea>
+                    </div>
+                </div>
+
+                <h4 class="text-center">PART – A (EPF)</h4>
+                <p class="text-center">I hereby nominate the person(s)/cancel the nomination made by me previously and nominate the person(s) mentioned below to receive the amount standing to my credit in the Employees Provident Fund, in the event of my death.</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <input type="hidden" class="form-control" name="id" value="<%= employee.id %>" />
+                        <td style="width: 200px;">Name of the Nominee</td>
+                        <td style="width: 300px;">Address</td>
+                        <td>Nominee's relationship with the member</td>
+                        <td>Date of birth</td>
+                        <td>Total amount or share of accumulations in Provident Funds to be paid to each nominee</td>
+                        <td>If the nominee is minor name and address of the guardian who may receive the amount during the minority of the nominee</td>
+                    </tr>
+                   
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]" <% if(employee.nominee_name!=''){ %> value="<%= employee.nominee_name %>" <% } %> /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" <% if(employee.nominee_relation!=''){ %> value="<%= employee.nominee_relation %>" <% } %> /></td>
+                        <td><input type="date" class="form-control" name="dob[]" value="<%= employee.nominee_dob %>" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" <% if(employee.nominee_share){ %> value="<%= employee.nominee_share %>" <% } %> /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" /></td>
+                    </tr>
+                    <% if(employee.new_registration_nominees.length>0){ 
+                        var i = 1
+                          for(let c=0; c<employee.new_registration_nominees.length; c++){  
+                      %>
+                    
+                      <tr>
+                        <td><input type="text" class="form-control" name="name[]"  value="<%= employee.new_registration_nominees[c].nominee_name %>" /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" <% if(employee.new_registration_nominees[c]){ %> value="<%= employee.new_registration_nominees[c].nominee_relation %>" <% } %> /></td>
+                        <td><input type="date" class="form-control" name="dob[]" value="<%= employee.new_registration_nominees[c].nominee_dob %>" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" <% if(employee.new_registration_nominees[c]){ %> value="<%= employee.new_registration_nominees[c].nominee_share %>" <% } %> /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" /></td>
+                    </tr>
+                     <% } }else{ %>
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]" /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" /></td>
+                        <td><input type="date" class="form-control" name="dob[]" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]" /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" /></td>
+                        <td><input type="date" class="form-control" name="dob[]" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]" /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" /></td>
+                        <td><input type="date" class="form-control" name="dob[]" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]" /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" /></td>
+                        <td><input type="date" class="form-control" name="dob[]" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]" /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" /></td>
+                        <td><input type="date" class="form-control" name="dob[]" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]" /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" /></td>
+                        <td><input type="date" class="form-control" name="dob[]" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" /></td>
+                    </tr>
+                    <% } %>
+                </table>
+                <p class="text-left">1. *Certified that I have no family as defined in para 2 (g) of the Employees Provident Fund Scheme 1952 and should I
+                    acquire a family hereafter the above nomination should be deemed as cancelled.</p>
+                <p class="text-left">2. * Certified that my father/mother is/are dependent upon me.
+                </p>
+                <p class="text-left">Strike out whichever is not applicable</p>
+               <img src="../../<%= employee.signature %>" width="90px" height="90px" style="float:right" />
+          
+                <p style="text-align:right; clear:right">Signature/or thumb impression of the subscriber</p>
+                <h4 class="text-center">PART – (EPS)</h4>
+                <p class="text-center">I hereby furnish below particulars of the members of my family who would be eligible to receive Widow/Children Pension in the event of my premature death in service.</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <td style="width: 250px;">Sr. No</td>
+                        <td>Name & Address of the family member</td>
+                        <td style="width: 100px;">Age</td>
+                        <td style="width: 200px;">Relationship with the member</td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" <% if(employee.nominee_name!=''){ %>  value="<%= employee.nominee_name %>" <% } %> /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" <% if(employee.nominee_relation!=''){ %>  value="<%= employee.nominee_relation %>" <% } %> /></td>
+                    </tr>
+                    <% if(employee.new_registration_nominees.length>0){ 
+                        var i = 1
+                          for(let c=0; c<employee.new_registration_nominees.length; c++){  
+                      %>
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" value="<%= employee.new_registration_nominees[c].nominee_name %>" /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" value="<%= employee.new_registration_nominees[c].nominee_relation %>" /></td>
+                    </tr>
+                    <% } }else{ %>
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" /></td>
+                    </tr>                    
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" /></td>
+                    </tr>                    
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" /></td>
+                    </tr>                    
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" /></td>
+                    </tr>
+                    <% }  %>
+
+                </table>
+                <p class="text-center">Certified that I have no family as defined in para 2 (vii) of the Employees’s Family Pension Scheme 1995 and should I acquire a family hereafter I shall furnish Particulars there on in the above form.<br> I hereby nominate the following
+                    person for receiving the monthly widow pension (admissible under para 16 2 (a) (i) & (ii) in the event of my death without leaving any eligible family member for receiving pension.</p>
+
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Name and Address of the nominee</td>
+                        <td>Date of birth</td>
+                        <td>Relationship with the member</td>
+                    </tr>
+                    <tr>
+                        <td><textarea type="text" class="form-control" name="name_address2"></textarea></td>
+                        <td><input type="date" class="form-control" name="dob2" /></td>
+                        <td><input type="text" class="form-control" name="relationship3" /></td>
+                    </tr>
+
+                </table>
+                <img src="../../<%= employee.signature %>" width="90px" height="90px" style="float:right" />
+          
+                <p style="text-align:right; clear:right">Signature/or thumb impression of the subscriber</p>
+               
+                <hr>
+                <h3 class="text-center">CERTIFICATE BY EMPLOYER</h3>
+                <p>
+                    Certified that the above declaration and nomination has been signed / thumb impressed before me by Shri / Smt./
+Miss <u><%= employee.emp_name %></u> employed in my establishment after he/she has
+read the entries / the entries have been read over to him/her by me and got confirmed by him/her.
+                </p>
+                <!-- <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Signature or thumb impression
+                  of the subscriber</label>
+                    <div class="col-sm-6">
+                        <input type="file" class="form-control" id="validationCustom01" required />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Signature or thumb impression
+                  of the subscriber</label>
+                    <div class="col-sm-6">
+                        <input type="file" class="form-control" id="validationCustom01" required />
+                    </div>
+                </div> -->
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Name & address of the Factory /Establishment
+                </label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" id="validationCustom01" name="factory_name_address" ><%= empClient.client_name %> <%= empClient.client_addresses[0].address %> </textarea>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Date
+                </label>
+                    <div class="col-sm-3">
+                        <input type="date" class="form-control" id="validationCustom01" name="datee" value="<%= employee.date_of_joining %>"  />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Place
+                </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="validationCustom01" name="place" value="<%= employee.state %>"  />
+                    </div>
+                </div>
+                <button class="btn btn-success" type="submit">Save & Proceed</button>
+                <br>
+                <div align="center">
+                    
+                   
+                </div>
+
+            </form>
+
+            <script>
+                // Example starter JavaScript for disabling form submissions if there are invalid fields
+                (function() {
+                    'use strict';
+                    window.addEventListener('load', function() {
+                        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                            form.addEventListener('submit', function(event) {
+                                if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                form.classList.add('was-validated');
+                            }, false);
+                        });
+                    }, false);
+                })();
+                function getAge(dateString) {
+                var today = new Date();
+                var birthDate = new Date(dateString);
+                var age = today.getFullYear() - birthDate.getFullYear();
+                var m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                return age;
+}
+            </script>
+        </div>
+    </div>
+
+    <script>
+        function showPreview(event) {
+            //document.getElementById("isImage").value = "1";
+            if (event.target.files.length > 0) {
+                let src = URL.createObjectURL(event.target.files[0]);
+                //$("#photo").val(event.target.files[0].size/1024);
+                let preview = document.getElementById("preview");
+                preview.src = src;
+                preview.style.width = "120px";
+                preview.style.height = "150px";
+                preview.style.display = "block";
+            }
+        }
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+    <%- include('../includes/footer.ejs') %>

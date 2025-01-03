@@ -1,0 +1,126 @@
+<%- include('../includes/header.ejs') %>
+<h4 style="text-align: center;"><span style=" border-bottom: 3px solid #FB3930; font-size: 3rem;"  ;>GST</span></h4>
+
+<div class="container mx-20 my-2 border rounded clearfix">
+    <form class="needs-validation my-2" novalidate method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" name="company" onchange="getClient(this.value)" required>
+                    <option value="">Select</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>             
+            </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>        
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom02">Month & Year</label>
+                <input type="month" id="datepicker" class="form-control" name="month_year" id="validationCustom01" required>
+                <div class="invalid-feedback">
+                    Please select Month & Year!
+                </div>
+            </div>
+
+        </div>
+        <h3>Uploads</h3>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">FORM (I) (Challan)</label>
+                <input type="file" class="form-control" name="form1" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">FORM (I) Details</label>
+                <input type="file" class="form-control" name="form1_details" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">FORM - 3B</label>
+                <input type="file" class="form-control" name="form3b" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">PAYMENT PROOF </label>
+                <input type="file" class="form-control" name="payment" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+
+        </div>
+        <button class="btn btn-success float-end" type="submit">Upload</button>
+    </form>
+
+
+</div>
+<div class="container">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <td>Month & Year</td>
+            <td>Option</td>
+        </thead>
+        <tbody>
+            <% if(gsts.length>0){ %>
+                <%  c=1
+                 for(let t of gsts) { %>
+            <tr>
+                <td><%= c %></td>
+                <td><%= t.company_master.company_name %></td>                
+                <td><%
+                    var monthNames = [ "January", "February", "March", "April", "May", "June", 
+                    "July", "August", "September", "October", "November", "December" ];
+                    var dd=new Date(t.month_year);
+                    var mm =  monthNames[dd.getMonth()];
+                    %><%= mm %> <%= dd.getFullYear() %></td>
+                <td><a href="/admin/gst-edit/<%= t.id %>"><button class="btn btn-dark">Edit</button></a></td>
+                <td>
+
+                    <a href="../<%= t.form1 %>"  class="btn btn-light btn-sm"  style="color:blue" download="gst_form1_challan_<%= t.month_year %>">Form 1 Challan</button></a>
+                    <a href="../<%= t.form1_details %>"  class="btn btn-light btn-sm"  style="color:blue" download="gst_form1_details_<%= t.month_year %>">Form 1 Details</button></a>
+                    <a href="../<%= t.form3b %>"  class="btn btn-light btn-sm"  style="color:blue" download="gst_form3b_<%= t.month_year %>">Form 3B</button></a>
+                    <a href="../<%= t.payment_proff %>"  class="btn btn-light btn-sm"  style="color:blue" download="gst_payment_proof_<%= t.month_year %>">Payment Proof</button></a>
+                </td> 
+                <td>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="deleteRecord(<%= t.id %>)">Delete</button>
+                </td>
+            </tr>
+            <% c=c+1 } %>
+            <% } else {  %>
+                <tr>
+                    <td colspan="6"><h2 class="text-center alert alert-secondary">No GST Added Yet.</h2></td>
+                </tr>
+                <% } %>
+        
+        </tbody>
+    
+    </table>
+</div>
+<script>
+    function deleteRecord(idd){
+        var con = confirm("Do you want to delete?");
+            if(con){
+  $.ajax({
+        type: 'POST',
+        url: '/admin/gst-delete',
+        data: {id:idd},
+        success: function(data) {
+            window.location.href="/admin/gst";
+        }
+        });
+    }
+}
+
+</script>
+<%- include('../includes/footer.ejs') %>

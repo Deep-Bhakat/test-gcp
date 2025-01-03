@@ -1,0 +1,98 @@
+<%- include('../includes/newHeader.ejs') %>
+  <h4 style="text-align: center;"><span style=" border-bottom: 3px solid #FB3930; font-size: 3rem;"  ;>TDS EXEMPTION</span></h4>
+
+<div class="container mx-20 my-2 border rounded clearfix">
+    <form class="needs-validation my-2" novalidate method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" name="company" required>
+                    <option class="">Select</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>
+                </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3">
+                <label for="validationCustom02">Select Year</label>
+                 <input type="number" class="form-control" min="2000" max="3099" step="1" name="year" value="2022" required>
+                <div class="invalid-feedback">
+                    Please select year!
+                </div>
+            </div>
+
+        </div>
+        <h3>Uploads</h3>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <input type="file" class="form-control" name="file" id="validationCustom04" required>
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success float-end" type="submit">Upload</button>
+    </form>
+
+
+</div>
+<div class="container">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <td>Year</td>
+            <td>Option</td>
+        </thead>
+        <tbody>
+            <% if(tds.length>0){ %>
+                <%  c=1
+                 for(let t of tds) { %>
+            <tr>
+                <td><%= c %></td>
+                <td><%= t.company_master.company_name %></td>                
+                <td><%= t.year %></td>
+                <td><a href="/employee/tds-exemption-edit/<%= t.id %>"><button class="btn btn-dark">Edit</button></a></td>
+                <td>
+
+                  <a href="../<%= t.document %>"  class="btn btn-success btn-sm"  download="tds_exemption_<%= t.year %>">Download </button></a>
+                
+                </td> 
+                <% if(permissions.includes('0')){ %>                              
+                    <td>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="deleteRecord(<%= t.id %>)">Delete</button>
+                        <h6><%= permissions %></h6>
+                </td>
+                <% } %>
+            </tr>
+            <% c=c+1 } %>
+            <% } else {  %>
+                <tr>
+                    <td colspan="6"><h2 class="text-center alert alert-secondary">No TDS Exemption Added Yet.</h2></td>
+                </tr>
+                <% } %>
+        
+        </tbody>
+    </table>
+</div>
+<script>
+        function deleteRecord(idd){
+            var con = confirm("Do you want to delete?");
+            if(con){
+  $.ajax({
+        type: 'POST',
+        url: '/employee/tds-exemption-delete',
+        data: {id:idd},
+        success: function(data) {
+            window.location.href="/employee/tds-exemption";
+        }
+        });
+    }
+}
+</script>
+<%- include('../includes/footer.ejs') %>

@@ -1,0 +1,94 @@
+<%- include('../includes/header.ejs') %>
+
+<div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2">Increment Letter Form</h2>
+    <div class="container mx-20 my-2 ">
+
+
+        <form class="needs-validation" novalidate method="post" action="/admin/increment-letter-edit">
+            <div class="row">
+                <input type="hidden" name="id" value="<%= incrementData.new_registration_id %>" />
+                <input type="hidden" name="increment_id"  value="<% if(incrementData){%><%=incrementData.id%><%}else{ %>0<% } %>" />
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom03">Date of Increment</label>
+                    <input type="date" class="form-control" id="validationCustom03" name="date_of_increment" value="<% if(incrementData){ %><%=incrementData.date_of_increment%><% } %>" required>
+
+                    <div class="invalid-feedback">
+                        Please select Date of Increment.
+                    </div>
+                </div>
+              
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom03">Incremented Basic Salary</label>
+                    <input type="number" class="form-control" id="basic_salary" name="basic_salary"  value="<% if(incrementData){%><%=incrementData.basic_salary%><% } %>"  onkeyup="calcGross()" placeholder="Enter Incremented Basic Salary" required>
+
+                    <div class="invalid-feedback">
+                        Please enter Incremented Basic salary.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom03">Incremented HRA</label>
+                    <input type="number" class="form-control" id="hra" name="hra"  value="<% if(incrementData){%><%=incrementData.hra%><% } %>"  onkeyup="calcGross()" placeholder="Enter Incremented HRA" required>
+
+                    <div class="invalid-feedback">
+                        Please enter Incremented HRA.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom03">Incremented Gross Salary</label>
+                    <input type="number" class="form-control" id="gross_salary" name="gross_salary" readonly  value="<% if(incrementData){%><%=incrementData.gross_salary%><% } %>" placeholder="Enter Incremented Gross Salary" required>
+
+                    <div class="invalid-feedback">
+                        Please enter Incremented Gross salary.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
+            
+                <!-- <div class="col-md-2 mb-3">
+                    <a href="/admin/appointment-super"><button type="button" class="btn btn-primary">View Super-Visor Appointment Letter</button></a>
+                </div> -->
+
+            </div>
+            <!-- <button class="btn btn-secondary" type="button">Go Back</button> -->
+            <!-- <a href="/admin/form2"> <button class="btn btn-success" type="button">Proceed</button></a> -->
+        </form>
+
+
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    </div>
+</div>
+
+<script>
+      function calcGross(){
+        // console.log($('#basic_salary').val() );
+        $('#gross_salary').val(parseInt($('#basic_salary').val()) + parseInt($('#hra').val()));
+    }
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+<%- include('../includes/footer.ejs') %>

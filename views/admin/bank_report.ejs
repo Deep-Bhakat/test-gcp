@@ -1,0 +1,125 @@
+<%- include('../includes/header.ejs') %>
+
+<div class="container">
+    <div class="container mx-20 my-2 ">
+        <form class="needs-validation"  novalidate method="post" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Company</label>
+                <select class="form-select" id="company_get" name="company" onchange="getClient(this.value)">
+                  <option value="">Select</option>
+                  <% if(companies.length>0){ %>
+                      <% for(let company of companies){ %>
+                  <option value="<%= company.id %>"><%= company.company_name %></option>
+                      <% } } %>
+              </select> 
+
+              </div>
+              
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+                <select class="form-select " id="clientSelect" name="client" placeholder="Select Client Name ">
+               
+                </select>
+                <div class="invalid-feedback">
+                  Please select client!
+                </div>
+              </div>
+              
+              <div class="col-md-3 mb-3 ">
+                <label for="validationCustom01 ">From Date</label>
+                <input type="date" class="form-control " id="from_date" name="from_date">
+              
+            </div>
+            
+            <div class="col-md-3 mb-3 ">
+                <label for="validationCustom01 ">To Date</label>
+                <input type="date" class="form-control " id="to_date" name="to_date">
+              
+            </div>
+              <div class="col-md-3 mb-3 ">
+                  <label for="validationCustom01 ">From Month</label>
+                  <select class="form-select" name="from_month" id="from_month" placeholder="month">
+                      <option value="">Select</option>
+                      <option value="0">January</option>
+                      <option value="1">Febuary</option>
+                      <option value="2">March</option>
+                      <option value="3">April</option>
+                      <option value="4">May</option>
+                      <option value="5">June</option>
+                      <option value="6">July</option>
+                      <option value="7">August</option>
+                      <option value="8">September</option>
+                      <option value="9">October</option>
+                      <option value="10">November</option>
+                      <option value="11">December</option>
+                  </select>
+              </div>
+              <div class="col-md-3 mb-3 ">
+                <label for="validationCustom01 ">To Month</label>
+                <select class="form-select" name="to_month" id="to_month" placeholder="month">
+                    <option value="">Select</option>
+                    <option value="0">January</option>
+                    <option value="1">Febuary</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">August</option>
+                    <option value="8">September</option>
+                    <option value="9">October</option>
+                    <option value="10">November</option>
+                    <option value="11">December</option>
+                </select>
+            </div>
+              <div class="col-md-4 mb-3">            
+                <button class="btn btn-success" type="button" onclick="getExport()">Download Data</button>
+            </div>
+            </div>
+          
+          
+          </form>
+          
+    
+    </div>
+   
+  
+</div>
+<script>
+    
+   
+    function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });         
+      
+    }
+      
+    function getExport(){
+      var company = $('#company_get').val();
+      var client = $('#clientSelect').val();
+      var from_date = $('#from_date').val();
+      var to_date = $('#to_date').val();
+      var from_month = $('#from_month').val();
+      var to_month = $('#to_month').val();
+      window.location = '/admin/export-bank-report?company='+company+'&client='+client+'&from_date='+from_date+'&to_date='+to_date+'&from_month='+from_month+'&to_month='+to_month;      
+
+    
+    }
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<%- include('../includes/footer.ejs') %>

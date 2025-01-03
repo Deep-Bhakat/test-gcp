@@ -1,0 +1,104 @@
+<%- include('../includes/newHeader.ejs') %>
+
+  <div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2">Reports Download</h2>
+    <div class="container mx-20 my-2 ">
+        <form class="needs-validation" novalidate method="post" enctype="multipart/form-data">
+            <% if(message){ %>
+              <h2 class="text-center alert alert-success"><%= message %></h2>
+              <% } %>
+            <div class="row">       
+              <div class="col-md-4 mb-3">
+                  <label for="validationCustom02">Company</label>
+                  <select class="form-select " id="company" name="company" onchange="getClient(this.value)" placeholder="Select Company Name "required>
+                    <option value="">--SELECT--</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>
+                </select>
+                  <div class="invalid-feedback">
+                    Please select company!
+                  </div>
+                </div> 
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom02">Client</label>
+                  <select class="form-select " id="clientSelect" name="client" placeholder="Select Client Name ">
+                 
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select client!
+                  </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                  <label for="validationCustom03">Month</label>
+                  <select class="form-select" name="month" id="month" placeholder="month">
+                      <option value="">Select</option>
+                      <option value="0">January</option>
+                      <option value="1">Febuary</option>
+                      <option value="2">March</option>
+                      <option value="3">April</option>
+                      <option value="4">May</option>
+                      <option value="5">June</option>
+                      <option value="6">July</option>
+                      <option value="7">August</option>
+                      <option value="8">September</option>
+                      <option value="9">October</option>
+                      <option value="10">November</option>
+                      <option value="11">December</option>
+                  </select>
+                  <div class="invalid-feedback">
+                      Please select month year.
+                  </div>
+              </div>
+              <div class="col-md-2 mb-3">
+                  <label for="validationCustom03">Year</label>
+                  <select class="form-select" name="year" id="year" placeholder="year">
+                      <option value="">Select</option>
+                      <option value="2022-23">2022-23</option>
+                      <option value="2023-24">2023-24</option>
+                      <option value="2024-25">2024-25</option>
+                      <option value="2025-26">2025-26</option>
+                      <option value="2026-27">2026-27</option>
+                      <option value="2027-28">2027-28</option>
+                      <option value="2028-29">2028-29</option>
+                      <option value="2029-30">2029-30</option>
+                  </select>
+                  <div class="invalid-feedback">
+                      Please select year.
+                  </div>
+              </div>
+                  
+              
+
+            </div>   
+           
+                  
+            <button class="btn btn-success" type="submit">Download Data</button>
+          </form>
+          
+      
+    </div>
+</div>
+<script>
+      function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/employee/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });         
+ 
+    }
+    
+</script>
+<%- include('../includes/footer.ejs') %>

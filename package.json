@@ -1,0 +1,41 @@
+{
+  "name": "simple-nodejs-app",
+  "version": "1.0.0",
+  "description": "Research about a person",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rat9615/simple-nodejs-app.git"
+  },
+  "author": "Rohan R",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rat9615/simple-nodejs-app/issues"
+  },
+  "homepage": "https://github.com/rat9615/simple-nodejs-app#readme",
+  "dependencies": {
+    "@google-cloud/cloud-sql-connector": "^1.5.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^15.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "express-session-sequelize": "^2.3.0",
+    "fast-csv": "^4.3.6",
+    "google-translate-api": "^2.3.0",
+    "html-pdf": "^3.0.1",
+    "multer": "^1.4.4",
+    "mysql2": "^2.3.3",
+    "pdfkit": "^0.13.0",
+    "pdfkit-table": "^0.1.99",
+    "read-excel-file": "^5.2.28",
+    "sequelize": "^6.15.0",
+    "sib-api-v3-sdk": "^8.3.0",
+    "validator": "^13.7.0",
+    "xlsx": "^0.18.2"
+  }
+}

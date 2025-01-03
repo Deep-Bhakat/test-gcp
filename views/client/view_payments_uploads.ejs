@@ -1,0 +1,49 @@
+<%- include('../includes/client_header.ejs') %>
+
+<style>
+    .img-size{
+	height: 450px;
+	width: 620px;
+    margin-left: 90px;
+	background-size:contain;
+	overflow: hidden;
+}
+
+.modal-content {
+   width: 800px;
+  border:none;
+  background-color: grey;
+}
+.modal-body {
+   padding: 0;
+}
+
+</style>
+
+<div class="container">
+  <h6>Date : <% var dd=new Date(files.date);
+    var mm =  dd.getMonth()+1; %>
+    <%= dd.getDate()+'/'+mm+'/'+dd.getFullYear() %> </h6>
+
+  <% if(files.payment_type=='NEFT'){ %>
+    <table class="table table-bordered" >
+        <tr>
+          <td align="center"><b>Sl No</b></td>
+          <td align="center"><b>Client Name</b></td>
+          <td align="center"><b>Code</b></td>
+        </tr>
+        <% for(var i = 0; i<payment_banking_clients.length;i++){ %>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= payment_banking_clients[i].client_master.client_name %></td>
+            <td><%= payment_banking_clients[i].code %></td>
+          </tr>
+        <% } %>
+    </table>
+    <% } %>
+    
+  <embed src="../../<%= files.document %>" width="1000px" height="1500px" />
+</div>
+    
+
+<%- include('../includes/footer.ejs') %>

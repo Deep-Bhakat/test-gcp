@@ -1,0 +1,36 @@
+<%- include('../includes/header.ejs') %>
+    <div class="container my-4  mx-auto rounded border">
+       
+
+            <div class="mb-3 row" style="margin-top: 25px;margin-left: 30px;">
+                <h3>To <br>The Management,</h3>
+                <p><strong>Date-</strong> <%
+                    var ddd =  employee.date_of_joining.split('-');      
+                    var dd= [ddd[2],
+                    ddd[1],
+                    ddd[0]         
+                           ].join('/');
+                     %> <%= dd %></p>
+                <p><strong>NAME -</strong> <%= employee.emp_name %></p>
+                <p><strong>SON / DAUGHTER / WIFE of</strong> <%= employee.father_name %></p>
+                <p><strong>Address -</strong> <%= employee.address %></p>
+                <p class="mt-3">I have joined Your company without submitting any document as they are in my Home Town. My friends and family members are not so literate to send them, via Phone Or Others.</p>
+                <p>I will submit them soon, else, for any consequence, I will be ready to suffer and will not blame you. You can also Terminate me, from the Job, if You face any Statutory Issue. I beg you to give me a chance to work for a Temporary Period, as Earning Is very necessary for my family.</p>
+                <p>আমি আপনার কোম্পানিতে কোনো দলিল জমা দেয়ার বিনামূল্যে যোগদান করেছি কারণ এগুলি আমার বাড়িতে রয়েছে। আমার বন্ধুবান্ধব এবং পরিবারের সদস্যরা তাদের পাঠানোর জন্য এতটাই শিখা পায় না, ফোন বা অন্যান্য মাধ্যমে।
+
+                    আমি তা শীঘ্রই জমা দেব, অন্যথায় যেকোনো পরিণামের জন্য আমি ত্যাগ করার জন্য প্রস্তুত হব, আপনাকে দোষ দেব না। যদি আপনি কোনো আইনতান্ত্রিক সমস্যার সামনে প্রতিষ্ঠিত হন, তবে আপনি আমাকে চাকিটি বাতিল করতে পারেন। আমি আপনার কাছে একটি অস্থায়ী সময়ের জন্য কাজ করার সুযোগ দিতে অনুরোধ করছি, কারণ আমার পরিবারের জন্য আয় প্রয়োজন।</p>
+                <p>मैंने आपकी कंपनी में कोई दस्तावेज जमा किए बिना ही जोइन कर लिया है क्योंकि वे मेरे होम टाउन में हैं। मेरे दोस्त और परिवार के सदस्य इतने लेखक नहीं हैं कि वे उन्हें भेज सकें, फोन या अन्य किसी तरीके से।
+                        <br>
+                    मैं उन्हें जल्द ही जमा कर दूंगा, अन्यथा, किसी भी परिणाम के लिए मैं तैयार हूँ सहने के लिए और आपको दोष नहीं दूंगा। यदि आपको कोई कानूनी समस्या का सामना करना पड़े, तो आप मुझे नौकरी से निकाल सकते हैं। मैं आपसे अनुरोध करता हूँ कि आप मुझे एक अस्थायी अवधि के लिए काम करने का मौका दें, क्योंकि मेरे परिवार के लिए कमाई बहुत जरुरी है।</p>
+                <p class="mt-3"><strong>Thanking You.</strong></p>
+                <div class="mb-3 row" >
+                    <div class="col-sm-9">
+                        <img src="../../<%= employee.signature %>" width="90" height="90">
+                        <br>
+                        Signature of Employee 
+                    </div>
+                </div>             </div>
+            <a href="/admin/form11/<%= employee.id %>"> <button class="btn btn-success" type="button">Proceed</button></a>
+
+        </div> 
+        <%- include('../includes/footer.ejs') %>

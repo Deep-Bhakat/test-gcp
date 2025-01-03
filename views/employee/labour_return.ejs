@@ -1,0 +1,318 @@
+<%- include('../includes/newHeader.ejs') %>
+<h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">Labour Return</span></h2>
+<div class="container my-10"> 
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" name="tab" id="new-tab" onclick="changeTab('new')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">NEW</button>
+      </li>
+     
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" name="tab" id="due-tab" onclick="changeTab('due')" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">DUE</button>
+      </li>
+     </ul>
+     <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="new" role="tabpanel" aria-labelledby="pills-home-tab">
+<div class="container mx-20 my-2 border rounded clearfix">
+    <form class="needs-validation my-2" novalidate method="post" enctype="multipart/form-data" action="/employee/labour-return">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" name="company5" onchange="getClient5(this.value)" required>
+                    <option value="">--SELECT--</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>              
+            </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+              <select class="form-select" id="client5" name="client5" >         
+            </select>
+                <div class="invalid-feedback">
+                    Please Provide Client!
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="validationCustom02">Period</label>
+                <select class="form-select" id="validationCustom01" name="period2" >
+              <option>Select</option>
+              <option value="Jan-June">Jan-June</option>
+              <option value="July-Dec">July-Dec</option>
+            </select>
+                <div class="invalid-feedback">
+                    Please select Period!
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="validationCustom02">Year</label>
+                <input type="number" class="form-control" name="year2" min="2000" max="3099" step="1" value="2022" >
+                <div class="invalid-feedback">
+                    Please enter Year!
+                </div>
+            </div>
+        </div>
+        <h3>Uploads</h3>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <input type="file" class="form-control" name="document2" id="validationCustom04" >
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success float-end" type="submit">Upload</button>
+    </form>
+
+
+</div>
+<div class="container">
+    <input type="text" class="form-control" style="width: 800px;" onkeyup="searchLabourReturn(this.value)" placeholder="Search..." />
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <td>Client Name</td>
+            <td>Date</td>
+            <td>Download Options</td>
+        </thead>
+        <tbody id="returnTable">
+
+        </tbody>
+    </table>
+</div>
+</div>
+<div class="tab-pane fade" id="due" role="tabpanel" aria-labelledby="pills-home-tab">
+      
+    <div class="container my-4  mx-auto rounded border">
+      <h2 class="text-center my-2">Due List</h2>
+      <div class="container mx-20 my-2 ">
+          <form class="needs-validation" action="/employee/license-due" novalidate method="post" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom01">Company</label>
+                  <select class="form-select" id="validationCustom01" name="company" onchange="getClient(this.value)">
+                    <option value="">Select</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>
+                </select>
+                  <div class="invalid-feedback">
+                    Please provide company!
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="validationCustom02">From Date</label>
+                  <input type="date" id="datepicker" class="form-control" name="from_date" id="validationCustom01"  required>         
+                  <div class="invalid-feedback">
+                  </div>
+                </div>   
+                <div class="col-md-3 mb-3">
+                  <label for="validationCustom02">To Date</label>
+                  <input type="date" id="datepicker" class="form-control" name="to_date" id="validationCustom01"  required>         
+                  <div class="invalid-feedback">
+                   
+                  </div>
+                </div>     
+              </div>
+            
+            
+              <button class="btn btn-primary" type="submit">Download</button>
+            </form>
+            
+            <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+              'use strict';
+              window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                  form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                  }, false);
+                });
+              }, false);
+            })();
+            </script>
+      </div>
+  </div>
+<script>
+         function changeTab(val){
+    //removing active and show from tab-pane 
+    var list = document.getElementsByClassName('tab-pane');
+    for(var i=0;i<list.length;i++){
+      list[i].classList.remove('show','active');
+    }
+    //adding show and active to clisked tab pane
+    document.getElementById(val).classList.add('show','active');
+
+    //removing active and show from tab 
+    var list2 = document.getElementsByName('tab');
+    for(var i=0;i<list2.length;i++){
+      list2[i].classList.remove('active');
+    }
+    document.getElementById(val+'-tab').classList.add('active');
+
+  }
+       getData('return');       
+    
+    function getClient5(val){
+        $.ajax({
+        type: 'POST',
+        url: '/employee/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#client5').html(html);
+        }
+      });    
+    }
+    
+    function searchLabourReturn(val){
+                var monthNames = [ "January", "February", "March", "April", "May", "June", 
+                       "July", "August", "September", "October", "November", "December" ];
+                $.ajax({
+                type: 'POST',
+                url: '/employee/searchLabourReturn',
+                data: {val:val},
+                success: function({data,isAdmin}) {
+                    var html='';
+                    for(var i =0;i<data.length;i++){
+                        var dd=new Date(data[i].month_year);
+                        var mm =  monthNames[dd.getMonth()];
+                        var from_date = new Date(data[i].from_date);
+                        var from_date_mm = from_date.getMonth()+1;
+                        var to_date = new Date(data[i].to_date);
+                        var to_date_mm = to_date.getMonth()+1;
+                        html+=`<tr>
+                        <td>${i+1}</td>
+                        ${data[i].company_master ? `<td>${data[i].company_master.company_name}</td>` : ''}
+                        <td>${data[i].client_master ? `${data[i].client_master.client_name}` : ''}</td>
+                        ${data[i].from_date ? `<td>${from_date.getDate()+'-'+from_date_mm+'-'+from_date.getFullYear()+' to '+to_date.getDate()+'-'+to_date_mm+'-'+to_date.getFullYear() }</td>` :''}
+
+                        ${data[i].period ? `<td>${data[i].period+' '+ data[i].year}</td>` :''}
+                        ${data[i].month_year ? `<td>${mm+' '+dd.getFullYear()}</td>` : ''}
+                        <td>
+   
+                            ${data[i].ecr_challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].ecr_challan}" download="ECRChallan_${mm}_${dd.getFullYear()}">ECR Challan</a>`: ''}  
+                      ${data[i].contribution ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].contribution}" download="Contribution_${mm}_${dd.getFullYear()}">Contribution</a>`: ''}  
+                      ${data[i].payment_proff ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].payment_proff}" ${ data[i].period ? `download="ECRChallan_${data[i].period}_${data[i].year}"` : `download="PaymentProof_${mm}_${dd.getFullYear()}"` }>Payment Proof</a>`: ''}  
+                      ${data[i].challan_details ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan_details}" download="ChallanDetails${mm}_${dd.getFullYear()}">Challan Details</a>`: ''}  
+                      ${data[i].challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan}" ${ data[i].period ? `download="Challan_${data[i].period}_${data[i].year}"` : `download="Challan_${mm}_${dd.getFullYear()}"` }>Challan</a>`: ''}  
+                      ${data[i].document ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].document}" download="Document_${monthNames[from_date_mm]}_${from_date.getFullYear()}">Document</a>`: ''}  
+
+                    </td> 
+                    ${isAdmin ? `<td><button type="button" class="btn btn-danger" onclick="deleteStatute('return',${data[i].id})">Delete</button></td>`:''}
+                        </tr>`
+        }
+             $('#returnTable').html(html);
+        
+                    
+                }
+             });
+            }
+ 
+            function getData(val){
+                var tableName = '#'+val+'Table';
+                var monthNames = [ "January", "February", "March", "April", "May", "June", 
+                       "July", "August", "September", "October", "November", "December" ];
+                $.ajax({
+                type: 'POST',
+                url: '/employee/getStatuteData',
+                data: {val:val},
+                success: function({data,isAdmin}) {
+                    licenseData={};
+                    var html='';
+                    for(var i =0;i<data.length;i++){
+                        var dd=new Date(data[i].month_year);
+                        var mm =  monthNames[dd.getMonth()];
+                        var from_date = new Date(data[i].from_date);
+                        var from_date_mm = from_date.getMonth()+1;
+                        var to_date = new Date(data[i].to_date);
+                        var to_date_mm = to_date.getMonth()+1;
+                        const date2 = new Date();
+                        const diffTime = Math.abs(to_date - date2);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                        const isNegDate = (to_date-date2) <0 ? true : false;
+                        if(isNegDate){
+                            licenseData[diffDays]=data[i];
+                        }else{
+                            licenseData[diffDays]=data[i];
+                        }
+                        console.log(licenseData);
+                        html+=`<tr>
+                        <td>${i+1}</td>
+                        ${data[i].company_master ? `<td>${data[i].company_master.company_name}</td>` : ''}
+                        ${val=='ptax' || val =='lwf' ? ``
+: `<td>${data[i].client_master ? `${data[i].client_master.client_name}` : 'MULTIPLE'}</td>
+`}
+
+                        ${data[i].from_date ? `<td>${from_date.getDate()+'-'+from_date_mm+'-'+from_date.getFullYear()}</td>` :''}
+                        ${data[i].to_date ? `<td>${to_date.getDate()+'-'+to_date_mm+'-'+to_date.getFullYear() }</td>` :''}
+                        ${data[i].to_date ? `<td ${isNegDate ? 'style=color:red;' : ''}>${isNegDate ? '<b>-'+diffDays+' days</b>' : diffDays+' days'} </td>` :''}
+
+                        ${data[i].period ? `<td>${data[i].period+' '+ data[i].year}</td>` :''}
+                        ${data[i].month_year ? `<td>${mm+' '+dd.getFullYear()}</td>` : ''}
+                        <td>
+   
+                            ${data[i].ecr_challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].ecr_challan}" download="ECRChallan_${mm}_${dd.getFullYear()}">ECR Challan</a>`: ''}  
+                      ${data[i].contribution ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].contribution}" download="Contribution_${mm}_${dd.getFullYear()}">Contribution</a>`: ''}  
+                      ${data[i].payment_proff ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].payment_proff}" ${ data[i].period ? `download="ECRChallan_${data[i].period}_${data[i].year}"` : `download="PaymentProof_${mm}_${dd.getFullYear()}"` }>Payment Proof</a>`: ''}  
+                      ${data[i].challan_details ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan_details}" download="ChallanDetails${mm}_${dd.getFullYear()}">Challan Details</a>`: ''}  
+                      ${data[i].challan ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].challan}" ${ data[i].period ? `download="Challan_${data[i].period}_${data[i].year}"` : `download="Challan_${mm}_${dd.getFullYear()}"` }>Challan</a>`: ''}  
+                      ${data[i].document ? `<a name="${val+data[i].id}" class="btn btn-success" href="../../${data[i].document}" download="Document_${monthNames[from_date_mm]}_${from_date.getFullYear()}">Document</a>`: ''}  
+
+                    </td> 
+                    ${isAdmin ? `<td><button type="button" class="btn btn-danger" onclick="deleteStatute('${val}',${data[i].id})">Delete</button></td>`:''}
+                        </tr>`
+        }
+             $(tableName).html(html);
+        
+                    
+                }
+             });
+            }
+            
+            function download(a){
+      console.log(a);
+
+    let collection = document.getElementsByName(a);
+    console.log(collection);
+    for(var i=0;i<collection.length;i++){
+        collection[i].click();
+    }
+}
+function deleteStatute(val,id){
+
+    var del = confirm('Do you want to delete?');
+    if(del){
+    $.ajax({
+        type: 'DELETE',
+        url: '/employee/deleteStatute',
+        data: {id:id,val:val},
+        success: function(data) {
+      getData(val);
+
+        }
+      });
+    }
+
+}
+  </script>

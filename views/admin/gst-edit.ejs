@@ -1,0 +1,70 @@
+<%- include('../includes/header.ejs') %>
+<h4 style="text-align: center;"><span style=" border-bottom: 3px solid #FB3930; font-size: 3rem;"  ;>GST Edit</span></h4>
+
+<div class="container mx-20 my-2 border rounded clearfix">
+    <form class="needs-validation my-2" novalidate method="post" action="/admin/gst-edit" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" name="company" onchange="getClient(this.value)" required>
+                    <option value="<%= gsts.company_master.id %>"><%= gsts.company_master.company_name %></option>
+               
+                    <option value="">Select</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>             
+            </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+           </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom02">Month & Year</label>
+                <input type="hidden" value="<%= gsts.id %>" name="id">
+                <input type="month" id="datepicker" class="form-control" value="<%= gsts.month_year %>" name="month_year" id="validationCustom01" required>
+                <div class="invalid-feedback">
+                    Please select Month & Year!
+                </div>
+            </div>
+
+        </div>
+        <h3>Uploads</h3>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">FORM (I)</label>
+                <input type="file" class="form-control" name="form1" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">FORM (I) Details</label>
+                <input type="file" class="form-control" name="form1_details" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">FORM - 3B</label>
+                <input type="file" class="form-control" name="form3b" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">PAYMENT PROOF </label>
+                <input type="file" class="form-control" name="payment" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+
+        </div>
+        <button class="btn btn-success float-end" type="submit">Upload</button>
+    </form>
+
+
+</div>
+
+<%- include('../includes/footer.ejs') %>

@@ -1,0 +1,170 @@
+<%- include('../includes/header.ejs') %>
+
+<style>
+    .plus-button {
+      border: 2px solid lightgrey;
+      background-color: #fff;
+      font-size: 16px;
+      height: 2.5em;
+      width: 2.5em;
+      border-radius: 999px;
+      position: relative;
+  }
+      .plus-button:after,
+      .plus-button:before {
+          content: "";
+          display: block;
+          background-color: green;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+      }
+      
+      .plus-button:before {
+          height: 1em;
+          width: 0.2em;
+      }
+  
+      .plus-button:after {
+          height: 0.2em;
+          width: 1em;
+      }
+    .close {
+      position: relative;  
+      display: block;
+      width: 50px;
+      height: 50px;
+      font-size: 0;
+  }
+  .close:before, 
+  .close:after {
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      width: 5px;
+      height: 20px;
+      background-color: red;
+      transform: rotate(45deg) translate(-50%, -50%);
+      transform-origin: top left;
+      content: '';
+  }
+  .close:after {
+      transform: rotate(-45deg) translate(-50%, -50%);
+  }
+  </style>
+  <div class="container my-4  mx-auto rounded border">
+      <h2 class="text-center my-2">Service Master Form</h2>
+      <div class="container mx-20 my-2 ">
+          <form class="needs-validation" novalidate>
+              <div class="row">
+                <div class="col-md-12 mb-3">
+                  <label for="validationCustom01">Heading</label>
+                  <input type="text" class="form-control" id="validationCustom01" placeholder="Enter Heading" required>
+                  <div class="invalid-feedback">
+                    Please provide heading!
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom02">HSN NO</label>
+                  <input type="text" class="form-control" id="validationCustom01" placeholder="Enter HSN NO" required>
+                  <div class="invalid-feedback">
+                    Please Provide HSN NO!
+                  </div>
+                </div>         
+              </div>
+              <div class="row">          
+                <div class="col-md-12 mb-3">
+                  <label for="validationCustom04">Naration</label>
+                  <textarea type="text" class="form-control" id="validationCustom02" placeholder="Enter Naration" required></textarea>
+                  <div class="invalid-feedback">
+                    Please provide naration.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom05">Particulars</label>
+                  <textarea type="text" class="form-control" id="validationCustom02" placeholder="Enter Particulars" required></textarea>
+                  <div class="invalid-feedback">
+                    Please provide particulars.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom03">Naration</label>
+                  <input type="hidden" value="0" id="particularNo"  />
+                  <textarea type="text" class="form-control" id="validationCustom02" placeholder="Enter Naration"></textarea>
+                </div>
+                <span style="margin-left: 10px; cursor: pointer;" id="addD" class="plus-button"></span>
+
+              </div>   
+             
+              <div id="particularRow">
+              </div>            
+              <button class="btn btn-success" type="submit">Edit</button>
+              <a href="/admin/service-master"><button class="btn btn-primary" type="button">Cancel</button></a>
+                    
+            </form>
+            
+            <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+              'use strict';
+              window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                  form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                  }, false);
+                });
+              }, false);
+            })();
+            </script>
+      </div>
+  </div>
+  <script>
+  
+    document.getElementById('addD').onclick= addParticular;
+    var particularNo = 0;
+    function addParticular(){
+      document.getElementById('particularNo').value=parseInt(document.getElementById('particularNo').value)+1;
+      particularNo++;
+      var addRow=`
+      <div class="row" id="par${particularNo}">                
+        <div class="col-md-6 mb-3">
+                  <label for="validationCustom05">Particulars</label>
+                  <textarea type="text" class="form-control" id="validationCustom02" placeholder="Enter Particulars" required></textarea>
+                  <div class="invalid-feedback">
+                    Please provide particulars.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom03">Naration</label>
+                  <input type="hidden" value="0" id="particularNo"  />
+                  <textarea type="text" class="form-control" id="validationCustom02" placeholder="Enter Naration"></textarea>
+                </div>
+         
+                    <div class="col-md-3 mb-3">
+                      <span onclick="deleteDirector(${particularNo})" style="cursor:pointer" class="close"></span>
+                    </div>
+                </div>
+      `;
+  
+     //  document.getElementById('directorRow').append(addRow);
+    document.getElementById('particularRow').insertAdjacentHTML('beforeend', addRow);
+  
+    }
+  
+    function deleteParticular(id){
+      var rowToDelete = "par"+id;
+      document.getElementById('particularNo').value=parseInt(document.getElementById('particularNo').value)-1;
+      particularNo--;
+      //document.getElementById(rowToDelete).style.display="none";
+      document.getElementById('particularRow').removeChild(document.getElementById(rowToDelete));
+    }
+  </script>
+  <%- include('../includes/footer.ejs') %>

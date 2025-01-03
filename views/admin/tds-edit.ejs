@@ -1,0 +1,48 @@
+<%- include('../includes/header.ejs') %>
+<h4 style="text-align: center;"><span style=" border-bottom: 3px solid #FB3930; font-size: 3rem;"  ;>TDS EXEMPTION EDIT</span></h4>
+
+<div class="container mx-20 my-2 border rounded clearfix">
+    <form class="needs-validation my-2" novalidate method="post" enctype="multipart/form-data" action="/admin/tds-exemption-edit">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" name="company" required>
+                    <option value="<%= tds.company_master.id %>"><%= tds.company_master.company_name %></option>
+                    <option value="">Select</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>
+                </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3">
+                <label for="validationCustom02">Select Year</label>
+                <input type="hidden" class="form-control" name="id" value="<%= tds.id %>">
+
+                <input type="number" class="form-control" min="2000" max="3099" step="1" name="year" value="<%= tds.year %>" required>
+                <div class="invalid-feedback">
+                    Please select year!
+                </div>
+            </div>
+
+        </div>
+        <h3>Uploads</h3>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <input type="file" class="form-control" name="file" id="validationCustom04" required>
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success float-end" type="submit">Update</button>
+    </form>
+
+
+</div>
+
+<%- include('../includes/footer.ejs') %>

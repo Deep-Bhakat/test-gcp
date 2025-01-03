@@ -1,0 +1,331 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style>
+    a {
+        text-decoration: none;
+    }
+    
+    html * {
+        font-family: 'Times New Roman', Times, serif !important;
+    }
+</style>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow p-3 mb-5 bg-white rounded">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ">
+              <li class="nav-item">
+                <a href="/staff/dashboard"><img src="../../img/2.png" style="border-radius: 10px; margin-left: 50px; " height="50px" width="50px" />   </a>
+               </li>
+               <li class="nav-item">
+                <h4 style="text-align: center; margin-left: 100px; "><span style=" border-bottom: 3px solid #FB3930; font-size: 2.5rem;" >Welcome to Genesis Family</span></h4>
+               </li>
+               <li class="nav-item" style="margin-left:150px">
+                <h4 style="text-align: right;  "><span style=" font-size: 1rem;" >Employee Name : <b><%= empData.emp_name %></b></span></h4>
+                <h4 style="text-align: right; "><span style=" font-size: 1rem;" >Employee Aadhar : <b><%= empData.aadhar %></b></span></h4>
+                <h4 style="text-align: right; "><span style=" font-size: 1rem;" >Employee Code : <b><%= empData.emp_code %></b></span></h4>
+                <h6 style="text-align: right; "><a href="/staff/logout">Logout</a></h6>
+
+              </li>
+              <li class="nav-item">
+                 </li>
+             
+              </ul>
+           
+
+          </div>
+        </div>
+      </nav>
+</header>    
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-2"></div>
+            <div align="right" class="col-6">
+
+                <span style="font-size: 28px;">Form No. 2 (New)</span><br><span style="font-size: 28px;">Declaration Form</span><br> (To be retained by the Employer for future reference)
+            </div>
+        </div>
+        <div class="row">
+            <div align="center" class="col-2" style="margin-top: -30px;"> <img src="/img/pf.png" width="150" height="150"> </div>
+            <div align="center" class="col-10">
+                <h2>Employee' Provident Fund Organisation</h2>
+                <p>THE EMPLOYEES PROVIDENT FUNDS SCHEME, 1952 (PARAGRAPH-34 & 57) & THE EMPLOYEES PENSION SCHEME, 1995 (PARAGRAPH-24</p>
+            </div>
+        </div>
+        <div class="row">
+            <div align="center" class="col-12">
+                <u style="text-align: center;">
+              DECLARATION BY A PERSON TAKING UP EMPLOYMENT IN AN ESTABLISHMENT ON WHICH EMPLOYEES PROVIDENT FUND SCHEME,
+<span style="font-weight: bold;">1952</span> AND/OR EMPLOYEES PENSION SCHEME, <span style="font-weight: bold;">1995</span> IS APPLICABLE
+            </u>
+                <p style="text-transform: uppercase; font-weight: bold;">(PLEASE GO THROUGH THE INSTRUCTIONS)</p>
+            </div>
+        </div>
+    </div>
+    <div class="container my-4  mx-auto rounded border">
+
+        <div class="container mx-20 my-2 ">
+
+            <h4 class="text-center">NOMINATION AND DECLARATION FORM FOR UNEXEMPTED/EXEMPTED ESTABLISHMENTS</h4>
+            <p class="text-center">Declaration and Nomination Form under the Employees Provident Funds and Employees Pension Schemes
+            </p>
+            <p class="text-center">(Paragraph 33 and 61 (1) of the Employees Provident Fund Scheme 1952 and Paragraph 18 of the Employees Pension Scheme 1995)</p>
+            <form class="needs-validation" novalidate method="post" action="/admin/form2-edit">
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">NAME</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.emp_name %>" required>
+                    </div>
+                    <label for="staticEmail" class="col-sm-2 col-form-label">FATHER's/ HUSBAND's NAME</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.father_name %>" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">DATE OF BIRTH</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= new Date(employee.dob).toLocaleDateString({ year: 'numeric', month: '2-digit', day: '2-digit' }); %>" required>
+                    </div>
+                    <label for="staticEmail" class="col-sm-2 col-form-label">ACCOUNT NO</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.bank_ac %>" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">SEX</label>                    
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.gender %>" required>
+                    </div>
+                    <label for="staticEmail" class="col-sm-2 col-form-label">MARITAL STATUS</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="validationCustom01" readonly value="<%= employee.maritial_status %>"  required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">ADDRESS</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="validationCustom01" readonly ><%= employee.address %></textarea>
+                    </div>
+                </div>
+
+                <h4 class="text-center">PART – A (EPF)</h4>
+                <p class="text-center">I hereby nominate the person(s)/cancel the nomination made by me previously and nominate the person(s) mentioned below to receive the amount standing to my credit in the Employees Provident Fund, in the event of my death.</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <input type="hidden" class="form-control" name="id" value="<%= employee.id %>" />
+                        <td style="width: 200px;">Name of the Nominee</td>
+                        <td style="width: 300px;">Address</td>
+                        <td>Nominee's relationship with the member</td>
+                        <td>Date of birth</td>
+                        <td>Total amount or share of accumulations in Provident Funds to be paid to each nominee</td>
+                        <td>If the nominee is minor name and address of the guardian who may receive the amount during the minority of the nominee</td>
+                    </tr>
+                    <% for(let e of epf){ %>
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]" value="<%= e.name %>" /></td>
+                        <td><textarea class="form-control" name="address[]"><%= e.address %></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" value="<%= e.relationship %>"/></td>
+                        <td><input type="date" class="form-control" name="dob[]" value="<%= e.dob %>" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]" value="<%= e.total_share %>" /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]" value="<%= e.guardian_name_address %>" /></td>
+                    </tr>
+                    <%  } %>
+                    <% for(i=0;i<7-epf.length;i++){ %>
+
+                    <tr>
+                        <td><input type="text" class="form-control" name="name[]"  /></td>
+                        <td><textarea class="form-control" name="address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="relationship[]" /></td>
+                        <td><input type="date" class="form-control" name="dob[]" /></td>
+                        <td><input type="text" class="form-control" name="total_amount[]"  /></td>
+                        <td><input type="text" class="form-control" name="minor_name_address[]"  /></td>
+                    </tr>
+                    <% }%>
+                </table>
+                <p class="text-left">1. *Certified that I have no family as defined in para 2 (g) of the Employees Provident Fund Scheme 1952 and should I
+                    acquire a family hereafter the above nomination should be deemed as cancelled.</p>
+                <p class="text-left">2. * Certified that my father/mother is/are dependent upon me.
+                </p>
+                <p class="text-left">Strike out whichever is not applicable</p>
+               <img src="../../<%= employee.signature %>" width="90px" height="90px" style="float:right" />
+          
+                <p style="text-align:right; clear:right">Signature/or thumb impression of the subscriber</p>
+                <h4 class="text-center">PART – (EPS)</h4>
+                <p class="text-center">I hereby furnish below particulars of the members of my family who would be eligible to receive Widow/Children Pension in the event of my premature death in service.</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <td style="width: 250px;">Sr. No</td>
+                        <td>Name & Address of the family member</td>
+                        <td style="width: 100px;">Age</td>
+                        <td style="width: 200px;">Relationship with the member</td>
+                    </tr>
+                    <% for(let e of eps){ %>
+
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" value="<%= e.sr_no %>" /></td>
+                        <td><textarea class="form-control" name="name_address[]"><%= e.name_address %></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]"  value="<%= e.age %>" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]"  value="<%= e.relationship %>" /></td>
+                    </tr>
+                    <%  } %>
+                    <% for(i=0;i<7-eps.length;i++){ %>
+                    <tr>
+                        <td><input type="text" class="form-control" name="sr_no[]" /></td>
+                        <td><textarea class="form-control" name="name_address[]"></textarea></td>
+                        <td><input type="text" class="form-control" name="age[]" /></td>
+                        <td><input type="text" class="form-control" name="relationship2[]" /></td>
+                    </tr>
+                    <% } %>
+ 
+                </table>
+                <p class="text-center">Certified that I have no family as defined in para 2 (vii) of the Employees’s Family Pension Scheme 1995 and should I acquire a family hereafter I shall furnish Particulars there on in the above form.<br> I hereby nominate the following
+                    person for receiving the monthly widow pension (admissible under para 16 2 (a) (i) & (ii) in the event of my death without leaving any eligible family member for receiving pension.</p>
+
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Name and Address of the nominee</td>
+                        <td>Date of birth</td>
+                        <td>Relationship with the member</td>
+                    </tr>
+                    <tr>
+                        <td><textarea type="text" class="form-control" name="name_address2"><%= form2.name_address %></textarea></td>
+                        <td><input type="date" class="form-control" name="dob2" value="<%= form2.dob %>" /></td>
+                        <td><input type="text" class="form-control" name="relationship3" value="<%= form2.relationship %>" /></td>
+                    </tr>
+
+                </table>
+                <img src="../../<%= employee.signature %>" width="90px" height="90px" style="float:right" />
+          
+                <p style="text-align:right; clear:right">Signature/or thumb impression of the subscriber</p>
+               
+                <hr>
+                <h3 class="text-center">CERTIFICATE BY EMPLOYER</h3>
+                <p>
+                    Certified that the above declaration and nomination has been signed / thumb impressed before me by Shri / Smt./
+Miss <u><%= employee.emp_name %></u> employed in my establishment after he/she has
+read the entries / the entries have been read over to him/her by me and got confirmed by him/her.
+                </p>
+                <!-- <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Signature or thumb impression
+                  of the subscriber</label>
+                    <div class="col-sm-6">
+                        <input type="file" class="form-control" id="validationCustom01" required />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Signature or thumb impression
+                  of the subscriber</label>
+                    <div class="col-sm-6">
+                        <input type="file" class="form-control" id="validationCustom01" required />
+                    </div>
+                </div> -->
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Name & address of the Factory /Establishment
+                </label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" id="validationCustom01" name="factory_name_address" required>
+                            <%= form2.factory_name_address %>
+                        </textarea>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Date
+                </label>
+                    <div class="col-sm-3">
+                        <input type="date" class="form-control" id="validationCustom01" value="<%= form2.date %>" name="datee" required />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Place
+                </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="validationCustom01" value="<%= form2.place %>" name="place" required />
+                    </div>
+                </div>
+                <button class="btn btn-success" id="printt" type="button" >Print</button>
+                <br>
+                <div align="center">
+                    
+                   
+                </div>
+
+            </form>
+
+            <script>
+    //               printpage();
+    // function printpage(){
+    //      document.getElementById('printt').style.display='none';
+    //     window.print();
+    // }
+                // Example starter JavaScript for disabling form submissions if there are invalid fields
+                (function() {
+                    'use strict';
+                    window.addEventListener('load', function() {
+                        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                            form.addEventListener('submit', function(event) {
+                                if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                form.classList.add('was-validated');
+                            }, false);
+                        });
+                    }, false);
+                })();
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    // printpage();
+    // function printpage(){
+    //      document.getElementById('printt').style.display='none';
+    //     window.print();
+    // }
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+<script>
+    function showPreview(event) {
+        //document.getElementById("isImage").value = "1";
+        if (event.target.files.length > 0) {
+            let src = URL.createObjectURL(event.target.files[0]);
+            //$("#photo").val(event.target.files[0].size/1024);
+            let preview = document.getElementById("preview");
+            preview.src = src;
+            preview.style.width = "120px";
+            preview.style.height = "150px";
+            preview.style.display = "block";
+        }
+    }
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>

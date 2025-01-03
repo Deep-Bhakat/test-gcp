@@ -1,0 +1,185 @@
+<%- include('../includes/header.ejs') %>
+
+<div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2"><span style=" border-bottom: 3px solid #FB3930" >View Payments & Banking</span></h2>
+    <div class="container mx-20 my-2 clearfix">
+        <form class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Company Name</label>
+                <select class="form-select" id="company" onchange="getClient(this.value)" required>
+                    <option class="">Select</option>
+                    <% if(companies.length>0){ %>
+                      <% for(let company of companies){ %>
+                  <option value="<%= company.id %>"><%= company.company_name %></option>
+                      <% } } %>
+                   
+                </select>
+                <div class="invalid-feedback">
+                  Please provide company name!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+                <select class="form-select" id="client" required>
+          
+                </select>
+                <div class="invalid-feedback">
+                  Please Provide employer!
+                </div>
+              </div>                      
+            </div>  
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">From Date</label>
+                    <input type="date" class="form-control" id="date1"  required>               
+                    <div class="invalid-feedback">
+                      Please Provide From Date!
+                    </div>
+                  </div>  
+                   <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">To Date</label>
+                    <input type="date" class="form-control" id="date2"  required>               
+                    <div class="invalid-feedback">
+                      Please Provide To Date!
+                    </div>
+                  </div> 
+            </div>       
+        
+              <button class="btn btn-success float-end" type="button" onclick="getData()">Go</button>
+            </form>
+          
+         
+    </div>
+    </div>
+    <div class="container" id="dataDiv">
+</div>
+
+<%- include('../includes/footer.ejs') %>
+<script>
+    // function showPdf(pdf){
+    //     window.open('../../'+pdf.src);
+
+    // }
+//     function view(id){
+//         var myModal = new bootstrap.Modal(document.getElementById('largeModal'), {
+//   keyboard: false
+// })
+
+// myModal.show();
+
+// }
+function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#client').html(html);
+        }
+      });    
+    }
+    function getData(){
+      var comp = $('#company').val();
+      var client = $('#client').val();
+      var date1 = $('#date1').val();
+      var date2 = $('#date2').val();
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getPaymentBankingData',
+        data: {company:comp,client:client,date1:date1,date2:date2},
+        success: function(data) {
+          console.log(data);
+          var html = '';
+            html+=`<table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <td>Client Name</td>
+            <td>Payment Type</td>
+            <td>Date</td>
+            <td>Option</td>
+        </thead>
+        <tbody>
+          `;
+          if(data.length==0){
+            $('#dataDiv').html('<h2 class="text-center alert alert-secondary">No Payments Added Yet.</h2>');
+
+          }else{
+             for (var i = 0; i< data.length; i++) {
+            var dd=new Date(data[i].date);
+              var mm =  dd.getMonth()+1;
+          
+             html+=`             
+            <tr>
+                <td>${i+1}</td>
+                <td>${data[i].company_master.company_name}</td>
+                <td>${data[i].payment_banking_clients.length >=2 ? 'MULTIPLE' : data[i].payment_banking_clients[0].client_master.client_name}</td>
+                <td>${data[i].payment_type === 'CASH' ? 'CASH' : 'E-Net / NEFT'}</td>               
+                <td>${dd.getDate()+'/'+mm+'/'+dd.getFullYear()}</td>
+                <td>
+                   <a href="view-payments-uploads/${data[i].id}" target="__blank"><button class="btn btn-dark btn-sm" type="button">View</button></a>
+                   ${data[i].payment_type === 'CASH' ? ``
+ :                     `<a class="btn btn-success btn-sm" href="downloadNeft/${data[i].id}">Download</a>`}
+
+<a class="btn btn-success btn-sm" href="../../${data[i].document}" download="${data[i].payment_type}_${data[i].document.substr(7)}">Download File</a>
+            
+         
+
+                    <button class="btn btn-danger btn-sm" type="button" onclick="deleteRecord(${data[i].id})">Delete</button>
+                          </td>
+                          </tr>
+                        `;
+          }
+
+         $('#dataDiv').html(html);
+          }}
+      });    
+    }
+function deleteRecord(idd){
+  var con = confirm("Do you want to delete?");
+            if(con){
+  $.ajax({
+        type: 'POST',
+        url: '/admin/payments-delete',
+        data: {id:idd},
+        success: function(data) {
+          getData();
+        }
+        });
+      }
+}
+function download(a){
+    let collection = document.getElementsByName(a);
+    for(var i=0;i<collection.length;i++){
+        collection[i].click();
+    }
+}
+</script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>

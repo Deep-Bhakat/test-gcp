@@ -1,0 +1,169 @@
+<%- include('../includes/header.ejs') %>
+    <div class="container mx-20 my-2 border rounded clearfix">
+
+        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930" ;>Notification</span></h2>
+        <form class="needs-validation my-2" novalidate method="post" enctype="multipart/form-data" action="/admin/notification-details">
+            <div class="row">
+                <div class="col-12">
+                    <br>
+                </div>
+            </div>
+            
+            <div class="row " style="margin-top: 10px; ">
+               
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Client Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                    <input type="text" class="form-control " id="clientSelect" name="clientName" onkeyup="searchClient(this.value)" placeholder="Search Client Name " >
+                    <input type="hidden" class="form-control " id="client" name="client" value="" >
+                    
+                    <div class="invalid-feedback ">
+                        Please select a client!
+                    </div>
+                    <div id="clientData">
+                    </div>
+                </div>
+          
+               
+            </div>
+            <div class="row">
+
+
+                <div class="col-md-3 mb-3">
+                    Heading <input type="text" class="form-control" name="heading" id="validationCustom04" placeholder="Enter Notification Heading" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    Date <input type="date" class="form-control" name="month_year" id="validationCustom04">
+                </div>
+                <div class="col-md-3 mb-3">
+                   View Date From <input type="date" class="form-control" name="from_date" id="validationCustom04">
+                </div>
+                <div class="col-md-3 mb-3">
+                    View Date To <input type="date" class="form-control" name="to_date" id="validationCustom04">
+                </div>
+                <h3>Uploads Notification</h3>
+                <div class="col-md-3 mb-3">
+                    <input type="file" class="form-control" name="file" id="validationCustom04" required>
+                    <div class="invalid-feedback">
+                        Please provide atleast one file.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    Our Comments <textarea class="form-control" name="comment" id="validationCustom04"></textarea>
+                  
+                </div>
+
+
+
+
+
+
+            </div>
+
+            <center><button class="btn btn-success " type="submit">Submit</button></center>
+        </form>
+
+
+    </div>
+
+    <div class="container">       
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <td>Sl No</td>
+                <td>Heading</td>
+                <td>Date</td>
+                <td>Comments</td>
+                <td colspan="2">Option</td>
+            </thead>
+            <tbody id="noti_table">
+                <% if(noti.length>0){ %>
+                    <%  c=1
+                     for(let n of noti) { 
+                        var from_date = new Date(n.date);
+                        var from_date_mm = from_date.getMonth()+1;
+                  
+                        %>
+                <tr>
+                    <td><%= c %></td>
+                    <td><%= n.heading %></td>                
+                    <td>   <%= from_date.getDate()+'-'+from_date_mm+'-'+from_date.getFullYear() %>
+               
+               </td>
+               <td><%= n.comment %></td>                
+
+                    <td><a href="/admin/notification-details-edit/<%= n.id %>"><button class="btn btn-dark">Edit</button></a></td>
+                    <td>
+                        <a href="../<%= n.upload %>" class="btn btn-success btn-sm" download>Download</a>
+                        <button class="btn btn-danger btn-sm"  type="button" onclick="deleteNoti(<%= n.id %>)">Delete</button>
+
+              
+                    </td> 
+                </tr>
+                <% c=c+1 } %>
+                <% } else {  %>
+                    <tr>
+                        <td colspan="6"><h2 class="text-center alert alert-secondary">No Notification Added Yet.</h2></td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    
+        
+    </div>
+    <script>
+             function searchClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/searchClient',
+        data: {val:val},
+        success: function(data) {
+            var html = '';
+            for (var i = 0; i< data.length; i++) {
+            html+=`
+            <option onclick="selectClient(${data[i].id},'${data[i].client_name}')" class="form-control" style="cursor:pointer;" value="${data[i].id}">${data[i].client_name}</option>
+            `
+         }
+        $('#clientData').html(html);
+        }
+      });  
+     
+    }
+    function selectClient(id,val){
+    $('#clientSelect').val(val);
+    $('#client').val(id);
+    $('#clientData').html('');
+
+  }
+        function deleteNoti(notiId){
+            var con = confirm("Do you want to delete?");
+            if(con){
+            $.ajax({
+                type: 'DELETE',
+                url: '/admin/deleteNotification',
+                data: {id:notiId},
+                success: function(data) {
+                  window.location='/admin/notification-details';
+                }
+            });
+        }
+        }
+        function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });  
+      
+    }
+
+    </script>
+    <%- include('../includes/footer.ejs') %>

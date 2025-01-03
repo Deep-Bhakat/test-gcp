@@ -1,0 +1,355 @@
+<%- include('../includes/header.ejs') %>
+
+<div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2">Bill Maker Bulk</h2>
+    <div class="container mx-20 my-2 ">
+        <form class="needs-validation" novalidate method="post" enctype="multipart/form-data" action="/admin/bill-maker-bulk">
+            <% if(message){ %>
+              <h2 class="text-center alert alert-success"><%= message %></h2>
+              <% } %>
+            <div class="row">       
+              <div class="col-md-4 mb-3">
+                  <label for="validationCustom02">Company</label>
+                  <select class="form-select " id="company" name="company" placeholder="Select Company Name "required>
+                    <option value="">--SELECT--</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>
+                </select>
+                  <div class="invalid-feedback">
+                    Please select company!
+                  </div>
+                </div> 			
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom01 ">Month Year </label>
+                    <input type="month" class="form-control " id="month_year" name="month_year">
+                  
+                </div>
+               
+                <!-- <div class="col-md-3 mb-3 ">
+                  <label for="validationCustom05 ">Excel File</label>
+                  <input type="file" class="form-control " name="tic" id="validationCustom05" placeholder="Choose Photo " >
+                  <div class="invalid-feedback ">
+                      Please provide TIC.
+                  </div>
+              </div> -->
+
+            </div>   
+           
+             <div class="row">
+              <div class="col-md-3 mb-3 ">
+                <button class="btn btn-primary" type="submit">Select Data</button>
+
+                </div>
+                <div class="col-md-6 mb-3 ">
+                </div>
+                <!-- <div class="col-md-3 mb-3 ">
+                  <button class="btn btn-primary" onclick="downloadAnnexture()" type="button">Download IDEAL Annexture</button>
+                  <a href="../../annexture.xlsx"  id="excelD" download="Ideal Annexture.xlsx" ></a>
+               
+              </div> -->
+             </div>     
+          </form>
+          
+      
+    </div>
+</div>
+
+<% if(show){ %>
+
+<div class="container my-10">
+    <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930" ;>Generation Bulk</span></h2>
+    <% if(billMaker){ %>
+    <form class="needs-validation" novalidate method="post" enctype="multipart/form-data" action="/admin/generation-bulk">
+      <div class="row">       
+        <div class="col-md-4 mb-3">
+            <label for="validationCustom02">Company : <%= billMaker.company_master.company_name %></label>
+          </div> 
+          <div class="col-md-4 mb-3">
+            <input type="hidden" name="bill_maker_id" value="<%= billMaker.id %>" />
+            <input type="hidden" name="bill_maker_comid" value="<%= billMaker.company_id %>" />
+            <input type="hidden" name="bill_maker_cliid" value="<%= billMaker.client_id %>" />
+            <input type="hidden" name="bill_maker_month_year" value="<%= billMaker.month_year %>" />
+          </div>				
+          <div class="col-md-3 mb-3 ">
+            <label for="validationCustom02">Month & Year :
+               <% var monthNames = [ "January", "February", "March", "April", "May", "June", 
+              "July", "August", "September", "October", "November", "December" ]; 
+              var aa = billMaker.month_year.substr(5,6);
+              if(aa<9){
+                aa = billMaker.month_year.substr(6,6);
+              }
+              var mm =  monthNames[aa-1];
+              %> 
+              <%= mm %> <%= billMaker.month_year.substr(0,4) %> </label>
+          </div>
+         <div class="row">
+          <div class="col-md-3 mb-3">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="form-check">
+              <input type="radio" name="type" class="form-check-input" checked value="1" id="validationCustom04">
+              <h3 class="form-check-label" for="validationCustom04"><b>Wage Register</b></h3>
+          </div>
+          </div>
+          <div class="col-md-3 mb-3">
+
+          <div class="form-check">
+            <input type="radio" name="type" class="form-check-input" value="2" id="validationCustom04">
+            <h3 class="form-check-label" for="validationCustom04"><b>Payslip</b></h3>
+        </div> 
+              </div>
+              <div class="col-md-3 mb-3">
+              </div>
+              </div>
+              <div class="row">
+                <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930" ;>Select Fields</span></h2>
+
+                <div class="col-md-3 mb-3">
+                  <div class="form-check">
+                    <input type="checkbox" id="selectall" onchange="selectAll()" class="form-check-input" >
+                    <label class="form-check-label" for="validationCustom04">Select All</label>
+                </div>
+                </div>
+              
+                    </div>
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                <div class="form-check">
+                  <input type="checkbox" name="fields[]" class="form-check-input" value="name" id="validationCustom04">
+                  <label class="form-check-label" for="validationCustom04">Name</label>
+              </div>
+              <div class="form-check">
+                  <input type="checkbox" name="fields[]" class="form-check-input" value="aadhaar" id="validationCustom04">
+                  <label class="form-check-label" for="validationCustom04">Aadhaar</label>
+              </div>
+              <div class="form-check">
+                <input type="checkbox" name="fields[]" class="form-check-input" value="uan" id="validationCustom04">
+                <label class="form-check-label" for="validationCustom04">UAN NO</label>
+              </div>
+              <div class="form-check">
+                <input type="checkbox" name="fields[]" class="form-check-input" value="esic_no" id="validationCustom04">
+                <label class="form-check-label" for="validationCustom04">ESIC NO</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" name="fields[]" class="form-check-input" value="gender" id="validationCustom04">
+                <label class="form-check-label" for="validationCustom04">Gender</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" name="fields[]" class="form-check-input" value="emp_code" id="validationCustom04">
+              <label class="form-check-label" for="validationCustom04">Emp Code</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" name="fields[]" class="form-check-input" value="designation" id="validationCustom04">
+              <label class="form-check-label" for="validationCustom04">Designation</label>
+          </div>
+          <div class="form-check">
+              <input type="checkbox" name="fields[]" class="form-check-input" value="bank" id="validationCustom04">
+              <label class="form-check-label" for="validationCustom04">Bank</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" name="fields[]" class="form-check-input" value="ac_no" id="validationCustom04">
+            <label class="form-check-label" for="validationCustom04">Account No</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" name="fields[]" class="form-check-input" value="ifsc" id="validationCustom04">
+            <label class="form-check-label" for="validationCustom04">IFSC</label>
+        </div>
+ 
+            </div>
+            <div class="col-md-3 mb-3">
+               
+        <div class="form-check">
+          <input type="checkbox" name="fields[]" class="form-check-input" value="gross_salary" id="validationCustom04">
+          <label class="form-check-label" for="validationCustom04">Gross Salary</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" name="fields[]" class="form-check-input" value="basic_salary" id="validationCustom04">
+        <label class="form-check-label" for="validationCustom04">Basic Salary</label>
+      </div>      
+      <div class="form-check">
+        <input type="checkbox" name="fields[]" class="form-check-input" value="hra" id="validationCustom04">
+        <label class="form-check-label" for="validationCustom04">HRA</label>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" name="fields[]" class="form-check-input" value="variable_incentive" id="validationCustom04">
+      <label class="form-check-label" for="validationCustom04">SPECIAL INCENTIVE(AS PER PRINCIPAL EMPLOYER DISCRETION)</label>
+  </div>        
+            <div class="form-check">
+              <input type="checkbox" name="fields[]" class="form-check-input" value="present_days" id="validationCustom04">
+              <label class="form-check-label" for="validationCustom04">PRESENT DAYS</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" name="fields[]" class="form-check-input" value="holidays" id="validationCustom04">
+            <label class="form-check-label" for="validationCustom04">HOLIDAYS ( WEEKLY + FESTIVE )</label>
+          </div>            
+          
+    <div class="form-check">
+      <input type="checkbox" name="fields[]" class="form-check-input" value="odd_hours" id="validationCustom04">
+      <label class="form-check-label" for="validationCustom04">PAID LEAVE / LEAVE ADJUSTMENT</label>
+    </div>
+          <div class="form-check">
+            <input type="checkbox" name="fields[]" class="form-check-input" value="absent" id="validationCustom04">
+            <label class="form-check-label" for="validationCustom04">ABSENT</label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" name="fields[]" class="form-check-input" value="total_days" id="validationCustom04">
+          <label class="form-check-label" for="validationCustom04">TOTAL DAYS</label>
+        </div>        
+      <div class="form-check">
+        <input type="checkbox" name="fields[]" class="form-check-input" value="ot_rate" id="validationCustom04">
+        <label class="form-check-label" for="validationCustom04">OT RATE</label>
+      </div>      
+      <div class="form-check">
+        <input type="checkbox" name="fields[]" class="form-check-input" value="ot_hour" id="validationCustom04">
+        <label class="form-check-label" for="validationCustom04">OT HOURS</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" name="fields[]" class="form-check-input" value="ot_amount" id="validationCustom04">
+        <label class="form-check-label" for="validationCustom04">OT AMOUNT</label>
+    </div>         
+    <div class="form-check">
+      <input type="checkbox" name="fields[]" class="form-check-input" value="minor_r" id="validationCustom04">
+      <label class="form-check-label" for="validationCustom04">MINOR REIMBURSEMENT</label>
+    </div>
+  <div class="form-check">
+    <input type="checkbox" name="fields[]" class="form-check-input" value="actual_pay" id="validationCustom04">
+    <label class="form-check-label" for="validationCustom04">ACTUAL PAY</label>
+  </div>
+  <div class="form-check">
+    <input type="checkbox" name="fields[]" class="form-check-input" value="prop_basic" id="validationCustom04">
+    <label class="form-check-label" for="validationCustom04">PROP BASIC</label>
+</div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="form-check">
+            <input type="checkbox" name="fields[]" class="form-check-input" value="pf" id="validationCustom04">
+            <label class="form-check-label" for="validationCustom04">EMP PF</label>
+        </div>
+          <div class="form-check">
+            <input type="checkbox" name="fields[]" class="form-check-input" value="esic" id="validationCustom04">
+            <label class="form-check-label" for="validationCustom04">EMP ESIC</label>
+        </div>
+          <div class="form-check">
+            <input type="checkbox" name="fields[]" class="form-check-input" value="ptax" id="validationCustom04">
+            <label class="form-check-label" for="validationCustom04">EMP PTAX</label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" name="fields[]" class="form-check-input" value="lwf" id="validationCustom04">
+          <label class="form-check-label" for="validationCustom04">EMP LWF</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" name="fields[]" class="form-check-input" value="advance" id="validationCustom04">
+        <label class="form-check-label" for="validationCustom04">ADVANCE</label>
+    </div>
+        
+        <div class="form-check">
+          <input type="checkbox" name="fields[]" class="form-check-input" value="net_pay" id="validationCustom04">
+          <label class="form-check-label" for="validationCustom04">NET PAY</label>
+      </div>
+      
+        <div class="form-check">
+          <input type="checkbox" name="fields[]" class="form-check-input" value="mgmt_pf" id="validationCustom04">
+          <label class="form-check-label" for="validationCustom04">MGMT PF</label>
+      </div>
+    
+        <div class="form-check">
+          <input type="checkbox" name="fields[]" class="form-check-input" value="mgmt_esic" id="validationCustom04">
+          <label class="form-check-label" for="validationCustom04">MGMT ESIC</label>
+      </div>
+  
+      <div class="form-check">
+        <input type="checkbox" name="fields[]" class="form-check-input" value="mgmt_lwf" id="validationCustom04">
+        <label class="form-check-label" for="validationCustom04">MGMT LWF</label>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" name="fields[]" class="form-check-input" value="ctc" id="validationCustom04">
+      <label class="form-check-label" for="validationCustom04">CTC</label>
+    </div>
+    
+    <div class="form-check">
+      <input type="checkbox" name="fields[]" class="form-check-input" value="production_incentive" id="validationCustom04">
+      <label class="form-check-label" for="validationCustom04">PRODUCTION OR VARIABLE INCENTIVE</label>
+  </div>
+  
+  <div class="form-check">
+    <input type="checkbox" name="fields[]" class="form-check-input" value="prop_gross" id="validationCustom04">
+    <label class="form-check-label" for="validationCustom04">PROP GROSS</label>
+</div>
+  <div class="form-check">
+    <input type="checkbox" name="fields[]" class="form-check-input" value="gross_incentive" id="validationCustom04">
+    <label class="form-check-label" for="validationCustom04">ACTUAL PAYABLE</label>
+</div>
+        </div>
+        <div class="col-md-3 mb-3">
+        
+      <div class="form-check">
+        <input type="checkbox" name="fields[]" class="form-check-input" value="invoice_amount1" id="validationCustom04">
+        <label class="form-check-label" for="validationCustom04">INVOICE AMOUNT1</label>
+    </div>
+    <div class="form-check">
+      <input type="checkbox" name="fields[]" class="form-check-input" value="invoice_amount2" id="validationCustom04">
+      <label class="form-check-label" for="validationCustom04">INVOICE AMOUNT 2</label>
+    </div>
+    <div class="form-check">
+      <input type="checkbox" name="fields[]" class="form-check-input" value="service_charge" id="validationCustom04">
+      <label class="form-check-label" for="validationCustom04">SERVICE CHARGE</label>
+    </div>
+    
+    <div class="form-check">
+      <input type="checkbox" name="fields[]" class="form-check-input" value="cost_of_contract" id="validationCustom04">
+      <label class="form-check-label" for="validationCustom04">COST OF CONTRACT STAFFING SERVICES 1</label>
+  </div>
+  <div class="form-check">
+    <input type="checkbox" name="fields[]" class="form-check-input" value="cost_of_contract2" id="validationCustom04">
+    <label class="form-check-label" for="validationCustom04">COST OF CONTRACT STAFFING SERVICES 2</label>
+</div>
+      </div>
+         </div>
+
+      </div>   
+      <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930" ;>Choose Option</span></h2>
+
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <div class="form-check">
+            <input type="radio" name="type2" class="form-check-input" checked value="1" id="validationCustom04">
+            <label class="form-check-label" for="validationCustom04">PDF</label>
+        </div>
+        </div>
+        <div class="col-md-3 mb-3">
+
+        <div class="form-check">
+          <input type="radio" name="type2" class="form-check-input" value="2" id="validationCustom04">
+          <label class="form-check-label" for="validationCustom04">Excel</label>
+      </div> 
+            </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Download</button>
+
+    </form>
+   <% }else{ %>
+    <p>No Bill Maker Found</p>
+    <% } %>
+</div>  
+    <% } %>
+<%- include('../includes/footer.ejs') %>
+<script>
+  function selectAll(){
+        var element = document.getElementsByName('fields[]');
+        if(document.getElementById('selectall').checked){ 
+            for(var i=0;i<element.length;i++){
+                element[i].checked=true;
+            }
+        }else{
+            for(var i=0;i<element.length;i++){
+                element[i].checked=false;
+            }
+        }
+    }
+</script>
+<%- include('../includes/footer.ejs') %>

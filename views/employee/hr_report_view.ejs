@@ -1,0 +1,145 @@
+<%- include('../includes/newHeader.ejs') %>
+<div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2"><span style=" border-bottom: 3px solid #FB3930" >View HR Report</span></h2>
+    <div class="container mx-20 my-2 clearfix">
+        <form class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+
+                <label for="validationCustom01">Client Name</label>
+                <input type="text" class="form-control" id="client" name="client" onkeyup="searchClient(this.value)" />                                 
+                <input type="hidden" class="form-control" id="clientId" name="clientId" />                       
+                <div id="clientData" style="width: 350px;"></div>
+
+            </div>
+              <div class="col-md-3 mb-3">
+                <label for="validationCustom02">Month & Year</label>
+                <input type="month" class="form-control" id="month_year" name="month_year" required>               
+                <div class="invalid-feedback">
+                  Please Provide Month & Year!
+                </div>
+              </div>           
+            </div>      
+        
+              <button class="btn btn-success float-end" type="button" onclick="getData()">Go</button>
+            </form>
+          
+         
+    </div>
+    </div>
+    <div class="container" id="dataDiv">
+</div>
+
+<%- include('../includes/footer.ejs') %>
+<script> 
+function searchClient(val){
+    $.ajax({
+        type: 'POST',
+        url: '/admin/searchClient',
+        data: {val:val},
+        success: function(data) {
+            var html = '';
+            for (var i = 0; i< data.length; i++) {
+            html+=`
+            <option onclick="selectClient(${data[i].id},'${data[i].client_name}')" class="form-control" style="cursor:pointer;" value="${data[i].id}">${data[i].client_name}</option>
+            `
+         }
+        $('#clientData').html(html);
+        }
+      }); 
+  }
+  function selectClient(id,val){
+    $('#client').val(val);
+    $('#clientId').val(id);
+    $('#clientData').html('');
+
+  }
+    function getData(){
+      $('#dataDiv').html('');
+
+      var client = $('#clientId').val();
+      var month_year = $('#month_year').val();
+      if(month_year==''){
+          alert('Please Select month & year!');
+      }else if(client==''){
+        alert('Please Select Client!');
+      }else{
+        $.ajax({
+        type: 'POST',
+        url: '/employee/getHRReportsData',
+        data: {client:client,month_year:month_year},
+        success: function({data,isAdmin}) {
+          console.log(data);
+          console.log(isAdmin);
+          var html = '';
+            html+=`<table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Client Name</td>
+            <td>Option</td>
+        </thead>
+        <tbody>
+          `;
+          if(data.length==0){
+            $('#dataDiv').html('<h2 class="text-center alert alert-secondary">Not Added Yet.</h2>');
+
+          }else{
+             for (var i = 0; i< data.length; i++) {
+            var dd=new Date(data[i].date);
+              var mm =  dd.getMonth()+1;
+          
+             html+=`             
+            <tr>
+                <td>${i+1}</td>
+                <td>${data[i].client_master.client_name}</td>
+                <td>
+                    <a href="/employee/hr-report-edit/${data[i].id}" class="btn btn-primary btn-sm">Edit</a>
+                   ${isAdmin ? `<button class="btn btn-danger btn-sm" type="button" onclick="deleteRecord(${data[i].id})">Delete</button>` : '' }
+
+                    <a href="/employee/hr-report-download/${data[i].id}" class="btn btn-success btn-sm" target="__blank">Download Info</a>
+                    <a href="/employee/hr-report-download-file/${data[i].id}" class="btn btn-success btn-sm" target="__blank">Download File</a>
+                          </td>
+                          </tr>
+                        `;
+          }
+
+         $('#dataDiv').html(html);
+          }}
+      });    
+    }
+}
+function deleteRecord(idd){
+  var del = confirm('Do you want to delete?');
+  if(del){
+  $.ajax({
+        type: 'POST',
+        url: '/employee/hr-delete',
+        data: {id:idd},
+        success: function(data) {
+          getData();
+        }
+        });
+      }
+}
+
+</script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>

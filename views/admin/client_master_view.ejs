@@ -1,0 +1,487 @@
+<%- include('../includes/header.ejs') %>
+
+    <style>
+        .plus-button {
+            border: 2px solid lightgrey;
+            background-color: #fff;
+            font-size: 16px;
+            height: 2.5em;
+            width: 2.5em;
+            border-radius: 999px;
+            position: relative;
+        }
+        
+        .plus-button:after,
+        .plus-button:before {
+            content: "";
+            display: block;
+            background-color: green;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .plus-button:before {
+            height: 1em;
+            width: 0.2em;
+        }
+        
+        .plus-button:after {
+            height: 0.2em;
+            width: 1em;
+        }
+        
+        .close {
+            position: relative;
+            display: block;
+            width: 50px;
+            height: 50px;
+            font-size: 0;
+        }
+        
+        .close:before,
+        .close:after {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            width: 5px;
+            height: 20px;
+            background-color: red;
+            transform: rotate(45deg) translate(-50%, -50%);
+            transform-origin: top left;
+            content: '';
+        }
+        
+        .close:after {
+            transform: rotate(-45deg) translate(-50%, -50%);
+        }
+    </style>
+    <div class="container my-4  mx-auto rounded border">
+        <h2 class="text-center my-2">Client Registration Form</h2>        
+    <div class="container mx-20 my-2 ">
+        <form class="needs-validation" novalidate action="/admin/employer-master-edit" method="post" enctype="multipart/form-data">
+            <div class="col-12">
+                <span style="background-color: #575555; color: #f8f3f2; font-weight: bolder; font-size: 16px; padding: 10px; ";> Client General Information</span>
+            </div>
+            <% if(message){ %>
+                <h2 class="text-center alert alert-success"><%= message %></h2>
+                <% } %>
+            <div class="row " style="margin-top: 10px; ">
+                <div class="col-md-4 mb-3 ">
+                    <input type="hidden" name="id" value="<%= oldClient.id %>">
+
+                    <label for="validationCustom03 ">Company Name<span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <select class="form-select " id="validationCustom03 " name="company" placeholder="Select Company Name" aria-readonly="true" required>
+                        <option value="<%= oldClient.company_id %>"><%= oldClient.company_master.company_name %></option>
+                  
+                    </select>
+                    <div class="invalid-feedback ">
+                        Please select a company.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3 ">
+                    <label for="validationCustom01 ">Client Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <input type="text" class="form-control " id="validationCustom01 " name="client_name" value="<%= oldClient.client_name %>" readonly="true" placeholder="Enter Client Name " required>
+                    <div class="invalid-feedback ">
+                        Please provide client name!
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-5 mb-3 ">
+                    <label for="validationCustom02 ">Address</label>
+                    <textarea type="text" class="form-control" name="address[]" id="validationCustom02" placeholder="Enter Address" readonly ><%= oldClient.client_addresses[0].address %></textarea>
+                    <div class="invalid-feedback ">
+                        Please Provide address!
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">State </label>
+                    <select class="form-select " id="validationCustom03 " name="state[]" placeholder="Select State Name " aria-readonly="true" >
+                        <option value="<%= oldClient.client_addresses[0].state %>"><%= oldClient.client_addresses[0].state %></option>
+                         <%- include('../includes/state.ejs') %>
+                        </select>
+
+                         <div class="invalid-feedback ">
+                        Please provide a state.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05 ">Pin Code </label>
+                    <input type="text " class="form-control " name="pin[]" id="validationCustom05 " readonly value="<%= oldClient.client_addresses[0].pin %>" placeholder="Enter Pin Code " >
+                    <div class="invalid-feedback ">
+                        Please provide a pin code.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05">GST No </label>
+                    <input type="text" class="form-control" name="gst[]" id="validationCustom05" readonly value="<%= oldClient.client_addresses[0].gst %>" placeholder="Enter GST No " >
+                    <div class="invalid-feedback ">
+                        Please provide a GST code.
+                    </div>
+                </div>
+                <div class="col-md-1 mb-3 text-center">
+                    <input type="hidden" style="width: 30px; border-radius: 10px; text-align: center;" id="addressNo" readonly readonly value="<%= oldClient.client_addresses.length-1 %>" >
+                    <span style="top:40%; cursor: pointer;" id="addA" class="plus-button"></span>
+                 </div>
+        
+            </div>
+          <div id="addressRow">
+              <% if(oldClient.client_addresses.length>1){ 
+                  var i = 1
+                    for(let c=1; c<oldClient.client_addresses.length; c++){  
+                %>
+                <div class="row " id="dir<%= i %>">                
+                    <div class="col-md-5 mb-3 ">
+                                <label for="validationCustom02 ">Address <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <textarea type="text " class="form-control " name="address[]" id="validationCustom02 " readonly placeholder="Enter Address " ><%= oldClient.client_addresses[c].address %></textarea>
+                                <div class="invalid-feedback ">
+                                    Please Provide address!
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3 ">
+                                <label for="validationCustom04 ">State <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <select class="form-select " id="validationCustom03 " name="state[]" readonly placeholder="Select State Name " >
+                                   <option value="<%= oldClient.client_addresses[c].state %>"><%= oldClient.client_addresses[c].state %></option>
+                                    <%- include('../includes/state.ejs') %>            
+                                </select> 
+                                <div class="invalid-feedback ">
+                                    Please provide a state.
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3 ">
+                                <label for="validationCustom05 ">Pin Code <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text " class="form-control " name="pin[]" id="validationCustom05 " readonly value="<%= oldClient.client_addresses[c].pin %>" placeholder="Enter Pin Code " >
+                                <div class="invalid-feedback ">
+                                    Please provide a pin code.
+                                </div>
+                            </div>
+                              <div class="col-md-2 mb-3 ">
+                                <label for="validationCustom05 ">GST No <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                                <input type="text " class="form-control " name="gst[]" id="validationCustom05 " readonly value="<%= oldClient.client_addresses[c].gst %>" placeholder="Enter GST No " >
+                                <div class="invalid-feedback ">
+                                    Please provide a GST No.
+                                </div>
+                            </div>
+                              <div class="col-md-1 mb-3 ">
+                                <span onclick="deleteAddress(<%= i %>,<%= oldClient.client_addresses[c].id %>) " style="cursor:pointer " class="close "></span>
+                              </div>
+                          </div>
+               
+                <% i=i+1 } } %>
+          </div>
+            <div class="row ">
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">Proprietor / Director Name </label>
+                    <input type="text " class="form-control" name="proprietor_name" id="validationCustom05 " readonly value="<%= oldClient.name %>" placeholder="Enter Name " >
+                    <div class="invalid-feedback ">
+                        Please provide Proprietor/Director name.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom04 ">Email </label>
+                    <input type="text " class="form-control " name="email" id="validationCustom04 "readonly value="<%= oldClient.email %>" placeholder="Enter Email " >
+                    <div class="invalid-feedback ">
+                        Please provide email.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">Phone No </label>
+                    <input type="text " class="form-control " name="mobile" id="validationCustom05 " readonly value="<%= oldClient.phone %>" placeholder="Enter Phone No " >
+                    <div class="invalid-feedback ">
+                        Please provide phone no.
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">PAN </label>
+                    <input type="text " class="form-control " name="pan" id="validationCustom05 " readonly value="<%= oldClient.pan %>" placeholder="Enter PAN " >
+                    <div class="invalid-feedback ">
+                        Please provide PAN.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row ">
+                <h3>Contact Details</h3>
+
+                <div class="col-md-3 mb-3 ">
+                    Contact Person No
+                    <input type="number" style="width: 30px; border-radius: 10px; text-align: center " readonly id="contactNo" readonly value="<%= oldClient.client_contacts.length %>" >
+                    <span style="margin-left: 10px; cursor: pointer; " id="addD" onclick="addContact()" class="plus-button "></span>
+
+                </div>
+            </div>
+            <div id="contactRow">
+                <% if(oldClient.client_contacts.length>0){ 
+                    var i = 1
+                      for(let c=0; c<oldClient.client_contacts.length; c++){  
+                  %>
+                        
+
+                  <div class="row" id="dir<%= i %>">                
+                    <div class="col-md-3 mb-3">
+                      <label for="validationCustom04 ">Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                      <input type="text" class="form-control" id="validationCustom04" name="contact_name[]" readonly value="<%= oldClient.client_contacts[c].name %>" placeholder="Enter Name" >
+                      <div class="invalid-feedback">
+                        Please provide name.
+                      </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <label for="validationCustom05">Phone <span style="color: red; font-weight: bolder;font-size: 20px;">*</span></label>
+                      <input type="text" class="form-control" id="validationCustom05" name="contact_phone[]" readonly value="<%= oldClient.client_contacts[c].phone %>" placeholder="Enter Phone" >
+                      <div class="invalid-feedback ">
+                        Please provide Phone.
+                      </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom03">Email <span style="color: red; font-weight: bolder;font-size: 20px;">*</span></label>
+                        <input type="text" class="form-control" id="validationCustom03" name="contact_email[]" readonly value="<%= oldClient.client_contacts[c].email %>" placeholder="Enter Email" >
+                        <div class="invalid-feedback ">
+                          Please provide a Email.
+                        </div>
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <span onclick="deleteContact(<%= i %>,<%= oldClient.client_contacts[c].id %>)" style="cursor:pointer" class="close"></span>
+                      </div>
+                  </div>
+                  <% i=i+1 } } %>
+            </div>
+            <div class="row ">
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05 ">Service Charge</label>
+                    <input type="number " class="form-control " name="service" id="validationCustom05 " readonly value="<%= oldClient.service_charge %>" placeholder="Service Charge % " >
+                    <div class="invalid-feedback ">
+                        Please provide PAN.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 ">
+                <span style="background-color: #575555; color: #f8f3f2; font-weight: bolder; font-size: 16px; padding: 10px; " ;> Client Bank  Information</span>
+            </div>
+
+            <div class="row " style="margin-top: 10px; ">
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom05 ">Bank Account </label>
+                    <input type="number " class="form-control " name="bank_ac" id="validationCustom05 " readonly value="<%= oldClient.bank_ac %>" placeholder="Account No Charge % " >
+                    <div class="invalid-feedback ">
+                        Please Enter Bank Account No.
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom05 ">Bank Name </label>
+                    <input type="number " class="form-control " name="bank_name" id="validationCustom05 " readonly value="<%= oldClient.bank_name %>" placeholder="Bank Name Charge % " >
+                    <div class="invalid-feedback ">
+                        Please Enter Bank Name.
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom05 ">IFSC  </label>
+                    <input type="number " class="form-control " name="ifsc" id="validationCustom05 " readonly value="<%= oldClient.ifsc %>" placeholder="IFSC Code " >
+                    <div class="invalid-feedback ">
+                        Please Enter IFSC.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 ">
+                <span style="background-color: #575555; color: #f8f3f2; font-weight: bolder; font-size: 16px; padding: 10px; " ;> Client Documents Details</span>
+            </div>
+            <div class="row " style="margin-top: 10px; ">
+                <h3>Uploads</h3>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom04 ">Logo </label>
+                
+                </div>             
+            </div>
+            <div class="row ">
+                <div class="col-md-3 mb-3 ">
+                    <img id="previewLogo" src="../../<%= oldClient.logo %>" class="border border-2 img-fluid " />
+                </div>                
+              
+            </div>
+            <a href="/admin/employer-master"><button class="btn btn-primary " type="button">Go Back</button></a>
+        </form>
+
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    </div>
+    </div>
+    </div>
+<script>
+    var contactNo = 0;
+
+    function addContact() {
+        document.getElementById('contactNo').value = parseInt(document.getElementById('contactNo').value) + 1;
+        contactNo++;
+        var addRow = `
+    <div class="row" id="dir${contactNo}">                
+                <div class="col-md-3 mb-3">
+                  <label for="validationCustom04 ">Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                  <input type="text" class="form-control" id="validationCustom04" name="contact_name[]" placeholder="Enter Name" >
+                  <div class="invalid-feedback">
+                    Please provide name.
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="validationCustom05">Phone <span style="color: red; font-weight: bolder;font-size: 20px;">*</span></label>
+                  <input type="text" class="form-control" id="validationCustom05" name="contact_phone[]" placeholder="Enter Phone" >
+                  <div class="invalid-feedback ">
+                    Please provide Phone.
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom03">Email <span style="color: red; font-weight: bolder;font-size: 20px;">*</span></label>
+                    <input type="text" class="form-control" id="validationCustom03" name="contact_email[]" placeholder="Enter Email" >
+                    <div class="invalid-feedback ">
+                      Please provide a Email.
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <span onclick="deleteContact(${contactNo})" style="cursor:pointer" class="close"></span>
+                  </div>
+              </div>
+    `;
+
+        //  document.getElementById('directorRow').append(addRow);
+        document.getElementById('contactRow').insertAdjacentHTML('beforeend', addRow);
+
+    }
+
+    function deleteContact(id,conId) {
+        var rowToDelete = "dir" + id;
+        if(conId!=0){
+        $.ajax({
+        type: 'DELETE',
+        url: '/admin/removeClientContact',
+        data: {id:conId},
+        success: function(data) {
+              console.log(data);
+        }
+      });
+      }
+        document.getElementById('contactNo').value = parseInt(document.getElementById('contactNo').value) - 1;
+        contactNo--;
+        //document.getElementById(rowToDelete).style.display="none ";
+        document.getElementById('contactRow').removeChild(document.getElementById(rowToDelete));
+    }
+
+    function showPreview(event) {
+        //document.getElementById("isImage ").value = "1 ";
+        if (event.target.files.length > 0) {
+            let src = URL.createObjectURL(event.target.files[0]);
+            //$("#photo ").val(event.target.files[0].size/1024);
+            let preview = document.getElementById("previewLogo");
+            preview.src = src;
+            preview.style.width = "120px ";
+            preview.style.height = "150px ";
+            preview.style.border = "1px solid black ";
+            preview.style.display = "block ";
+        }
+    }
+    function showPreviews(event) {
+        //document.getElementById("isImage").value = "1";
+        var div = document.getElementById('previewDocuments');
+        div.innerHTML="";
+        if (event.target.files.length > 0) {
+            for (var i = 0; i < event.target.files.length; i++) {
+                let src = URL.createObjectURL(event.target.files[i]);
+                let preview = document.createElement('img');
+                preview.src = src;
+                preview.style.width = "120px";
+                preview.style.height = "150px";
+                preview.style.display = "block";
+                preview.style.border = "1px solid black";
+                preview.style.marginLeft = "10px";
+                div.appendChild(preview);
+            }
+        }
+    }
+    document.getElementById('addA').onclick = addAddress;
+    var addressNo = parseInt(document.getElementById('addressNo').value);
+
+    function addAddress() {
+        document.getElementById('addressNo').value = parseInt(document.getElementById('addressNo').value) + 1;
+        addressNo++;
+        var addRow = `
+    <div class="row " id="dir${addressNo} ">                
+        <div class="col-md-5 mb-3 ">
+                    <label for="validationCustom02 ">Address <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <textarea type="text " class="form-control " name="address[]" id="validationCustom02 " placeholder="Enter Address " ></textarea>
+                    <div class="invalid-feedback ">
+                        Please Provide address!
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">State <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <select class="form-select " id="validationCustom03 " name="state[]" placeholder="Select State Name " >
+                    <%- include('../includes/state.ejs') %>
+                    </select>
+                    <div class="invalid-feedback ">
+                        Please provide a state.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05 ">Pin Code <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <input type="text " class="form-control " name="pin[]" id="validationCustom05 " placeholder="Enter Pin Code " >
+                    <div class="invalid-feedback ">
+                        Please provide a pin code.
+                    </div>
+                </div>
+				  <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05 ">GST No <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <input type="text " class="form-control " name="gst[]" id="validationCustom05 " placeholder="Enter GST No " >
+                    <div class="invalid-feedback ">
+                        Please provide a GST No.
+                    </div>
+                </div>
+                  <div class="col-md-1 mb-3 ">
+                    <span onclick="deleteAddress(${addressNo}) " style="cursor:pointer " class="close "></span>
+                  </div>
+              </div>
+    `;
+
+        //  document.getElementById('directorRow').append(addRow);
+        document.getElementById('addressRow').insertAdjacentHTML('beforeend', addRow);
+
+    }
+
+    function deleteAddress(id,addId) {
+        var rowToDelete = "dir" + id;
+        if(addId!=0){
+        $.ajax({
+        type: 'DELETE',
+        url: '/admin/removeClientAddress',
+        data: {id:addId},
+        success: function(data) {
+              console.log(data);
+        }
+      });
+      }
+        document.getElementById('addressNo').value = parseInt(document.getElementById('addressNo').value) - 1;
+        addressNo--;
+        //document.getElementById(rowToDelete).style.display="none ";
+        document.getElementById('addressRow').removeChild(document.getElementById(rowToDelete));
+    }
+</script>
+    <%- include('../includes/footer.ejs') %>

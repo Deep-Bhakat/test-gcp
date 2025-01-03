@@ -1,0 +1,79 @@
+
+<div class="container my-4  mx-auto rounded border">
+    <h2 class="text-center my-2"><span style=" border-bottom: 3px solid #FB3930" ;>Invoice Data Form</span></h2>
+    <div class="container mx-20 my-2 ">
+      <% if(message==1){ %>
+        <h2 class="text-center alert alert-success">Added Successfully</h2>
+
+        <% } %>
+        <form class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
+            <div class="row">
+
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom03 ">Company Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <select class="form-select " id="validationCustom03 " name="company" onchange="getClient(this.value)" placeholder="Select Company Name "required>
+                        <option value="">--SELECT--</option>
+                        <% if(companies.length>0){ %>
+                            <% for(let company of companies){ %>
+                        <option value="<%= company.id %>"><%= company.company_name %></option>
+                            <% } } %>
+                    </select>
+                    <div class="invalid-feedback ">
+                        Please select a company.
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom01 ">Client Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                    <select class="form-select " id="clientSelect" name="client" placeholder="Select Client Name " required>
+                 
+                     </select>
+                    <div class="invalid-feedback ">
+                        Please select a client!
+                    </div>
+                </div>
+            </div>
+     
+            <button class="btn btn-primary" type="submit">Get</button>
+        </form>
+
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+            
+    function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });  
+    }
+        </script>
+    </div>
+</div>
+

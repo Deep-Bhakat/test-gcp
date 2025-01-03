@@ -1,0 +1,303 @@
+<%- include('../includes/header.ejs') %>
+    <div class="container my-4  mx-auto rounded border">
+        <div class="container mx-20 my-2 ">
+            <div class="row">
+                <div class="col-1">
+
+                </div>
+                <div class="col-6">
+                    <img src="../../<%= employee.company_master.logo %>" width="70px" height="70px">
+                    <span style="font-size: 20px;"><%= employee.company_master.company_name %></span>
+                    <p><%= employee.company_master.address %> <br>                  
+                   
+                    </p>
+                </div>
+                <div align="right" class="col-5" style="padding: 10px;">
+                    <span><b> Principal Employer’s Name and Address
+                    </b></span><br>
+				<span> <%= employee.client_master.client_name %></span><br>
+				<span>Client Code: <%= employee.client_code %></span>     </div>
+          
+                </div>
+            </div>
+
+
+            <div class="mb-3 row" style="margin-top: 25px;;">
+             
+                <div class="mb-3 row">
+
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3">   <p>Allotted Employee Code : <%= employee.emp_code %>
+                    </p>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                    <div class="col-sm-3">
+                    <b>
+                    Basic : <%= employee.basic_salary %> <br>
+                    HRA : <%= employee.hra %> <br>
+                    Gross : <%= employee.gross_salary %>
+                    </b>
+                    </div>
+                    </div>
+                <div class="mb-3 row">
+
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">Date of joining :  <%
+                    var ddd =  employee.date_of_joining.split('-');      
+                    var dd= [ddd[2],
+                    ddd[1],
+                    ddd[0]         
+                           ].join('/');
+                     %> <%= dd %>
+                </div>
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-3">
+                </div>
+                </div>
+            </div>
+ <div class="mb-3 row" style="margin-top: 25px;;">
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+
+                </div>
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4">
+                   </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+                    <span style="font-weight: bold;">Dear <%= employee.emp_title %> <%= employee.emp_name %></span>
+
+                </div>
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-5">
+                        Bearing Aadhar Number : <%= employee.aadhar %>
+            </div>
+</div>
+            <p class="text-center"><u style="font-weight: bolder;">Subject: Letter Of Appointment / নিয়োগপত্র            </u></p>
+            <div class="mb-3 row" style="margin-top: 50px;">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p>Following an interview, you had with <b>our client (Your Principal Employer)</b>, we have pleasure in offering you a job for the post of
+                        <%= employee.designation %> in our client’s place on the following terms and conditions: <br>
+    
+                        আমাদের ক্লায়েন্টের সহিত, যিনি আপনার প্রধান নিযুক্তকারী আপনার সাক্ষাৎকারের ভিত্তিতে আমরা আপনাকে <%= employee.designation %> পোস্টের জন্য  নিম্নলিখিত শর্তাবলী সাপেক্ষে আমাদের ক্লায়েন্টের স্থানে একটি চাকুরীর প্রস্তাব দিয়ে আনন্দিত | </p>
+                </div>
+
+
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                   <p> <b><u>1. COMPENSATION </u></b> – Your salary / wages will be Rs. <%= employee.gross_salary %> per month. The allocation of Gross Salary will be decided by the
+                    Principal Employer, the reflection of which you can easily view in your Pay Slips. <br>
+                    <u><b>(বতন</u></b> – আপনার বেতন/মজুরি হবে RS. <%= employee.gross_salary %>  প্রতি মাসে,  মোট বেতনের বিভাগ প্রধান নিয়োগকর্তা দ্বারা নির্ধারিত হবে, যার প্রতিফলন আপনি সহজেই আপনার পে স্লিপে দেখতে পারবেন |</p>  </div>
+            </div>
+
+
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>2. WORKING HOURS / কাজের সময়সিূচ – </u></b></p>
+                        <p><b>a)</b> Your work timings will be as per Principal Employer’s policy but it will not exceed 8 hours a day or 48 hours weekly.
+                            <br> 
+                            আপনার কাজের সময় প্রধান নিয়োগকর্তার নীতি অনুসারে হবে তবে এটি দিনে ৮ ঘন্টা বা সাপ্তাহিক ৪৮ ঘন্টার বেশি হবে না |
+                        <br><b>b)</b> If you work more than 8 hours a day, then you will be entitled for overtime which will be paid twice the normal pay as per
+                        Factories Act 1948 or Minimum Wages Act / or as per factory policy, whichever is higher.
+                        <br> 
+আপনি যদি দিনে ৮ ঘন্টার বেশি কাজ করেন, তাহলে আপনি ওভারটাইম পাওয়ার অধিকারী হবেন যা দ্বিগুণ  হবে ফ্যাক্টরি অ্যাক্ট 1948 বা ন্যূনতম মজুরি আইন অনুযায়ী / অথবা কারখানার নীতি অনুযায়ী, যেটি বেশি হবে। 
+<br><b> c)</b> In every week, any 6 days will be working days and one day will be weekly off day. If due to any urgency the weekly off day
+                        becomes a working day, then weekly off day will be given within next 5 (five) working days.
+                        <br> 
+                        প্রতি সপ্তাহে যেকোনো ৬ দিন কাজের দিন হবে এবং একদিন সাপ্তাহিক ছুটি থাকবে I জরুরি কারণে সাপ্তাহিক ছুটির দিনে কাজ করতে হলে পরবর্তী ৫ টি কার্যদিবসের মধ্যে যেকোনো একদিন ছুটি দেওয়া হবে |</p>
+
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>3)</b>  Your monthly salary / wages of every current month will be disbursed by 7th of the next month.
+                        <br>
+                        আপনার প্রতি বর্তমান মাসের মাসিক বেতন পরের মাসের ৭ তারিখের মধ্যে বিতরণ করা হবে| </p>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>4)</b>  As per Section 79, Factories Act 1948, you will be eligible for 1 Day Earned Leave for every 20 days worked. (Subjected to a maximum of 12-
+                        14 days per year). Whether The Leave Will Be adjusted Or Encashed will be as per mutual consent of your good self and Principal Employer.
+                        <br><b>As per Section 79 , Factories Act 1948,</b> 
+                        আপনি প্রতি 20 দিন কাজ করার জন্য ১ দিনের অর্জিত ছুটির জন্য যোগ্য হবেন, (প্রতি বছর সর্বোচ্চ ১২-১৪  দিনের সাপেক্ষে), ছুটি সামঞ্জস্য করা হবে নাকি নগদ টাকা প্রেরণ করা হবে তা প্রধান নিয়োগকর্তার পারস্পরিক সম্মতি অনুসারে ঠিক হবে |</p>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>5)</b> As per the rule of the organization, you will be eligible for and enjoy all holidays as per the holiday list. (Holiday list will be announced by the
+                        Principal Employer by second week of January every year).
+                    <br>        
+                    আপনি বার্ষিক উৎসবের ছুটি পাবেন । (প্রতি বছর জানুয়ারির দ্বিতীয় সপ্তাহের মধ্যে প্রধান নিয়োগকর্তার দ্বারা ছুটির তালিকা ঘোষণা করা হবে)।</p></div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>6)</b> You will also get PF and ESIC facilities if your Earnings and its allocation fall under the ambit as set down by the EPF and MP Act 1952 and
+                        ESIC Act 1948. <br>
+                        আপনি PF এবং ESIC সুবিধা পাবেন যদি আপনার উপার্জন এবং পারিশ্রমিক EPF এবং MP আইন ১৯৫২ এবং ESIC আইন ১৯৪৮ দ্বারা নির্ধারিত পরিধির আওতায় পড়ে।</p>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>7)</b> You will also be entitled for Bonus, minimum 7 days before the main festival, as decided by the Principal Employer and that will be as per
+                        Bonus Act 1965. Bonus will be as per Your Earnings, Of Previous Financial year<br>
+                        আপনি প্রধান নিয়োগকর্তার সিদ্ধান্ত অনুযায়ী প্রধান উৎসবের ন্যূনতম ৭ দিন আগে বোনাস পাওয়ার অধিকারী হবেন এবং এটি বোনাস আইন ১৯৬৫ অনুযায়ী হবে. মৌলিক বেতনের উপর | বোনাস, পুর্ব আর্থিক বছর অনুযায়ী আপনার কর্মদিবসের ভিত্তিতে গণনা করা হবে।</p>
+                </div>
+            </div>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>8)</b> On successful completion of continuous 5 years in our organization, you will be
+                        also entitled for Gratuity as per Payment of Gratuity Act 1972. <br>            
+                        আমাদের প্রতিষ্ঠানে একটানা ৫ বছর সফলভাবে সমাপ্ত করার পরে, শুধুমাত্র একই প্রধান নিয়োগকর্তার অধীনে, আপনিও গ্র্যাচুইটি প্রদানের আইন ১৯৭২ অনুযায়ী গ্র্যাচুইটির জন্য যোগ্য হবেন |  </p>
+
+                </div>
+            </div>
+            
+          
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>9) <u>TERMINATION OF CONTRACT :</u></b>Either of the party will be entitled to terminate the employment, by giving 30days’ notice or 30 day’s Salary
+                        in lieu thereof. However, if it is on disciplinary grounds which hampers the Principal Employer’s activities, no notice will be served.
+                       <br>
+                        <b><u>চুক্তির অবসান:</u></b>
+                        ৩০ দিনের নোটিশ দিয়ে বা তার পরিবর্তে ৩০ দিনের বেতন দেওয়ার মাধ্যমে যে কোনও পক্ষ চাকরি থেকে অব্যাহতি করার অধিকারী হবে। কিন্তূ, যদি এটি বিশৃঙ্খল ভিত্তিতে হয় যা প্রধান নিয়োগকর্তার ক্রিয়াকলাপকে বাধাগ্রস্ত করে, কোন নোটিশ দেওয়া হবে না।
+</p>   </div>
+            </div>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>10) <u> DISPUTES :</u></b> Any dispute between yourself and the Principal Employer concerned with or relating to, or rising out of this Appointment Letter,
+                        shall be subjected to the jurisdiction of and be determined, by the court of competent jurisdiction in Kolkata only.
+                      <br> <b><u> বিরোধ:</u></b>
+                      আপনার এবং প্রধান নিয়োগকর্তার মধ্যে যে কোনও বিরোধ বা এই নিয়োগ পত্রের সাথে সম্পর্কিত বা এর থেকে উদ্ভূত, শুধুমাত্র কলকাতার উচ্চ আদালতের এখতিয়ারের অধীন তা বিচার  যোগ্য হিসেবে নির্ধারিত হবে৷ </p>
+
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>11)</b> You cannot work against the benefit of the Principal Employer’s organization. While working in the organization you cannot engage
+                        yourself elsewhere. Breaking of the rule of the organization will be considered as punishable offence.
+                      <br> 
+                      আপনি প্রধান নিয়োগকর্তার সংস্থার কল্যাণ বিরুদ্ধে কাজ করতে পারবেন না। প্রতিষ্ঠানে কাজ করার সময় আপনি অন্য কোথাও নিজেকে নিযুক্ত করতে পারবেন না। সংগঠনের নিয়ম ভঙ্গ হলে তা শাস্তিযোগ্য অপরাধ হিসেবে গণ্য হবে ।                   
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>12)</b> You shall be responsible for protecting the property of the Principal Employer, entrusted to you in the due discharge, of your duties, and
+                        shall indemnify the Principal Employer, when there is a loss of any kind to the concerned property.   
+                        <br>
+                        প্রধান নিয়োগকর্তার সম্পত্তি রক্ষার জন্য আপনি দায়ী থাকবেন, আপনার দায়িত্ব পালনে আপনার উপর অর্পিত হবেন, এবং সংশ্লিষ্ট সম্পত্তির কোনো ধরনের ক্ষতি হলে আপনি প্রধান নিয়োগকর্তাকে ক্ষতিপূরণ দেবেন।   </p>
+                </div>
+            </div>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b>13)</b> You can be shifted to different place/branch of Principal Employer and Designation with prior Notice. We will expect, you will accept the
+                        same.<br>
+                        পূর্ব বিজ্ঞপ্তি সহ আপনাকে প্রধান নিয়োগকর্তার বিভিন্ন শাখায় /বিভিন্ন পদে স্থানান্তরিত করা যেতে পারে।। আমরা আশা করব, আপনিও তা গ্রহণ করবেন। </p>
+
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p>As a new entrant, we hope you will contribute positively and whole heartedly to this process of Mutual Trust N Autonomy.
+                        <br>                        
+                        একজন নতুন প্রবেশকারী হিসেবে, আমরা আশা করি আপনি পরশপরিক বিশ্বাস ও স্বাধিন প্রক্রিয়ায় ইতিবাচকভাবে এবং আন্তরিকভাবে অবদান রাখবেন।</p>
+
+                </div>
+            </div>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p>Welcome to <%= employee.company_master.company_name %> FAMILY.
+                    </p>
+                </div>
+            </div>
+         
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">                
+                    <p>Yours Truly</p>
+                    <img src="../../<%= employee.company_master.logo %>" width="70px" height="70px">
+
+                    <p>For <%= employee.company_master.company_name %></p>
+                </div>
+            </div>
+            <!-- <div class="mb-3 row" >
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                    <img src="../../<%= companyData.stamp %>" width="90" height="90">
+                    <img src="../../<%= companyData.signature %>" width="90" height="90">
+                </div>
+            </div> -->
+            <hr>
+            
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>Employee Declaration </u></b>
+                        <br>
+                        I have read/been explained all the clauses and with full understanding of the same, I am accepting these terms of employment and joining the concern out of my free will and consent.
+                    </p>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <p><b><u>কর্মচারী ঘোষণা
+
+                    </u></b>
+                        <br>
+                        আমি সমস্ত ধারা পড়েছি/পড়ে বুঝিয়ে  দেওয়া হয়েছে এবং সম্পূর্ণ বোধগম্যতার সাথে, আমি চাকরির এই শর্তাবলী গ্রহণ করছি এবং আমার স্বাধীন ইচ্ছা এবং সম্মতি থেকে আনন্দের  সাথে যোগ দিচ্ছি। </p>
+                </div>
+            </div>
+            <div class="mb-3 row" >
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                    <img src="../../<%= employee.signature %>" width="90" height="90">
+                    <br>
+                    Signature of Employee 
+                </div>
+            </div>
+        </div>
+        
+          
+        
+
+            <a href="/employee/form11/<%= employee.id %>"> <button class="btn btn-success" type="button">Proceed</button></a>
+
+
+
+
+            </div>
+        </div> 
+        <%- include('../includes/footer.ejs') %>

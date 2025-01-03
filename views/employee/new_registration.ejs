@@ -1,0 +1,635 @@
+<div class="container my-4  mx-auto rounded border">
+    <style>
+        .plus-button {
+            border: 2px solid lightgrey;
+            background-color: #fff;
+            font-size: 16px;
+            height: 2.5em;
+            width: 2.5em;
+            border-radius: 999px;
+            position: relative;
+        }
+        
+        .plus-button:after,
+        .plus-button:before {
+            content: "";
+            display: block;
+            background-color: green;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .plus-button:before {
+            height: 1em;
+            width: 0.2em;
+        }
+        
+        .plus-button:after {
+            height: 0.2em;
+            width: 1em;
+        }
+        
+        .close {
+            position: relative;
+            display: block;
+            width: 50px;
+            height: 50px;
+            font-size: 0;
+        }
+        
+        .close:before,
+        .close:after {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            width: 5px;
+            height: 20px;
+            background-color: red;
+            transform: rotate(45deg) translate(-50%, -50%);
+            transform-origin: top left;
+            content: '';
+        }
+        
+        .close:after {
+            transform: rotate(-45deg) translate(-50%, -50%);
+        }
+    </style>
+    <h2 class="text-center my-2"><span style=" border-bottom: 3px solid #FB3930" ;>New Registration Form</span></h2>
+    <div class="container mx-20 my-2 ">
+        
+        <% if(message){ %>
+            <h2 class="text-center alert alert-success"><%= message %></h2>
+            <% } %>
+        <form class="needs-validation" novalidate enctype="multipart/form-data" method="post">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <!-- <label for="validationCustom03 ">Employee Name</label>
+                    <select class="form-select " id="validationCustom03 " name="employeeId" >
+                        <option value="">--SELECT--</option>
+                        <% if(users.length>0){ %>
+                            <% for(let company of users){ %>
+                        <option value="<%= company.id %>"><%= company.name %></option>
+                            <% } } %>
+                    </select> -->
+                    
+
+            </div>                <div align="center" class="col-md-3">
+                    <img src="/img/employee-photo.jpg" height="100px" width="100px" id="preview" class="border border-2 img-fluid" />
+                    <div class="">
+                        <input class="form-control" id="photo" hidden type="file" title="Select Photo" onchange="showPreview(event,'preview')" name="photo" />
+                        <label class="btn btn-primary mx-10" for="photo">Upload  Employee Photo</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <span style="background-color: #575555; color: #f8f3f2; font-weight: bolder; font-size: 16px; padding: 10px; ";> Employee General Information</span>
+                </div>
+            </div>
+            <div class="row " style="margin-top: 10px; ">
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom03 ">Company Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <select class="form-select " id="validationCustom03 " name="company" onchange="getClient(this.value)" placeholder="Select Company Name "required>
+                        <option value="">--SELECT--</option>
+                        <% if(companies.length>0){ %>
+                            <% for(let company of companies){ %>
+                        <option value="<%= company.id %>"><%= company.company_name %></option>
+                            <% } } %>
+                    </select>
+                    <div class="invalid-feedback ">
+                        Please select a company.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom01 ">Client Name <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                    <select class="form-select " id="clientSelect" name="client" placeholder="Select Client Name " required>
+                 
+                     </select>
+                    <div class="invalid-feedback ">
+                        Please select a client!
+                    </div>
+                </div>
+                
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom01 ">Client Code <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span> </label>
+                    <input type="text" class="form-control " id="client_code" name="client_code" placeholder="Enter Client Code " required>
+                 
+                     </select>
+                    <div class="invalid-feedback ">
+                        Please enter client code!
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Date Of Joining  <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <input type="date" class="form-control " name="date_of_joining" required id="validationCustom04" >
+                    <div class="invalid-feedback ">
+                        Please select date of joining.
+                    </div>
+                </div>
+                <div class=" col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Emp Code</label>
+                    <input type="text " class="form-control " name="emp_code" readonly id="emp_code">
+                </div>
+            </div>
+            <div class="row ">             
+                <div class=" col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Title</label>
+                    <select type="text" class="form-select " name="emp_title" id="validationCustom04 ">
+                        <option value="">--SELECT--</option>
+                        <option value="MR.">MR.</option>
+                        <option value="MRS.">MRS.</option>
+                        <option value="MS.">MS.</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom04 ">Employee Name  <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <input type="text " class="form-control " name="emp_name" required placeholder="Enter Employee Name " id="validationCustom04 " >
+                    <div class="invalid-feedback ">
+                        Please provide employee name.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom04 ">Father / Husband </label>
+                    <input type="text " class="form-control " name="father_name" placeholder="Enter Father / Husband Name " id="validationCustom04 " >
+                    <div class="invalid-feedback ">
+                        Please provide father/husband name.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Date of Birth </label>
+                    <input type="date" class="form-control" name="dob" placeholder="Enter Employee DOB " id="validationCustom04 " >
+                    <div class="invalid-feedback ">
+                        Please provide Date of Birth.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Gender  <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <select class="form-select " id="validationCustom03 " required name="gender" placeholder="Select Gender " >
+                        <option value="">--SELECT--</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    <div class="invalid-feedback ">
+                        Please provide Gender .
+                    </div>
+                </div>
+            </div>
+           
+           
+            <div class="row ">
+                <div class="col-md-6 mb-3 ">
+                    <label for="validationCustom02 ">Address </label>
+                    <textarea type="text " class="form-control " name="address" id="validationCustom02 " placeholder="Enter Address " ></textarea>
+                    <div class="invalid-feedback ">
+                        Please Provide address!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom02 ">State</label>
+                    <select class="form-select " id="validationCustom03 " name="state" placeholder="Select State Name " >
+                        <%- include('../includes/state.ejs') %>
+
+                    </select>
+                    <div class="invalid-feedback ">
+                        Please Enter State
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom02 ">Pin Code</label>
+                    <input type="text " class="form-control " name="pin" id="validationCustom02 " maxlength="6" placeholder="Enter Pin">
+                    <div class="invalid-feedback ">
+                        Please Enter Pincode
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row ">
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Mobile No</label>
+                    <input type="text " class="form-control " name="mobile" maxlength="10" id="validationCustom04 " placeholder="Enter Mobile No " >
+                    <div class="invalid-feedback ">
+                        Please provide a mobile no.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">Email</label>
+                    <input type="email" class="form-control " name="email" id="validationCustom05 " placeholder="Enter Email Id" >
+                    <div class="invalid-feedback ">
+                        Please provide a email.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">Aadhar No  <span style="color: red; font-weight: bolder;font-size: 20px; ">*</span></label>
+                    <input type="text " class="form-control " name="aadhar" required id="validationCustom05 " placeholder="Enter Aadhar No " >
+                    <div class="invalid-feedback ">
+                        Please provide a aadhar no.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05 ">PAN No</label>
+                    <input type="text " class="form-control " name="pan" id="validationCustom05 " placeholder="Enter PAN No " >
+                    <div class="invalid-feedback ">
+                        Please provide a pan no.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Matrial Status </label>
+                    <select class="form-select " id="validationCustom03 " name="maritial_status" placeholder="Select Maratial Status " >
+                        <option value="">--SELECT--</option>
+                        <option value="married">Married</option>
+                        <option value="single">Single</option>
+                        <option value="others">Others</option>
+                    </select>
+                    <div class="invalid-feedback ">
+                        Please provide Matrial Status.
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+              <div class="col-12 ">
+                    <span style="background-color: #575555; color: #f8f3f2; font-weight: bolder; font-size: 16px; padding: 10px; " ;> Employee Bank Account Information</span>
+                </div>
+            </div>
+
+            <div class="row " style="margin-top: 10px; ">
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">Beneficiary Name</label>
+                    <input type="text" class="form-control " name="beneficiary" id="validationCustom05 " placeholder="Enter Beneficiary Name " >
+                    <div class="invalid-feedback ">
+                        Please provide a Beneficiary name.
+                    </div>
+                </div>
+                    <div class=" col-md-3 mb-3 ">
+                        <label for="validationCustom04 ">Bank Account No</label>
+                        <input type="text " class="form-control " name="bank_ac" id="validationCustom04 " placeholder="Enter Bank Account No " >
+                        <div class="invalid-feedback ">
+                            Please provide a bank account no.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 ">
+                        <label for="validationCustom05 ">IFSC</label>
+                        <input type="text " class="form-control " name="ifsc" id="validationCustom05 " placeholder="Enter IFSC " >
+                        <div class="invalid-feedback ">
+                            Please provide a ifsc.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 ">
+                        <label for="validationCustom05 ">Bank Name</label>
+                        <input type="text" class="form-control " name="bank_name" id="validationCustom05 " placeholder="Enter Bank Name " >
+                        <div class="invalid-feedback ">
+                            Please provide a bank name.
+                        </div>
+                    </div>             
+                </div>
+                <div class="row ">
+                    <div class="col-12 ">
+                    <span style="background-color: #575555; color: #f8f3f2; font-weight: bolder; font-size: 16px; padding: 10px; " ;> Employee Other Information</span>
+                </div>
+            </div> 
+             <div class="row " style="margin-top: 10px; ">
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom02 ">Nominee Name</label>
+                    <input type="text" class="form-control" name="nominee_name[]" id="validationCustom02" placeholder="Enter Nominee Name" />
+                    <div class="invalid-feedback ">
+                        Please Provide nominee name!
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Nominee Relation </label>
+                    <input type="text" class="form-control" name="nominee_relation[]" id="validationCustom02" placeholder="Enter Nominee Relation" />
+
+                    <div class="invalid-feedback ">
+                        Please provide a nominee relation.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05 ">Nominee Date Of Birth </label>
+                    <input type="date" class="form-control " name="nominee_dob[]" id="validationCustom05 " placeholder="Enter Pin Code " >
+                    <div class="invalid-feedback ">
+                        Please provide a pin code.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05">Nominee Share </label>
+                    <input type="text" class="form-control" name="nominee_share[]" id="validationCustom05" placeholder="Enter Nominee Share " >
+                    <div class="invalid-feedback ">
+                        Please provide a GST code.
+                    </div>
+                </div>
+                <div class="col-md-1 mb-3 text-center">
+                    <input type="hidden" style="width: 30px; border-radius: 10px; text-align: center;" id="addressNo" readonly value="0" >
+                    <span style="top:40%; cursor: pointer;" id="addA" class="plus-button"></span>
+                 </div>
+        
+            </div>
+          <div id="addressRow"></div>
+            <div class="row " >
+                       
+                        
+                        <div class="col-md-3 mb-4 ">
+                            <label for="validationCustom05 ">PF No</label>
+                            <input type="text " class="form-control " name="pf" id="validationCustom05 " placeholder="Enter PF No " >
+                            <p><a href="https://unifiedportal-emp.epfindia.gov.in/epfo/" target="_blank"> PF Website</a></p>
+                            
+                                                    
+                            <div class="invalid-feedback ">
+                                Please provide a PF no.
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4 ">
+                            <label for="validationCustom05 ">ESIC No</label>
+                            <input type="text " class="form-control " name="esic" id="validationCustom05 " placeholder="Enter ESIC No " >
+							<p><a href="https://www.esic.in/ESICInsurance1/ESICInsurancePortal/PortalLogin.aspx" target="_blank"> ESIC Website</a></p>
+                            <div class="invalid-feedback ">
+                                Please provide a ESIC no.
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <div class="row ">
+                      
+                        <div class="col-md-3 mb-4 ">
+                            <label for="validationCustom04 ">Date Of Exit</label>
+                            <input type="date" class="form-control " readonly name="date_of_exit" id="validationCustom04 " >
+                            <div class="invalid-feedback ">
+                                Please select date of exit.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4 ">
+                            <label for="validationCustom04 ">Remarks</label>
+                            <textarea type="text" class="form-control " name="remarks" id="validationCustom04 " placeholder="Enter Remarks" ></textarea>
+                            <div class="invalid-feedback ">
+                                Please provide remarks.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-12 ">
+                    <span style="background-color: #575555; color: #f8f3f2; font-weight: bolder; font-size: 16px; padding: 10px; " ;> Employee Document Upload</span>
+                </div>
+            </div>
+
+            <div class="row " style="margin-top: 10px; ">
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom04 ">Aadhar</label>
+                    <input type="file" class="form-control" onchange="showPreview(event,'previewAadhar')" name="aadhar_photo" id="validationCustom04 " placeholder="Choose Photo " >
+                    <div class="invalid-feedback ">
+                        Please provide aadhar.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">Pan</label>
+                    <input type="file" class="form-control " name="pan_photo"  onchange="showPreview(event,'previewPan')" id="validationCustom05 " placeholder="Choose Photo " >
+                    <div class="invalid-feedback ">
+                        Please provide pan.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">Bank Pass Book / Cancel Cheque</label>
+                    <input type="file" class="form-control " name="bank_passbook" id="validationCustom05 "  onchange="showPreview(event,'previewBank')" placeholder="Choose Photo " >
+                    <div class="invalid-feedback ">
+                        Please provide bank passbook.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom05 ">TIC</label>
+                    <input type="file" class="form-control " name="tic" id="validationCustom05"  onchange="showPreview(event,'previewTic')" placeholder="Choose Photo " >
+                    <div class="invalid-feedback ">
+                        Please provide TIC.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row ">
+                <div class="col-md-3 mb-3 ">
+                    <img id="previewAadhar" class="border border-2 img-fluid " />
+                </div>
+                <div class="col-md-3 mb-3 ">
+                    <img id="previewPan" class="border border-2 img-fluid " />
+                </div>                
+                <div class="col-md-3 mb-3 ">
+                    <img id="previewBank" class="border border-2 img-fluid " />
+                </div>                        
+                <div class="col-md-3 mb-3 ">
+                    <img id="previewTic" class="border border-2 img-fluid " />
+                </div>                       
+            </div>
+            <div class="row ">
+
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom05 ">Appointment Letter</label>
+                    <input type="file" class="form-control " name="family" id="imageFile2"  multiple onchange="showPreviews(event,'previewFamily','imageFile2')" placeholder="Choose Photo " >
+                    <div class="invalid-feedback ">
+                        Please provide Appointment Letter.
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom05 ">Others</label>
+                    <input type="file" class="form-control " name="family_doc" multiple id="imageFile"  onchange="showPreviews(event,'previewDocuments','imageFile')" placeholder="Choose Photo " >
+                    <div class="invalid-feedback ">
+                        Please provide others.
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 ">
+                    <label for="validationCustom05 ">Signature</label>
+                    <input type="file" class="form-control " name="signature" id="validationCustom05 "  onchange="showPreview(event,'previewSign')" placeholder="Choose Photo " >
+                    <div class="invalid-feedback ">
+                        Please provide signature.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row ">
+                <div class="col-md-4 mb-3 d-flex flex-row" id="previewFamily">
+                </div>                
+                <div id="previewDocuments" class="col-md-6 mb-3 d-flex flex-row">
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <img id="previewSign" class="border border-2 img-fluid" />
+                </div> 
+            </div>
+            
+           
+            <button class="btn btn-success " type="submit">Save & Proceed</button>
+            <!-- <button class="btn btn-primary" type="button">Print</button> -->
+        </form>
+
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    </div>
+</div>
+
+<script>
+       document.getElementById('addA').onclick = addAddress;
+    var addressNo = 0;
+
+
+    function addAddress() {
+        document.getElementById('addressNo').value = parseInt(document.getElementById('addressNo').value) + 1;
+        addressNo++;
+        var addRow = `
+    <div class="row " id="dir${addressNo}">                
+        <div class="col-md-3 mb-3 ">
+                    <label for="validationCustom02 ">Nominee Name</label>
+                    <input type="text" class="form-control" name="nominee_name[]" id="validationCustom02" placeholder="Enter Nominee Name" />
+                    <div class="invalid-feedback ">
+                        Please Provide nominee name!
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom04 ">Nominee Relation </label>
+                    <input type="text" class="form-control" name="nominee_relation[]" id="validationCustom02" placeholder="Enter Nominee Relation" />
+
+                    <div class="invalid-feedback ">
+                        Please provide a nominee relation.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05 ">Nominee Date Of Birth </label>
+                    <input type="date" class="form-control " name="nominee_dob[]" id="validationCustom05 " placeholder="Enter Pin Code " >
+                    <div class="invalid-feedback ">
+                        Please provide a pin code.
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3 ">
+                    <label for="validationCustom05">Nominee Share </label>
+                    <input type="text" class="form-control" name="nominee_share[]" id="validationCustom05" placeholder="Enter Nominee Share " >
+                    <div class="invalid-feedback ">
+                        Please provide a GST code.
+                    </div>
+                </div>
+                  <div class="col-md-1 mb-3 ">
+                    <span onclick="deleteAddress(${addressNo}) " style="cursor:pointer " class="close "></span>
+                  </div>
+              </div>
+    `;
+
+        //  document.getElementById('directorRow').append(addRow);
+        document.getElementById('addressRow').insertAdjacentHTML('beforeend', addRow);
+
+    }
+
+    function deleteAddress(id) {
+        var rowToDelete = "dir" + id;
+        document.getElementById('addressNo').value = parseInt(document.getElementById('addressNo').value) - 1;
+        addressNo--;
+        //document.getElementById(rowToDelete).style.display="none ";
+        document.getElementById('addressRow').removeChild(document.getElementById(rowToDelete));
+    }
+    var images=[];
+    var imagesEvents=[];
+    function showPreview(event,id) {
+        //document.getElementById("isImage ").value = "1 ";
+        if (event.target.files.length > 0) {
+            let src = URL.createObjectURL(event.target.files[0]);
+            //$("#photo ").val(event.target.files[0].size/1024);
+            let preview = document.getElementById(id);
+            preview.src = src;
+            preview.style.width = "120px ";
+            preview.style.height = "150px ";
+            preview.style.display = "block ";
+        }
+    }
+    
+    function showPreviews(event,id,inputId) {
+        //document.getElementById("isImage").value = "1";
+        var div = document.getElementById(id);
+        if(event){
+        if (event.target.files.length > 0) {
+            for (var i = 0; i < event.target.files.length; i++) {
+                let src = URL.createObjectURL(event.target.files[i]);
+                let preview = document.createElement('img');
+                images.push(src);
+                imagesEvents.push(event.target.files[i]);
+               
+            }
+        }
+    }
+    div.innerHTML="";
+            for(var i=0;i<images.length;i++){
+               
+                var aa=`<div class="col-md-3" > 
+                        <img src=${images[i]} width="120px" height="150px" style="border:1px solid black; margin-left:10px;" />
+                        <span style="cursor:pointer" onclick="deleteImage(${i})" class="close"></span>
+                        </div>`
+                   
+            div.insertAdjacentHTML('beforeend',aa);
+
+            }
+      
+
+            const dT = new DataTransfer();
+        for(var i = 0;i<imagesEvents.length;i++){
+        dT.items.add(imagesEvents[i]);
+        }
+         document.getElementById(inputId).files=dT.files;
+    }
+    function deleteImage(id){
+        // console.log(val);
+        images.splice(id,1);
+
+         imagesEvents.splice(id,1);
+
+        showPreviews();
+        console.log(document.getElementById('imageFile').files);
+        const dT = new DataTransfer();
+        for(var i = 0;i<imagesEvents.length;i++){
+        dT.items.add(imagesEvents[i]);
+        }
+         document.getElementById('imageFile').files=dT.files;
+
+    }
+
+    function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });  
+       $.ajax({
+        type: 'POST',
+        url: '/admin/getEmpCode',
+        data: {compId:val},
+        success: function(empCode) {          
+        $('#emp_code').val(empCode);
+        }
+      });  
+    }
+
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js "></script>

@@ -1,0 +1,56 @@
+<div class="container">
+    <input type="text" class="form-control" style="width: 800px;" onchange="searchEmployee2(this.value)"  placeholder="Search Employee"/>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Employee Code</td>
+            <td>Name</td>
+            <td>Company Name</td>
+            <td>Client Name</td>
+            <td>Adhaar</td>
+            <td>Mobile</td>
+            <td>Remarks</td>
+            <td colspan="4">Option</td>
+        </thead>
+        <tbody id="emp_table2">
+         
+        </tbody>
+    </table>
+</div>
+<script>
+     function searchEmployee2(val){
+        console.log(val);
+        $.ajax({
+        type: 'POST',
+        url: '/employee/searchEmployee',
+        data: {val:val},
+        success: function({clients,isAdmin}) {
+            var html = '';
+            if(clients.length>0){
+        for (var i = 0; i< clients.length; i++) {
+            // console.log(client);
+            html+=`<tr>
+                        <td>${i+1}</td>
+                        <td>${clients[i].emp_code}</td>
+                        <td>${clients[i].emp_name}</td>
+                        <td>${clients[i].company_master.company_name}</td>
+                        <td>${clients[i].client_master.client_name}</td>
+                        <td>${clients[i].aadhar}</td>
+                        <td>${clients[i].mobile}</td>
+                        <td><a href="/employee/changeEmpCompany/${clients[i].id}"><button class="btn btn-success">Change</button></a></td> 
+
+                        </tr>`;
+        }
+    }else{
+        html+='<tr><td colspan="9"><h2 class="text-center alert alert-secondary">No Employees Found.</h2></td></tr>'
+    }
+             $('#emp_table2').html(html);
+        }
+      });
+    
+    }
+    
+</script>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

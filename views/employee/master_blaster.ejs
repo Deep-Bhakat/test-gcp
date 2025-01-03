@@ -1,0 +1,46 @@
+<%- include('../includes/newHeader.ejs') %>
+ <div class="container my-10"> 
+    <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930" >Master Blaster</span></h2>
+    <div class="container">
+        <input type="text" class="form-control" style="width: 200px;"  placeholder="Search "/>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <td>Sl No</td>
+                <td>Date</td>
+                <td>Logo</td>
+                <td>Company Name</td>
+                <td colspan="2">Option</td>
+            </thead>
+            <tbody>
+             <tr>
+                 <td>1</td>
+                 <td>13-02-2022</td>
+                 <td><img src="/img/new.png" /></td>
+                 <td>ABC</td>
+                 <td><a href="#"><button class="btn btn-primary">Export</button></a></td>
+             </tr>
+              
+            </tbody>
+        </table>
+    </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>
+<script>
+      function changeTab(val){
+    //removing active and show from tab-pane 
+    var list = document.getElementsByClassName('tab-pane');
+    for(var i=0;i<list.length;i++){
+      list[i].classList.remove('show','active');
+    }
+    //adding show and active to clisked tab pane
+    document.getElementById(val).classList.add('show','active');
+
+    //removing active and show from tab 
+    var list2 = document.getElementsByName('tab');
+    for(var i=0;i<list2.length;i++){
+      list2[i].classList.remove('active');
+    }
+    document.getElementById(val+'-tab').classList.add('active');
+
+  }
+</script>

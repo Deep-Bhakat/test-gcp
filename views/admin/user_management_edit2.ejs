@@ -1,0 +1,117 @@
+<%- include('../includes/header.ejs') %>
+    <div class="container my-10">
+        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">User Management</span></h2>
+        <ul class="nav nav-pills  shadow-lg p-3    bg-body rounded mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" name="tab" id="employee-tab" onclick="changeTab('employee')" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">EMPLOYEE</button>
+            </li>
+           
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="employee" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="container mx-20 my-2 border rounded clearfix">
+        
+                    <form class="needs-validation my-2" novalidate action="/admin/client-management-edit" method="post">
+                        <h2 class="text-center"><span style=" border-bottom: 3px solid #FB3930">Client</span></h2>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Company</label>
+                                <input type="hidden" class="form-control" value="<%= empClient.id %>" name="id" readonly >
+
+                                <select class="form-select" id="validationCustom01" onchange="getClient(this.value)" name="company" required>
+                                    <option value="<%= empClient.company_id %>"><%= empClient.company_master.company_name %></option>
+                                    <option value="">--SELECT--</option>
+                                    <option class="">Select Company</option>
+                                    <% if(companies.length>0){ %>
+                                    <% for(let company of companies){ %>
+                                <option value="<%= company.id %>"><%= company.company_name %></option>
+                                    <% } } %>
+                            </select>
+                                <div class="invalid-feedback">
+                                    Please select company!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Client</label>
+                                <select class="form-select" id="client" name="client" required>    
+                                    <option value="<%= empClient.client_id %>"><%= empClient.client_master.client_name %></option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please Provide client!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Email</label>
+                                <input type="email" class="form-control"  name="email" value="<%= empClient.email %>" id="validationCustom01" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Client Code</label>
+                                <input type="text" class="form-control" value="<%= empClient.code %>" name="code" id="validationCustom01" readonly required>
+                            </div>                            
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Username</label>
+                                <input type="text" class="form-control" id="validationCustom01" name="username" value="<%= empClient.username %>" required>
+                                <div class="invalid-feedback">
+                                    Please Provide username!
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Password</label>
+                                <input type="password" class="form-control" id="validationCustom01" value="<%= empClient.password %>" name="password" required>
+                                <div class="invalid-feedback">
+                                    Please Provide password!
+                                </div>
+                            </div>
+                        </div><br>
+                        <center> <button class="btn btn-success " type="submit">Update</button></center>
+
+                    </form>
+
+
+                </div>
+            </div>      
+
+        </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>   
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+            function getClient(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#client').html(html);
+        }
+      });    
+    }
+        </script>

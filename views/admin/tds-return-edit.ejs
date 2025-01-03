@@ -1,0 +1,100 @@
+<%- include('../includes/header.ejs') %>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 align="center">TDS Return Edit</h2>
+            </div>
+        </div>
+        <form class="needs-validation my-2" novalidate method="post" action="/admin/tds-return-edit" enctype="multipart/form-data">
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Company</label>
+                <select class="form-select" id="validationCustom01" name="company" onchange="getClient(this.value)" required>
+                    <option value="<%= tds.company_master.id %>"><%= tds.company_master.company_name %></option>
+
+                    <option value="">Select</option>
+                    <% if(companies.length>0){ %>
+                        <% for(let company of companies){ %>
+                    <option value="<%= company.id %>"><%= company.company_name %></option>
+                        <% } } %>
+            </select>
+                <div class="invalid-feedback">
+                    Please select company!
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+                <select class="form-select" id="clientSelect" name="client">
+                    <option value="<%= tds.client_master.id %>"><%= tds.client_master.client_name %></option>
+ 
+            </select>
+                <div class="invalid-feedback">
+                    Please Provide Client!
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">TDS Return Year</label>
+                <input type="hidden" class="form-control"  name="id" value="<%= tds.id %>">
+                <input type="number" class="form-control" min="2000" max="3099" step="1" name="year" value="<%= tds.year %>">
+
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">Select Quater</label>
+                <select class="form-select" id="validationCustom01" name="quarter">
+                    <option value="">Select Quater</option>
+                    <option value="1"  <% if(tds.quarter=='1') { %> selected <%  } %>>1st</option>
+                    <option value="2"  <% if(tds.quarter=='2') { %> selected <%  } %>>2nd</option>
+                    <option value="3"  <% if(tds.quarter=='3') { %> selected <%  } %>>3rd</option>
+                    <option value="4"  <% if(tds.quarter=='4') { %> selected <%  } %>>4th</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">Reason</label>
+                <select class="form-select" id="validationCustom01" name="reason">
+                    <option value="" >Select Reason</option>
+                    <option value="Short Deposit"  <% if(tds.reason=='Short Deposit') { %> selected <%  } %>>Short Deposit</option>
+                    <option value="Non Deposit"  <% if(tds.reason=='Non Deposit') { %> selected <%  } %>>Non Deposit</option>
+                    
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">Amount</label>
+                <input class="form-control" type="text" name="amount" value="<%= tds.amount %>" id="amount" placeholder="Enter Amount">
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="validationCustom04">Document</label>
+                <input type="file" class="form-control" name="document" id="validationCustom04">
+                <div class="invalid-feedback">
+                    Please provide atleast one file.
+                </div>
+            </div>
+        </div>
+        <center><button type="submit" class="btn btn-success">Submit</button></center>
+        </form>
+    </div>
+  
+    <script>
+        function getClient(val){
+            console.log(val);
+        $.ajax({
+        type: 'POST',
+        url: '/admin/getClientForCompany',
+        data: {val:val},
+        success: function(clients) {
+            var html = '';
+            html+='<option value="">--SELECT--</option>';
+            for (var i = 0; i< clients.length; i++) {
+            html+=`
+            <option value="${clients[i].id}">${clients[i].client_name}</option>
+            `
+         }
+        $('#clientSelect').html(html);
+        }
+      });    
+    }
+    </script>

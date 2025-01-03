@@ -1,0 +1,708 @@
+<%- include('../includes/newHeader.ejs') %>
+<style>
+    .chatboxDiv{
+position:fixed;
+bottom:50px;
+right:50px;
+cursor:pointer;
+background-color: #434651;
+height: 100px;
+width: 100px;
+}
+.chatlist{
+  background: #444753;
+  border-radius: 5px;
+  text-transform: capitalize;
+  color: green;
+  margin-left: 5px;
+}
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  top: 5%;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  margin-left: 130px;
+  border-top: 20px solid #f00;
+  cursor: pointer;
+}
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.animated {
+            /*background-image: url(css/images/logo.png);*/
+            background-repeat: no-repeat;
+            background-position: left top;
+            /* padding-top:95px; */
+            margin-bottom:60px;
+            -webkit-animation-duration: 10s;
+            animation-duration: 2s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+         }
+         
+         @-webkit-keyframes fadeIn {
+            0% {opacity: 0;}
+            100% {opacity: 1;}
+         }
+         
+         @keyframes fadeIn {
+            0% {opacity: 0;}
+            100% {opacity: 1;}
+         }
+         
+         .fadeIn {
+            -webkit-animation-name: fadeIn;
+            animation-name: fadeIn;
+         }
+
+</style>  
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/* body {
+  background: #c5ddeb;
+  font: 14px/20px "Lato", Arial, sans-serif;
+  padding: 40px 0;
+  color: white;
+} */
+
+/* .container {
+  margin: 0 auto;
+  width: 750px;
+  background: #444753;
+  border-radius: 5px;
+} */
+
+.people-list {
+  width: 260px;
+  float: left;
+}
+.people-list .search {
+  padding: 20px;
+}
+.people-list input {
+  border-radius: 3px;
+  border: none;
+  padding: 14px;
+  color: white;
+  background: #6a6c75;
+  width: 90%;
+  font-size: 14px;
+}
+.people-list .fa-search {
+  position: relative;
+  left: -25px;
+}
+.people-list ul {
+  padding: 20px;
+  height: 770px;
+  list-style: none;
+
+}
+.people-list ul li {
+  padding-bottom: 20px;
+}
+.people-list img {
+  float: left;
+}
+.people-list .about {
+  float: left;
+  margin-top: 8px;
+}
+.people-list .about {
+  padding-left: 8px;
+}
+.people-list .status {
+  color: #92959e;
+}
+
+.chat {
+  width: 490px;
+  float: left;
+  background: #f2f5f8;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: #434651;
+}
+.chat .chat-header {
+  padding: 20px;
+  border-bottom: 2px solid white;
+}
+.chat .chat-header img {
+  float: left;
+}
+.chat .chat-header .chat-about {
+  float: left;
+  padding-left: 10px;
+  margin-top: 6px;
+}
+.chat .chat-header .chat-with {
+  font-weight: bold;
+  font-size: 16px;
+}
+.chat .chat-header .chat-num-messages {
+  color: #92959e;
+}
+.chat .chat-header .fa-star {
+  float: right;
+  color: #d8dadf;
+  font-size: 20px;
+  margin-top: 12px;
+}
+.chat .chat-history {
+  padding: 30px 30px 20px;
+  border-bottom: 2px solid white;
+  overflow-y: scroll;
+  height: 575px;
+}
+.chat .chat-history .message-data {
+  margin-bottom: 15px;
+}
+.chat .chat-history .message-data-time {
+  color: #a8aab1;
+  padding-left: 6px;
+}
+.chat .chat-history .message {
+  color: white;
+  padding: 18px 20px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 7px;
+  margin-bottom: 30px;
+  width: 90%;
+  position: relative;
+}
+.chat .chat-history .message:after {
+  bottom: 100%;
+  left: 7%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: #86bb71;
+  border-width: 10px;
+  margin-left: -10px;
+}
+.chat .chat-history .my-message {
+  background: #86bb71;
+}
+.chat .chat-history .other-message {
+  background: #94c2ed;
+}
+.chat .chat-history .other-message:after {
+  border-bottom-color: #94c2ed;
+  left: 93%;
+}
+.chat .chat-message {
+  padding: 30px;
+}
+.chat .chat-message textarea {
+  width: 100%;
+  border: none;
+  padding: 10px 20px;
+  font: 14px/22px "Lato", Arial, sans-serif;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  resize: none;
+}
+.chat .chat-message .fa-file-o,
+.chat .chat-message .fa-file-image-o {
+  font-size: 16px;
+  color: gray;
+  cursor: pointer;
+}
+.chat .chat-message button {
+  float: right;
+  color: #94c2ed;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: #f2f5f8;
+}
+.chat .chat-message button:hover {
+  color: #75b1e8;
+}
+
+.online,
+.offline,
+.me {
+  margin-right: 3px;
+  font-size: 10px;
+}
+
+.online {
+  color: #86bb71;
+}
+
+.offline {
+  color: #e38968;
+}
+
+.me {
+  color: #94c2ed;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.float-right {
+  float: right;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+      .circle {
+        border-radius: 50%;
+        width: 10px;
+
+        height: 10px;
+        padding: 5px;
+        background: #fff;
+        border: 3px solid green;
+        color: green;
+        text-align: center;
+        font: 10px Arial, sans-serif;
+      }
+   
+      .circle2 {
+        border-radius: 50%;
+        width: 10px;
+
+        height: 10px;
+        padding: 5px;
+        background: #fff;
+        border: 3px solid red;
+        color: red;
+        text-align: center;
+        font: 10px Arial, sans-serif;
+      }
+   
+</style>
+<h4 style="text-align: center;"><span style=" border-bottom: 3px solid #FB3930; font-size: 3rem;" >Welcome to Genesis Family</span></h4>
+    <h6 style="text-align: center;"><span style=" border-bottom: 3px solid #FB3930; font-size: 3rem;" ><%= user.name %></span></h6>
+    <!-- <div class="chatlist col-lg-3"  style=" font-size: 11px;" >
+      <h4  style="color:white ; text-align: center;">Chit Chat <span class="blink_me" id="hasChatsSpan">*</span></h4>
+      <br>
+      <span class="arrow-down" onclick="showChatsDiv()"></span>
+        <div class="people-list" id="people-list" style="border-style: solid;
+        border-width: 2px; margin-left: 20px;border-color: red; display: none;">
+    
+                      <div id = "animated-example" class = "animated fadeIn">
+               
+            <ul class="list ullist">
+              <a href="/employee/chatbox?user_id=admin" target="_blank">
+                <li class="clearfix">
+                    <div class="about">
+                      <div class="name" style="cursor: pointer; color: black;  font-weight: bold;" onclick="getChats('admin','Admin')">Admin &nbsp;&nbsp;<span class="circle22"></span></div>
+                
+                    </div>
+                  </li>
+                </a>
+             <% for(let c=0; c<users.length; c++){ %>  
+                <a href="/employee/chatbox?user_id=<%= users[c].id %>" target="_blank">
+                    <li class="clearfix">
+                <div class="about">
+                  <div class="name" style="cursor: pointer; color: black;  font-weight: bold;" onclick="getChats(<%= users[c].id %>,'<%= users[c].name %>')"><%= users[c].name %> &nbsp;&nbsp; <span></span></div>
+            
+                </div>
+              </li>
+            </a>
+      
+              <% } %>
+            </ul>
+          </div>
+        </div>
+    </div> -->
+
+    <div class="container my-5 text-center">
+        <% if(!permissions.includes('0')){ %>    
+
+        <div class="row text-center">
+            <% if(permissions.includes('1')){ %>    
+                <div class="col-lg-4 col-sm-12 text-center">
+                <a href="/employee/master">
+                    <img src="../../img/creation.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>Creation</h6>
+                </a>
+            </div>
+            <% } if(permissions.includes('2')){ %>    
+
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/user-management">
+                    <img src="../../img/user_management.webp" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>User Management</h6>
+                </a>
+            </div>
+            <% } %> 
+            <!-- <% if(permissions.includes('9')){ %>   
+   
+           <div class="col-lg-4 col-sm-12">
+                <a href="/employee/news-hr-reports">
+                    <img src="../../img/news_and_notifications.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>News & HR Reports</h6>
+                </a>
+            </div> 
+            <% }%>     -->
+
+        </div>
+        <%  if(permissions.includes('3') || permissions.includes('4') || permissions.includes('5') || permissions.includes('6')){ %>    
+
+        <hr style="height: 5px; color:black;">
+        <% } %>
+        <div class="row">
+            <%  if(permissions.includes('3')){ %>    
+
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/new">
+                    <img src="../../img/new_registration.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>New Registration</h6>
+                </a>
+            </div>
+            <% } if(permissions.includes('4')){ %>    
+
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/idcardmodule">
+                    <img src="../../img/id_card.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>Id Card</h6>
+                </a>
+            </div>
+            <% } if(permissions.includes('5')){ %>    
+
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/statute">
+                    <img src="../../img/fingertip_statute.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>Statute</h6>
+                </a>
+            </div>
+            <% } %>    
+
+            <%  if(permissions.includes('6')){ %>    
+
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/employee/payments">
+                        <img src="../../img/payments_and_banking.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Payments & Banking</h6>
+                    </a>
+                </div>
+                <% } %>
+
+            <%  if(permissions.includes('7') || permissions.includes('8') || permissions.includes('11')){ %>    
+
+                <hr style="height: 5px; color:black;">
+                <% } %>
+
+            <%  if(permissions.includes('7')){ %>    
+
+        
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/invoice">
+                    <img src="../../img/invoice.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>Invoice</h6>
+                </a>
+            </div>
+            <% } if(permissions.includes('8')){ %>    
+ 
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/accounts-ledger">
+                    <img src="../../img/accounts_and_ledgers.png" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>Accounts</h6>
+                </a>
+            </div>
+            <% } %>    
+            <%  if(permissions.includes('11')){ %>    
+
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/registration-payslip">
+                    <img src="../../img/wage_registers_and_payslips.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>Register & Payslip</h6>
+                </a>
+            </div>          
+             
+            <% } %>    
+
+        
+            <%  if(permissions.includes('10')  || permissions.includes('12') || permissions.includes('13')){ %>    
+                <hr style="height: 5px; color:black;">
+                <div class="row">
+                    <%  if(permissions.includes('12')){ %>    
+
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/bill-maker-module">
+                    <img src="../../img/bill_maker.png" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>Generator </h6>
+                </a>
+                </div>
+                <% } %>
+                <%  if(permissions.includes('10')){ %>    
+
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/employee/master-blaster-data">
+                        <img src="../../img/master_file.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Master Blaster</h6>
+                    </a>
+                </div>
+                <% } %>
+
+                    <!-- <div class="col-lg-4 col-sm-12">
+                        <a href="/admin/hr-report-module">
+                            <img src="../../img/report_logo.jpg" style="border-radius: 50%;" width="100px" height="100px" />
+                            <h6>Company Reports</h6>
+                        </a>
+                    </div> -->
+            </div>
+                <% } %>
+        
+        </div>
+        <% }else{ %>
+            
+            <div class="row text-center">
+                <div class="col-lg-4 col-sm-12 text-center">
+                    <a href="/employee/master">
+                        <img src="../../img/creation.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Creation</h6>
+                    </a>
+                </div>
+               
+                
+                <div class="col-lg-4 col-sm-12">
+                    <!-- <a href="/employee/notification-details">
+                        <a href="/admin/news-hr-reports">
+                            <img src="../../img/news_and_notifications.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                            <h6>News & HR Reports</h6>
+                        </a>
+                    </a> -->
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                  <a href="/employee/user-management">
+                      <img src="../../img/user_management.webp" style="border-radius: 50%;" width="100px" height="100px" />
+                      <h6>User Management</h6>
+                  </a>
+              </div>
+            </div>
+            <hr style="height: 5px; color:black;">
+            <div class="row">
+                
+                <div class="col-lg-3 col-sm-12">
+                    <a href="/employee/new">
+                        <img src="../../img/new_registration.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>New Registration</h6>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-12">
+    
+                    <a href="/employee/idcardmodule">
+                        <img src="../../img/id_card.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Id Card</h6>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-12">
+                    <a href="/employee/statute">
+                        <img src="../../img/fingertip_statute.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Statute</h6>
+                    </a>
+                </div>
+                
+                <div class="col-lg-3 col-sm-12">
+                    <a href="/employee/payments">
+                        <img src="../../img/payments_and_banking.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Payments & Banking</h6>
+                    </a>
+                </div>
+    
+                <hr style="height: 5px; color:black;">
+    
+    
+            
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/employee/invoice">
+                        <img src="../../img/invoice.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6>Invoice</h6>
+                    </a>
+                </div>
+                
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/employee/accounts-ledger">
+                        <img src="../../img/accounts_and_ledgers.png" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Accounts</h6>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/employee/registration-payslip">
+                        <img src="../../img/wage_registers_and_payslips.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Payslip</h6>
+                    </a>
+                </div>          
+           
+                  <!-- <div class="col-lg-4 col-sm-12">
+                    <a href="/employee/tds-return">
+                        <div class="card text-dark text-center bg-warning  mb-3" style="max-width: 18rem; height: 100px;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 2rem;">TDS Return</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div> -->
+    
+                <hr style="height: 5px; color:black;">
+                <div class="row">
+                    
+            <div class="col-lg-4 col-sm-12">
+                <a href="/employee/bill-maker-module">
+                    <img src="../../img/bill_maker.png" style="border-radius: 50%;" width="100px" height="100px" />
+                    <h6> Generator </h6>
+                </a>
+                </div>
+                
+                <div class="col-lg-4 col-sm-12">
+                    <a href="/employee/master-blaster-data">
+                        <img src="../../img/master_file.jpeg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Master Blaster</h6>
+                    </a>
+                </div>
+                <!-- <div class="col-lg-4 col-sm-12">
+                    <a href="/admin/hr-report-module">
+                        <img src="../../img/report_logo.jpg" style="border-radius: 50%;" width="100px" height="100px" />
+                        <h6>Company Reports</h6>
+                    </a>
+                </div> -->
+            </div>
+            </div>
+            <% } %>
+
+    </div>
+    <script>
+    //   var isShowing = 0;
+    //   var hasChats = 0;
+    //   function showChatsDiv(){
+    //     if(isShowing==0){
+    //     document.getElementById('people-list').style.display='';
+    //       isShowing=1;
+    //   }else{
+    //     document.getElementById('people-list').style.display='none';
+    //     isShowing= 0;
+    //   }
+    // }
+    //          setInterval(()=>{
+    //         $.post({
+    //   type: 'GET',
+    //     url: '/employee/countChats',
+    //     // data: {},
+    //     success: function({noOfChats,noOfChatsAdmin}) {
+    //       console.log(noOfChats);
+    //       console.log(noOfChatsAdmin);
+    //       var c = document.getElementsByClassName('circle').length;
+    //       for(var i = 0;i<c;i++){
+    //         if(noOfChats[i]>0){
+    //           hasChats = 1;
+
+    //         document.getElementsByClassName('circle')[i].innerHTML = noOfChats[i];
+    //         }
+    //       }
+    //       if(noOfChatsAdmin[i]>0){
+    //         hasChats = 1;
+          
+    //         document.getElementsByClassName('circle2')[0].innerHTML = noOfChatsAdmin[0];
+    //       }
+
+
+    //       if(hasChats){
+    //         document.getElementById('hasChatsSpan').style.display='';
+    //       }else{
+    //         document.getElementById('hasChatsSpan').style.display='none';
+
+    //       }
+    //     }  
+    // });
+      
+    // },1000);  
+    
+//     setInterval(()=>{
+//             $.post({
+//       type: 'GET',
+//         url: '/employee/countChats',
+//         // data: {},
+//         success: function({noOfChats,noOfChatsAdmin}) {
+//            console.log(noOfChats);
+//           var c = document.getElementsByClassName('circle').length;
+//           document.getElementsByClassName('ullist')[0].innerHTML = '';
+//           if(noOfChatsAdmin[i]>0){
+//             hasChats = 1;
+//           }
+//             // document.getElementsByClassName('circle22')[0].innerHTML = ' - '.noOfChatsAdmin[0];
+//             var aaa = ` <a href="/employee/chatbox?user_id=admin" target="_blank">
+ 
+//  <li class="clearfix">
+// <div class="about">
+//  <div class="name" style="cursor: pointer; color: black; font-weight: bold;" onclick="getChats('admin','Admin')">Admin &nbsp;&nbsp;  <span class="">${noOfChatsAdmin[0] >0 ? '- '+noOfChatsAdmin[0] : ''}</span></div>
+
+// </div>
+// </li>
+// </a>
+// <hr>`;
+// document.getElementsByClassName('ullist')[0].innerHTML += aaa;
+          
+
+        
+
+//           for(var i = 0;i<noOfChats.length;i++){
+//             var aa = ` <a href="/employee/chatbox?user_id=${noOfChats[i].id}" target="_blank">
+ 
+//  <li class="clearfix">
+// <div class="about">
+//  <div class="name" style="cursor: pointer; color: black; font-weight: bold;" onclick="getChats(${noOfChats[i].id},'${noOfChats[i].name}')">${noOfChats[i].name} &nbsp;&nbsp;  <span class="">${noOfChats[i].count >0 ? '- '+noOfChats[i].count : ''}</span></div>
+
+// </div>
+// </li>
+// </a>
+// <hr>`;
+// console.log(aa);
+// document.getElementsByClassName('ullist')[0].innerHTML += aa;
+
+//             if(noOfChats[i].count>0){
+//               hasChats = 1;
+//             // document.getElementsByClassName('circle')[i].innerHTML = noOfChats[i];
+//             }
+//           }
+       
+//           if(hasChats){
+//             document.getElementById('hasChatsSpan').style.display='';
+//           }else{
+//             document.getElementById('hasChatsSpan').style.display='none';
+
+//           }
+//         }  
+//     });
+      
+//     },1000);  
+    </script>
+    <%- include('../includes/footer.ejs') %>

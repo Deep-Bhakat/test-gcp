@@ -1,0 +1,91 @@
+<div class="container">
+    <input type="text" class="form-control" style="width: 800px;" onkeyup="searchClient(this.value)" placeholder="Search Client" />
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Date</td>
+            <td>Logo</td>
+            <td>Company Name</td>
+            <td>Client Name</td>
+            <td>Client Id</td>
+            <td colspan="2">Option</td>
+        </thead>
+        <tbody id="company_table">
+            <% if(clients.length>0){ %>
+                <% c=1
+                 for(let client of clients) { %>
+            <tr>
+                <td><%= c %></td>
+                <td> <% var dd=new Date(client.createdAt) %> <%= dd.getDate() %>/<%= dd.getMonth()+1 %>/<%= dd.getFullYear() %></td>
+                <td><img src="../<%= client.logo %>" height="50px" width="50px" /></td>
+                <td><%= client.company_master.company_name %></td>
+                <td><%= client.client_name %></td>
+                <td><%= client.id %></td>
+                <td><a href="/employee/employer-master-edit/<%= client.id %>"><button class="btn btn-dark">Edit</button></a></td>
+                <!-- <td><button class="btn btn-danger">Delete</button></td> -->
+                <td>
+                    <a href="/employee/downloadClientDetails/<%= client.id %>"><button class="btn btn-success btn-sm"   type="button">Download Details</button></a>
+
+                   <% if(client.client_documents.length>0){ %>
+                    <a href="/employee/downloadClientDocuments/<%= client.id %>"> <button class="btn btn-success btn-sm"  type="button">Download Documents</button></a>
+
+                
+                <% } %>
+    
+                </td>
+            </tr>
+            <% c=c+1 } %>
+            <% } else {  %>
+                <tr>
+                    <td colspan="6"><h2 class="text-center alert alert-secondary">No Clients Added Yet.</h2></td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+</div>
+<script>
+        function download(a){
+    let collection = document.getElementsByName(a);
+    for(var i=0;i<collection.length;i++){
+        collection[i].click();
+    }
+}
+    function searchClient(val){
+        console.log(val);
+        $.ajax({
+        type: 'POST',
+        url: '/employee/searchClient',
+        data: {val:val},
+        success: function(client) {
+            var html = '';
+        for (var i = 0; i< client.length; i++) {
+            var dd=new Date(client[i].createdAt);
+            var mm =  dd.getMonth()+1;
+
+            html+=`<tr>
+                        <td>${client[i].id}</td>
+                        <td>${dd.getDate()+'/'+mm+'/'+dd.getFullYear()}</td>
+                        <td><img src="../${client[i].logo}" height="50px" width="50px" /></td>
+                        <td>${client[i].company_master.company_name}</td>
+                        <td>${client[i].client_name}</td>
+                        <td>${client[i].id}</td>
+                        <td><a href="/employee/employer-master-edit/${client[i].id}"><button class="btn btn-dark">Edit</button></a></td>
+                        <td>                        
+                            <a href="/employee/downloadClientDetails/${client[i].id}"><button class="btn btn-success btn-sm" type="button">Download Details</button></a>
+
+                            ${client[i].client_documents.length>0 ? `                   
+                                <a href="/employee/downloadClientDocuments/${client.id}"> <button class="btn btn-success btn-sm"  type="button">Download Documents</button></a>
+                    `:''}                  
+                    
+                        
+                </td>             
+                        </tr>`;
+        }
+       // console.log(html);
+             $('#company_table').html(html);
+        }
+      });
+    
+    }
+</script>

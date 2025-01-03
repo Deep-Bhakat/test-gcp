@@ -1,0 +1,203 @@
+<div class="container">
+    <!-- <div class="container mx-20 my-2 ">
+        <form class="needs-validation"  novalidate method="post" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Company</label>
+                <select class="form-select" id="company_get" name="company" onchange="getClient2(this.value)">
+                  <option value="">Select</option>
+                  <% if(companies.length>0){ %>
+                      <% for(let company of companies){ %>
+                  <option value="<%= company.id %>"><%= company.company_name %></option>
+                      <% } } %>
+              </select> 
+
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Client</label>
+                <select class="form-select" id="clientSelect2" name="client">     
+                </select>
+                <div class="invalid-feedback">
+                    Please Provide Client!
+                </div>
+            </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Month & Year</label>
+                <input class="form-control" type="month" id="month_yearr" name="month_yearr" />
+
+              </div>
+              <div class="col-md-4 mb-3">     
+           
+              <button style="margin-top: 20px;" class="btn btn-primary" type="button" onclick="searchInvoice()">Get</button>
+              </div>
+            </div>
+          
+          
+          </form>
+          
+    
+    </div> -->
+    <!-- <input type="text" class="form-control" style="width: 800px;" onkeyup="searchInvoice2(this.value)" placeholder="Search HR Report" /> -->
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <td>Sl No</td>
+            <td>Company Name</td>
+            <td>Client Name</td>
+            <td>Month & Year</td>
+            <td>Options</td>
+        </thead>
+        <tbody id="company_table">
+            <% if(hr_new.length>0){ %>
+                <% c=1
+                    a=0
+                 for(let client of hr_new) { %>
+            <tr>
+                <td><%= c %></td>
+                <td><%= client.company_master.company_name %></td>
+                <td><%= client.client_master.client_name %></td>
+                <td><%= client.month %> <%= client.year %></td>
+                <td>
+                    <a href="/admin/hr-report-edit-new?id=<%= client.id %>&go=hr"><button <% if(isFilled[a].hr==0){ %> class="btn btn-dark" <% }else if(isFilled[a].hr==1){ %> class="btn btn-warning" <% }else{ %> class="btn btn-success" <% } %>>HR</button></a>
+                    <a href="/admin/hr-report-edit-new?id=<%= client.id %>&go=biller"><button <% if(isFilled[a].biller==0){ %> class="btn btn-dark" <% }else if(isFilled[a].biller==1){ %> class="btn btn-warning" <% }else{ %> class="btn btn-success" <% } %>>BILLER</button></a>
+                    <a href="/admin/hr-report-edit-new?id=<%= client.id %>&go=supervisor"><button <% if(isFilled[a].supervisor==0){ %> class="btn btn-dark" <% }else if(isFilled[a].supervisor==1){ %> class="btn btn-warning" <% }else{ %> class="btn btn-success" <% } %>>SUPERVISOR</button></a>
+                    <a href="/admin/hr-report-edit-new?id=<%= client.id %>&go=executive"><button <% if(isFilled[a].executive==0){ %> class="btn btn-dark" <% }else if(isFilled[a].executive==1){ %> class="btn btn-warning" <% }else{ %> class="btn btn-success" <% } %> >EXECUTIVE</button></a>
+                    <a href="/admin/hr-report-edit-new?id=<%= client.id %>&go=backoffice"><button <% if(isFilled[a].backoffice==0){ %> class="btn btn-dark" <% }else if(isFilled[a].backoffice==1){ %> class="btn btn-warning" <% }else{ %> class="btn btn-success" <% } %>>BACK-OFFICE</button></a>
+
+                    <a href="/admin/hr-report-edit-new?id=<%= client.id %>&go=accounts"><button <% if(isFilled[a].accounts==0){ %> class="btn btn-dark" <% }else if(isFilled[a].accounts==1){ %> class="btn btn-warning" <% }else{ %> class="btn btn-success" <% } %> >ACCOUNTS</button></a>    
+                    <a href="/admin/hr-report-edit-new?id=<%= client.id %>&go=management"><button <% if(isFilled[a].management==0){ %> class="btn btn-dark" <% }else if(isFilled[a].management==1){ %> class="btn btn-warning" <% }else{ %> class="btn btn-success" <% } %> >MANAGEMENT</button></a>
+                    
+                    <% if(client.document=='') { %><button type="button" class="btn btn-success" onclick="openmodal(<%= client.id %>)">Upload</button> <% } else { %> 
+                    <img src="../img/download.jpg" width="50px" style="cursor:pointer;" onclick="openmodal(<%= client.id %>)" height="50px" /> <% } %>
+                </td>
+            </tr>
+            <% c=c+1
+        a=a+1 } %>
+            <% } else {  %>
+                <tr>
+                    <td colspan="6"><h2 class="text-center alert alert-secondary">No Company Reports Added Yet.</h2></td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+</div>
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Upload File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method="post"  enctype="multipart/form-data" action="/admin/uploadCompanyReportDocument">
+          <input type="file" name="excelFile" id="excelFile" />
+          <input type="hidden" name="companyReportId" id="companyReportId" />
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+    </form>
+
+      </div>
+    </div>
+  </div>
+<script>
+  
+  function openmodal(id){
+        $('#exampleModal').modal('show');
+        $('#companyReportId').val(id);
+        
+    }
+    function searchInvoice(){
+        var company = $('#company_get').val();
+        var client = $('#clientSelect2').val();
+        var month_year = $('#month_yearr').val();
+        $.ajax({
+        type: 'POST',
+        url: '/admin/searchHRReport',
+        data: {company:company,client:client,month_year:month_year},
+        success: function(client) {
+            console.log(client);
+            var html = '';
+
+        for (var i = 0; i< client.length; i++) {
+         
+       
+            html+=`<tr>
+                        <td>${i+1}</td>
+                        <td>${client[i].company_master.company_name}</td>
+                        <td>${client[i].client_master ? client[i].client_master.client_name : ''}</td>
+                        <td>${client[i].month} ${client[i].year}</td>
+                        <td> 
+                            <a href="/admin/hr-download/${client.id}"><button class="btn btn-dark">HR</button></a>
+                    <a href="/admin/accounts-download/${client.id}"><button class="btn btn-dark">ACCOUNTS</button></a>
+                    <a href="/admin/executive-download/${client.id}"><button class="btn btn-dark">EXECUTIVE</button></a>
+                    <a href="/admin/backoffice-download/${client.id}"><button class="btn btn-dark">BACK-OFFICE</button></a>
+                    <a href="/admin/management-download/${client.id}"><button class="btn btn-dark">MANAGEMENT</button></a>
+                    <a href="/admin/generator-download/${client.id}"><button class="btn btn-dark">GENERATOR</button></a>    
+               
+                        
+                </td>             
+                        </tr>`;
+        }
+             $('#company_table').html(html);
+        }
+      });
+    }
+    
+    function getClient2(val){
+      $.ajax({
+      type: 'POST',
+      url: '/admin/getClientForCompany',
+      data: {val:val},
+      success: function(clients) {
+          var html = '';
+          html+='<option value="">--SELECT--</option>';
+          for (var i = 0; i< clients.length; i++) {
+          html+=`
+          <option value="${clients[i].id}">${clients[i].client_name}</option>
+          `
+       }
+      $('#clientSelect2').html(html);
+      }
+    });    
+  }
+    function searchInvoice2(val){
+        $.ajax({
+        type: 'POST',
+        url: '/admin/searchHRReport2',
+        data: {val:val},
+        success: function(client) {
+            var html = '';
+
+        for (var i = 0; i< client.length; i++) {
+           
+            html+=`<tr>
+                <td>${i+1}</td>
+                        <td>${client[i].company_master.company_name}</td>
+                        <td>${client[i].client_master ? client[i].client_master.client_name : ''}</td>
+                        <td>${client[i].month} ${client[i].year}</td>
+                        <td> 
+                            <a href="/admin/hr-download/${client.id}"><button class="btn btn-dark">HR</button></a>
+                    <a href="/admin/accounts-download/${client.id}"><button class="btn btn-dark">ACCOUNTS</button></a>
+                    <a href="/admin/executive-download/${client.id}"><button class="btn btn-dark">EXECUTIVE</button></a>
+                    <a href="/admin/backoffice-download/${client.id}"><button class="btn btn-dark">BACK-OFFICE</button></a>
+                    <a href="/admin/management-download/${client.id}"><button class="btn btn-dark">MANAGEMENT</button></a>
+                    <a href="/admin/generator-download/${client.id}"><button class="btn btn-dark">GENERATOR</button></a>    
+               
+                        
+                </td>         
+                        </tr>`;
+        }
+             $('#company_table').html(html);
+        }
+      });
+    }
+  
+    
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

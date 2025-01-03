@@ -1,0 +1,166 @@
+<%- include('../includes/header.ejs') %>
+<h2 class="text-center my-2"><span style=" border-bottom: 3px solid #FB3930" ;>Collection Edit</span>
+</h2>
+    <div class="container my-4   mx-auto rounded border">
+  
+        <div class="container mx-20 my-2 ">
+            <form class="needs-validation" novalidate method="post" action="/admin/collection-edit">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="validationCustom03">Company Name<span style="color: red; font-weight: bolder;font-size: 20px;">*</span></label>
+                        <input type="hidden" name="id"  value="<%= collection.id %>" class="form-control" id="validationCustom04" placeholder="Enter Amount" >
+
+                        <select class="form-select" id="validationCustom01" name="company" onchange="getClient(this.value)" required>
+                            <option value="<%= collection.company_master.id %>"><%= collection.company_master.company_name %></option>
+
+                            <option value="">Select</option>
+                            <% if(companies.length>0){ %>
+                                <% for(let company of companies){ %>
+                            <option value="<%= company.id %>"><%= company.company_name %></option>
+                                <% } } %>  
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a company.
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="validationCustom03">Client Name</label>
+                        <select class="form-select" id="clientSelect" name="client">
+                            <% if(collection.client_master){ %>    <option value="<%= collection.client_master.id %>"><%= collection.client_master.client_name %></option>
+                                <% } %>
+                    </select>
+                        <div class="invalid-feedback">
+                            Please select a client.
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="validationCustom03">Select Month & Year</label>
+                        <input class="form-control" type="month" name="month_year" value="<%= collection.month_year %>" id=" month" placeholder="month & Year">
+                        <div class="invalid-feedback">
+                            Please select a month year.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom05">Labour Payment</label>
+                        <input type="text" class="form-control" onkeyup="getTotal()" value="<%= collection.labour %>" name="labour" id="labour" placeholder="Enter Labour Payment Amount" >
+                        <div class="invalid-feedback">
+                            Please provide Proprietor/Director name.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom05">PF </label>
+                        <input type="text" class="form-control" onkeyup="getTotal()"  value="<%= collection.pf %>" name="pf" id="pf" placeholder="Enter PF Amount" >
+                        <div class="invalid-feedback">
+                            Please provide Proprietor/Director name.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom04">ESIC </label>
+                        <input type="text" class="form-control" onkeyup="getTotal()" value="<%= collection.esic %>" name="esic" id="esic" placeholder="Enter ESIC Amount" >
+                        <div class="invalid-feedback">
+                            Please provide email.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom05">PTAX</label>
+                        <input type="text" class="form-control" onkeyup="getTotal" value="<%= collection.ptax %>" name="ptax" id="ptax" placeholder="Enter PTAX Amount" >
+                        <div class="invalid-feedback">
+                            Please provide phone no.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom05">Service Charge </label>
+                        <input type="text" class="form-control" onkeyup="getTotal()" value="<%= collection.service %>" name="service" id="service" placeholder="Enter Service Charges" >
+                        <div class="invalid-feedback">
+                            Please provide phone no.
+                        </div>
+                    </div>
+            
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom05">GST </label>
+                        <input type="text" class="form-control" onkeyup="getTotal()" value="<%= collection.gst %>" name="gst" id="gst" placeholder="Enter GST Amount" >
+                        <div class="invalid-feedback">
+                            Please provide Proprietor/Director name.
+                        </div>
+                    </div>                 
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom05">Others</label>
+                        <input type="text" class="form-control" onkeyup="getTotal()" value="<%= collection.others %>" name="others" id="others" placeholder="Enter Others Amount" >
+                        <div class="invalid-feedback">
+                            Please provide phone no.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom05">Total Amount </label>
+                        <input type="text" class="form-control" name="total" value="<%= collection.total %>" id="total_amount" readonly >
+                        <div class="invalid-feedback">
+                            Please provide phone no.
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <center><button class="btn btn-primary" type="submit">Update</button></center>
+            </form>
+        
+            <script>
+                // Example starter JavaScript for disabling form submissions if there are invalid fields
+                (function() {
+                    'use strict';
+                    window.addEventListener('load', function() {
+                        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                            form.addEventListener('submit', function(event) {
+                                if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                form.classList.add('was-validated');
+                            }, false);
+                        });
+                    }, false);
+                })();
+            </script>
+        </div>
+    </div>
+
+    <script>
+           function getClient(val){
+    $.ajax({
+    type: 'POST',
+    url: '/admin/getClientForCompany',
+    data: {val:val},
+    success: function(clients) {
+        var html = '';
+        html+='<option value="">--SELECT--</option>';
+        for (var i = 0; i< clients.length; i++) {
+        html+=`
+        <option value="${clients[i].id}">${clients[i].client_name}</option>
+        `
+     }
+    $('#clientSelect').html(html);
+    }
+  });    
+}
+      function getTotal(){
+        document.getElementById('total_amount').value=
+        + document.getElementById('labour').value + 
+        + document.getElementById('pf').value + 
+        + document.getElementById('esic').value + 
+        + document.getElementById('ptax').value + 
+        + document.getElementById('gst').value + 
+        + document.getElementById('service').value +
+        + document.getElementById('others').value;
+      }
+
+      
+      
+    </script>
+<%- include('../includes/footer.ejs') %>
