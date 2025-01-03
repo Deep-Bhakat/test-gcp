@@ -9,7 +9,6 @@ const UserManagementPermissions = require('../../models/admin/user_management_pe
 const catchAsyncErrors = require('../../utils/catchAsyncErrors');
 var SibApiV3Sdk = require('sib-api-v3-sdk');
 const ClientAddress = require('../../models/admin/client_addresses');
-SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = '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';
 
 exports.index = (req, res, next) => {
     res.render('admin/index');
